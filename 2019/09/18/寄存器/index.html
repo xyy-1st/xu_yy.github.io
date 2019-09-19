@@ -7,7 +7,7 @@
 
 
 
-<title>Hello World | Hexo</title>
+<title>寄存器 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">寄存器</h1>
             
                 <div class="post-meta">
                     
@@ -182,24 +182,30 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/stm32/">stm32</a>
+                            
+                        </span>
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <h1 id="什么是存储器映射？"><a href="#什么是存储器映射？" class="headerlink" title="什么是存储器映射？"></a>什么是存储器映射？</h1><p>存储器本身不具有地址信息，它的地址是由芯片厂商或用户分配，给存储器分配地址的过程就称为存储器映射。</p>
+<h1 id="什么是寄存器映射？"><a href="#什么是寄存器映射？" class="headerlink" title="什么是寄存器映射？"></a>什么是寄存器映射？</h1><p>给有特定功能的内存单元取一个<strong>别名</strong>，这个别名就是我们经常说的寄存器，这个给已经分配好地址的有特定功能的内存单元取别名的过程就叫寄存器映射。</p>
+<h1 id="寄存器映射"><a href="#寄存器映射" class="headerlink" title="寄存器映射"></a>寄存器映射</h1><h2 id="地址-基地址-偏移量"><a href="#地址-基地址-偏移量" class="headerlink" title="地址 =基地址+偏移量"></a>地址 =基地址+偏移量</h2><p>先查数据手册 找到对应的地址 下面是截取部分<br><img src="images/GPIOx_ODR.png" alt="GPIOx_ODR"><br><img src="images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%801.png" alt="GPIOx_ODR"><br><img src="images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%802.png" alt="GPIOx_ODR"></p>
+<p>代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define PERIPH_BASE      ((unsigned int)0x40000000)</span><br><span class="line">#define AHB1PERIPH_BASE  (PERIPH_BASE + 0x00020000)</span><br><span class="line">#define GPIOH_BASE       (AHB1PERIPH_BASE + 0x1C00)</span><br><span class="line">#define GPIOH_ODR        *(unsignedint*)(GPIOH_BASE+0x14)</span><br><span class="line">// PH10输出输出低电平</span><br><span class="line">GPIOH_ODR &amp;= ~(1&lt;&lt;10);</span><br><span class="line">// PH10输出输出高电平</span><br><span class="line">GPIOH_ODR |= (1&lt;&lt;10);</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<ol>
+<li>GPIOH_ODR在GPIOH上偏移0x14      GPIOH_ODR的地址 = GPIOH_BASE+0x14</li>
+<li>GPIOH在AHB1总线上偏移0x1C00     GPIOH_BASE = AHB1PERIPH_BASE + 0x1C00</li>
+<li>AHB1在总线上偏移0x00020000      AHB1PERIPH_BASE = PERIPH_BASE + 0x00020000</li>
+<li>总线的基地址是0x40000000         PERIPH_BASE = 0x40000000</li>
+</ol>
 
         </div>
 
@@ -214,7 +220,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/09/18/hello-world/">http://yoursite.com/2019/09/18/hello-world/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/18/寄存器/">http://yoursite.com/2019/09/18/寄存器/</a></span>
                     </p>
                 
                 
@@ -247,7 +253,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/09/18/blog/">blog'</a>
+                <a class="prev" rel="prev" href="/2019/09/18/blog/">GPIO</a>
             
             
         </section>
