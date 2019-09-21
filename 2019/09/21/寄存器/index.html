@@ -178,14 +178,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 18, 2019&nbsp;&nbsp;13:17:49</a>
+                        Date: <a href="#">九月 21, 2019&nbsp;&nbsp;11:18:53</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/stm32/">stm32</a>
+                                <a href="/categories/STM32F429/">STM32F429</a>
                             
                         </span>
                     
@@ -196,7 +196,7 @@
         <div class="post-content">
             <h1 id="什么是存储器映射？"><a href="#什么是存储器映射？" class="headerlink" title="什么是存储器映射？"></a>什么是存储器映射？</h1><p>存储器本身不具有地址信息，它的地址是由芯片厂商或用户分配，给存储器分配地址的过程就称为存储器映射。</p>
 <h1 id="什么是寄存器映射？"><a href="#什么是寄存器映射？" class="headerlink" title="什么是寄存器映射？"></a>什么是寄存器映射？</h1><p>给有特定功能的内存单元取一个<strong>别名</strong>，这个别名就是我们经常说的寄存器，这个给已经分配好地址的有特定功能的内存单元取别名的过程就叫寄存器映射。</p>
-<h1 id="寄存器映射"><a href="#寄存器映射" class="headerlink" title="寄存器映射"></a>寄存器映射</h1><h2 id="地址-基地址-偏移量"><a href="#地址-基地址-偏移量" class="headerlink" title="地址 =基地址+偏移量"></a>地址 =基地址+偏移量</h2><p>先查数据手册 找到对应的地址 下面是截取部分<br><img src="images/GPIOx_ODR.png" alt="GPIOx_ODR"><br><img src="images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%801.png" alt="GPIOx_ODR"><br><img src="images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%802.png" alt="GPIOx_ODR"></p>
+<h1 id="寄存器映射"><a href="#寄存器映射" class="headerlink" title="寄存器映射"></a>寄存器映射</h1><h2 id="地址-基地址-偏移量"><a href="#地址-基地址-偏移量" class="headerlink" title="地址 =基地址+偏移量"></a>地址 =基地址+偏移量</h2><p>先查数据手册 找到对应的地址 下面是截取部分<br><img src="/images/GPIOx_ODR.png" alt="GPIOx_ODR"><br><img src="/images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%801.png" alt="寄存器边界地址1"><br><img src="/images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%802.png" alt="寄存器边界地址2"></p>
 <p>代码如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define PERIPH_BASE      ((unsigned int)0x40000000)</span><br><span class="line">#define AHB1PERIPH_BASE  (PERIPH_BASE + 0x00020000)</span><br><span class="line">#define GPIOH_BASE       (AHB1PERIPH_BASE + 0x1C00)</span><br><span class="line">#define GPIOH_ODR        *(unsignedint*)(GPIOH_BASE+0x14)</span><br><span class="line">// PH10输出输出低电平</span><br><span class="line">GPIOH_ODR &amp;= ~(1&lt;&lt;10);</span><br><span class="line">// PH10输出输出高电平</span><br><span class="line">GPIOH_ODR |= (1&lt;&lt;10);</span><br></pre></td></tr></table></figure>
 
@@ -220,7 +220,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/09/18/寄存器/">http://yoursite.com/2019/09/18/寄存器/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/21/寄存器/">http://yoursite.com/2019/09/21/寄存器/</a></span>
                     </p>
                 
                 
@@ -253,8 +253,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/09/18/blog/">GPIO</a>
             
+            <a class="next" rel="next" href="/2019/09/21/位带操作/">位带操作</a>
             
         </section>
 

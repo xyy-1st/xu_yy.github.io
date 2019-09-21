@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>启动文件 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">启动文件</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 21, 2019&nbsp;&nbsp;11:10:26</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/STM32F429/">STM32F429</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="启动文件"><a href="#启动文件" class="headerlink" title="启动文件"></a>启动文件</h1><p>单片机上电后执行的第一个文件 汇编写的</p>
+<h2 id="启动文件的作用"><a href="#启动文件的作用" class="headerlink" title="启动文件的作用"></a>启动文件的作用</h2><p>1-初始化堆栈指针SP<br>2-初始化PC指针，指向复位程序<br>3-初始化中断向量表<br>4-配置系统时钟<br>5-调用C库函数_main，最终进入C的世界<br><strong>_main</strong>与我们平时写的<strong>main</strong>有什么区别？<br>简单理解 在_main函数中先配置一些环境 再调用main函数 </p>
+<h2 id="startup-stm32f429-439xx-s"><a href="#startup-stm32f429-439xx-s" class="headerlink" title="startup_stm32f429_439xx.s"></a>startup_stm32f429_439xx.s</h2><h3 id="汇编程序如何注释"><a href="#汇编程序如何注释" class="headerlink" title="汇编程序如何注释"></a>汇编程序如何注释</h3><p>1-汇编注释用“；”<br>2-C语言注释用“//”或者“/**/”</p>
+<h3 id="stcak-栈"><a href="#stcak-栈" class="headerlink" title="stcak 栈"></a>stcak 栈</h3><p>用于局部变量、函数调用(函数的地址)、函数形参的开销</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Stack_Size      EQU     0x00000400</span><br><span class="line"></span><br><span class="line">                AREA    STACK, NOINIT, READWRITE, ALIGN=3   //AREA    STACK开一个栈</span><br><span class="line">                                                            //NOINIT  不初始化</span><br><span class="line">                                                            // READWRITE 可读可写</span><br><span class="line">                                                            //ALIGN=3  2 的3次方表示以8字节对齐</span><br><span class="line">Stack_Mem       SPACE   Stack_Size</span><br><span class="line">__initial_sp</span><br></pre></td></tr></table></figure>
+
+<p>EQU：宏定义的伪指令，相当于等于，类似与 C 中的 define<br>AREA：告诉汇编器汇编一个新的代码段或者数据段<br>SPACE ：用于分配一定大小的内存空间，单位为字节<br>标号__initial_sp 紧挨着 SPACE 语句放置，表示栈的结束地址，即栈顶地址，栈是由高向低生长的。  </p>
+<h3 id="Heap-堆"><a href="#Heap-堆" class="headerlink" title="Heap 堆"></a>Heap 堆</h3><p>堆用于动态内存的分配，malloc函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Heap_Size       EQU     0x00000200</span><br><span class="line"></span><br><span class="line">                AREA    HEAP, NOINIT, READWRITE, ALIGN=3</span><br><span class="line">__heap_base      //堆的起始地址</span><br><span class="line">Heap_Mem        SPACE   Heap_Size</span><br><span class="line">__heap_limit    //堆的结束地址</span><br></pre></td></tr></table></figure>
+
+<h3 id="向量表"><a href="#向量表" class="headerlink" title="向量表"></a>向量表</h3><p>1-向量表实际上是一个32位的整型数组，一个元素对应一个异常（ESR），数组元素存的就是ESR的入口地址。<br>2-向量表在复位后从FLASH的0地址开始，具体的初始化值请查询参考手册的中断章节。<br><img src="/images/%E5%90%91%E9%87%8F.png" alt="向量表"></p>
+<h3 id="复位程序"><a href="#复位程序" class="headerlink" title="复位程序"></a>复位程序</h3><p>1-复位程序是上电后单片机执行的第一个程序<br>2-调用SystemInit函数配置系统时钟；调用C库函数_main，并最终进入C的世界</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Reset_Handler    PROC</span><br><span class="line">                 EXPORT  Reset_Handler             [WEAK]</span><br><span class="line">        IMPORT  SystemInit</span><br><span class="line">        IMPORT  __main</span><br><span class="line"></span><br><span class="line">                 LDR     R0, =SystemInit</span><br><span class="line">                 BLX     R0</span><br><span class="line">                 LDR     R0, =__main</span><br><span class="line">                 BX      R0</span><br><span class="line">                 ENDP</span><br></pre></td></tr></table></figure>
+
+<p>WEAK：表示弱定义，如果外部文件优先定义了该标号则首先引用该标号，如果外部文件没有声明也不会出错。这里表示复位子程序可以由用户在其他文件重新实现，这里并不是唯一的。(<strong>如果其他文件也定义了 就用其他文件的 没有用自己的</strong>)<br>IMPORT：表示该标号来自外部文件，跟 C 语言中的 EXTERN 关键字类似。这里表示 SystemInit 和__main 这两个函数均来自外部的文件。<br>Cortex内核的指令<br><img src="/images/Cortex%E5%86%85%E6%A0%B8%E7%9A%84%E6%8C%87%E4%BB%A4.png" alt="Cortex内核的指令"></p>
+<h3 id="中断服务程序"><a href="#中断服务程序" class="headerlink" title="中断服务程序"></a>中断服务程序</h3><p>1-启动文件为我们写好了全部的中断服务程序，函数的名称必须与向量表里面初始化的名称一样。<br>2-这些程序都是空的，需要我们在C文件里面重新实现。如果我们写的中断服务程序的函数名写错了，程序也不会报错，而是会进入一个死循环。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NMI_Handler     PROC</span><br><span class="line">                EXPORT  NMI_Handler                [WEAK]</span><br><span class="line">                B       .</span><br><span class="line">                ENDP</span><br></pre></td></tr></table></figure>
+
+<h3 id="用户堆栈初始化"><a href="#用户堆栈初始化" class="headerlink" title="用户堆栈初始化"></a>用户堆栈初始化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"> IF      :DEF:__MICROLIB</span><br><span class="line">                </span><br><span class="line">                 EXPORT  __initial_sp</span><br><span class="line">                 EXPORT  __heap_base</span><br><span class="line">                 EXPORT  __heap_limit</span><br><span class="line">                </span><br><span class="line">                 ELSE</span><br><span class="line">                </span><br><span class="line">                 IMPORT  __use_two_region_memory</span><br><span class="line">                 EXPORT  __user_initial_stackheap</span><br><span class="line">                 </span><br><span class="line">__user_initial_stackheap</span><br><span class="line"></span><br><span class="line">                 LDR     R0, =  Heap_Mem</span><br><span class="line">                 LDR     R1, =(Stack_Mem + Stack_Size)</span><br><span class="line">                 LDR     R2, = (Heap_Mem +  Heap_Size)</span><br><span class="line">                 LDR     R3, = Stack_Mem</span><br><span class="line">                 BX      LR</span><br><span class="line"></span><br><span class="line">                 ALIGN</span><br><span class="line"></span><br><span class="line">                 ENDIF</span><br></pre></td></tr></table></figure>
+
+<p>由标准的C库函数_main来完成。<br>IF,ELSE,ENDIF：汇编的条件分支语句，跟 C 语言的 if ,else 类似。<br>END：文件结束。<br>ALIGN：对指令或者数据存放的地址进行对齐，后面会跟一个立即数。缺省表示 4 字节对齐。</p>
+<h3 id="启动文件里面涉及到的ARM指令"><a href="#启动文件里面涉及到的ARM指令" class="headerlink" title="启动文件里面涉及到的ARM指令"></a>启动文件里面涉及到的ARM指令</h3><p><img src="/images/%E5%90%AF%E5%8A%A8%E6%96%87%E4%BB%B6%E9%87%8C%E7%9A%84ARM%E6%8C%87%E4%BB%A4.png" alt="启动文件里面涉及到的ARM指令"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/09/21/启动文件/">http://yoursite.com/2019/09/21/启动文件/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/09/21/位带操作/">位带操作</a>
+            
+            
+            <a class="next" rel="next" href="/2019/09/18/GPIO/">GPIO</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
