@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>RCC | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">RCC</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">九月 21, 2019&nbsp;&nbsp;14:48:08</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/STM32F429/">STM32F429</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="RCC时钟树"><a href="#RCC时钟树" class="headerlink" title="RCC时钟树"></a>RCC时钟树</h1><p><img src="/images/%E6%97%B6%E9%92%9F%E6%A0%91.png" alt="时钟树"></p>
+<h2 id="系统时钟"><a href="#系统时钟" class="headerlink" title="系统时钟"></a>系统时钟</h2><h3 id="①HSE：High-Speed-External-Clock-signal，即高速的外部时钟"><a href="#①HSE：High-Speed-External-Clock-signal，即高速的外部时钟" class="headerlink" title="①HSE：High Speed External Clock signal，即高速的外部时钟"></a>①HSE：High Speed External Clock signal，即高速的外部时钟</h3><p>来源：使用有源晶振（1-50M）时，时钟从 OSC_IN 引脚进入， OSC_OUT 引脚悬空，<br>    当选用无源晶振4-26M时，时钟从 OSC_IN 和 OSC_OUT 进入，并且要配谐振电容。<br>我使用的是无源晶振25M。<br>当HSE故障时自动使用HSI时钟<br>控制：RCC_CR 时钟控制寄存器的位16：HSEON控制</p>
+<h3 id="HSI：High-Speed-Internal-Clock-signal，即高速的内部时钟。"><a href="#HSI：High-Speed-Internal-Clock-signal，即高速的内部时钟。" class="headerlink" title="HSI：High Speed Internal Clock signal，即高速的内部时钟。"></a>HSI：High Speed Internal Clock signal，即高速的内部时钟。</h3><p>来源：芯片内部，大小为16M，当HSE故障时，系统时钟会自动切换到HSI，直到HSE启动成功。<br>控制： RCC_CR 时钟控制寄存器的位0：HSION控制</p>
+<h3 id="②锁相环时钟：PLLCLK"><a href="#②锁相环时钟：PLLCLK" class="headerlink" title="②锁相环时钟：PLLCLK"></a>②锁相环时钟：PLLCLK</h3><p>来源：HSI、HSE。</p>
+<ol>
+<li>HSE或者HSI先经过一个分频因子M（2<del>63）进行分频到（1</del>2M）成为 VCO 的时钟输入</li>
+<li>再经过一个倍频因子N，成为 VCO 时钟输出（192~432M）</li>
+<li>VCO 输出时钟之后有三个分频因子： PLLCLK 分频因子 p（2、 4、 6、 8,）<br>USB OTG FS/RNG/SDIO时钟分频因子 Q（4~15）<br>分频因子 R（F446 才有， F429 没有）。  </li>
+<li>最后成为锁相环时钟PLLCLK = (HSE/M) * N / P  我使用的是PLLCLK =  25/25 * 360 / 2 = 180M<br>控制： RCC_PLLCFGR :RCC PLL 配置寄存器<h3 id="③系统时钟-SYSCLK"><a href="#③系统时钟-SYSCLK" class="headerlink" title="③系统时钟 SYSCLK"></a>③系统时钟 SYSCLK</h3>来源：HSI、HSE，PLLCLK。（HSE出现故障时自动使用HSI）<br>F429最高为180M，F407最高为168M。<br>我使用的是SYSCLK = PLLCLK = 180M<br>控制： RCC_CFGR 时钟配置寄存器的SW位<h3 id="④AHB-总线时钟-HCLK"><a href="#④AHB-总线时钟-HCLK" class="headerlink" title="④AHB 总线时钟 HCLK"></a>④AHB 总线时钟 HCLK</h3>来源：系统时钟分频[1,2,4,8,16,64,128,256,512]得到。<br>控制： RCC_CFGR 时钟配置寄存器的HPRE位<br>片上大部分外设的时钟都是经过 HCLK 分频得到，至于 AHB总线上的外设的时钟设置为多少，得等到我们使用该外设的时候才设置，我们这里只需粗线条的设置好 APB 的时钟即可。<h3 id="⑤APB2-总线时钟-HCLK2"><a href="#⑤APB2-总线时钟-HCLK2" class="headerlink" title="⑤APB2 总线时钟 HCLK2"></a>⑤APB2 总线时钟 HCLK2</h3>来源：HCLK分频[1,2,4,8,16]得到。<br>控制： RCC_CFGR 时钟配置寄存器的PPRE2位<br>HCLK2 属于高速的总线时钟，最高为 90M,片上高速的外设就挂载到这条总线上，比如全部的 GPIO、 USART1、 SPI1等。<br>至于 APB2 总线上的外设的时钟设置为多少，得等到我们使用该外设的时候才设置，<h3 id="⑥APB1-总线时钟-HCLK1"><a href="#⑥APB1-总线时钟-HCLK1" class="headerlink" title="⑥APB1 总线时钟 HCLK1"></a>⑥APB1 总线时钟 HCLK1</h3>来源：HCLK分频[1,2,4,8,16]得到。<br>控制：RCC_CFGR 时钟配置寄存器的PPRE2位<br>HCLK1 属于低速的总线时钟，最高为 45M，片上低速的外设就挂载到这条总线上，比如USART2/3/4/5、 SPI2/3， I2C1/2 等。<br>至于 APB1 总线上的外设的时钟设置为多少，得等到我们使用该外设的时候才设置，<h2 id="其他时钟"><a href="#其他时钟" class="headerlink" title="其他时钟"></a>其他时钟</h2>用到的时候才配置<h3 id="A、RTC-时钟"><a href="#A、RTC-时钟" class="headerlink" title="A、RTC 时钟"></a>A、RTC 时钟</h3>RTC：为芯片内部的RTC提供时钟。<br>来源：HSE_RTC（HSE分频得到）、LSE（外部32.768KHZ的晶体提供）、LSI（32KHZ）。<br>控制： RCC备份域控制寄存器RCC_BDCR：RTCSEL位和RCC时钟配置寄存器 (RCC_CFGR) 中的 RTCPRE位控制 <h3 id="B、独立看门狗时钟"><a href="#B、独立看门狗时钟" class="headerlink" title="B、独立看门狗时钟"></a>B、独立看门狗时钟</h3>独立看门狗时钟由内部的低速时钟 LSI 提供，大小为 32KHZ。<h3 id="C、I2S-时钟"><a href="#C、I2S-时钟" class="headerlink" title="C、I2S 时钟"></a>C、I2S 时钟</h3>来源：外部的时钟引脚 I2S_CKIN 输入、PLLI2SCLK 提供<br>控制： RCC 时钟配置寄存器 (RCC_CFGR)的 I2SSCR 位<h3 id="D、PHY-以太网时钟"><a href="#D、PHY-以太网时钟" class="headerlink" title="D、PHY 以太网时钟"></a>D、PHY 以太网时钟</h3>F429 要想实现以太网功能，除了有本身内置的 MAC 之外，还需要外接一个 PHY 芯片，常见的 PHY 芯片有 DP83848 和 LAN8720，其中 DP83848 支持 MII 和 RMII 接口，LAN8720 只支持 RMII 接口。<h3 id="E、USB-PHY-时钟"><a href="#E、USB-PHY-时钟" class="headerlink" title="E、USB PHY 时钟"></a>E、USB PHY 时钟</h3>F429 的 USB 没有集成 PHY，要想实现 USB 高速传输的话，必须外置 USB PHY 芯片，常用的芯片是 USB3300。当外接 USB PHY 芯片时， PHY 芯片需要给 MCU 提供一个时钟。<h3 id="F、MCO-时钟输出"><a href="#F、MCO-时钟输出" class="headerlink" title="F、MCO 时钟输出"></a>F、MCO 时钟输出</h3>MCO 是 microcontroller clock output 的缩写，是微控制器时钟输出引脚，主要作用是<strong>可以对外提供时钟</strong>， 相当于一个有源晶振。 F429 中有两个 MCO，由 PA8/PC9 复用所得。<br>MCO1 所需的时钟源通过 RCC 时钟配置寄存器 (RCC_CFGR) 中的 MCO1PRE[2:0] 和MCO1[1:0]位选择。<br>MCO2 所需的时钟源通过 RCC 时钟配置寄存器 (RCC_CFGR) 中的MCO2PRE[2:0] 和 MCO2 位选择。有关 MCO 的 IO、时钟选择和输出速率的具体信息如下表所示：<br>时钟输出| IO| 时钟来源| 最大输出速率</li>
+</ol>
+<p>——-|——-|——-|——-<br>MCO1 |PA8 |HSI、 LSE、 HSE、 PLLCLK |100M<br>MCO2 |PC9 |HSE、 PLLCLK、 SYSCLK、 PLLI2SCLK |100M</p>
+<h1 id="系统时钟配置函数SerSysClock"><a href="#系统时钟配置函数SerSysClock" class="headerlink" title="系统时钟配置函数SerSysClock"></a>系统时钟配置函数SerSysClock</h1><p>复位程序中调用SystemInit  SystemInit 中调用 SetSysClock  </p>
+<ol>
+<li>使能HSE 并等待HSE稳定</li>
+<li>配置AHB APB2 APB1 总线的预分频因子</li>
+<li>配置PLL的各种预分频因子 并使能PLL</li>
+<li>选择系统时钟来源<br>下面的SetSysClock函数为了好理解 我删去了多余部分 只留下了stm32f429相关的代码<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">static void SetSysClock(void)</span><br><span class="line">&#123;</span><br><span class="line">  __IO uint32_t StartUpCounter = 0, HSEStatus = 0;</span><br><span class="line">  </span><br><span class="line">  /* 使能 HSE */</span><br><span class="line">  RCC-&gt;CR |= ((uint32_t)RCC_CR_HSEON);</span><br><span class="line">  /* 等待HSE启动完成如果超时则跳出 */</span><br><span class="line">  do</span><br><span class="line">  &#123;</span><br><span class="line">    HSEStatus = RCC-&gt;CR &amp; RCC_CR_HSERDY;</span><br><span class="line">    StartUpCounter++;</span><br><span class="line">  &#125; while((HSEStatus == 0) &amp;&amp; (StartUpCounter != HSE_STARTUP_TIMEOUT));</span><br><span class="line"></span><br><span class="line">  if ((RCC-&gt;CR &amp; RCC_CR_HSERDY) != RESET)</span><br><span class="line">  &#123;</span><br><span class="line">    HSEStatus = (uint32_t)0x01;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123;</span><br><span class="line">    HSEStatus = (uint32_t)0x00;</span><br><span class="line">  &#125;</span><br><span class="line">	/*HSE启动成功*/</span><br><span class="line">  if (HSEStatus == (uint32_t)0x01)</span><br><span class="line">  &#123;</span><br><span class="line">    /* 选择电压模式调节器输出为模式1 */</span><br><span class="line">		/* 使能电源接口时钟 */</span><br><span class="line">    RCC-&gt;APB1ENR |= RCC_APB1ENR_PWREN;</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_VOS;</span><br><span class="line"></span><br><span class="line">    /* HCLK = SYSCLK / 1*/</span><br><span class="line">    RCC-&gt;CFGR |= RCC_CFGR_HPRE_DIV1;  </span><br><span class="line">    /* PCLK2 = HCLK / 2*/</span><br><span class="line">    RCC-&gt;CFGR |= RCC_CFGR_PPRE2_DIV2;    </span><br><span class="line">    /* PCLK1 = HCLK / 4*/</span><br><span class="line">    RCC-&gt;CFGR |= RCC_CFGR_PPRE1_DIV4;</span><br><span class="line"> </span><br><span class="line">    /* Configure the main PLL */</span><br><span class="line">    RCC-&gt;PLLCFGR = PLL_M | (PLL_N &lt;&lt; 6) | (((PLL_P &gt;&gt; 1) -1) &lt;&lt; 16) |</span><br><span class="line">                   (RCC_PLLCFGR_PLLSRC_HSE) | (PLL_Q &lt;&lt; 24);  </span><br><span class="line">    </span><br><span class="line">    /* Enable the main PLL */</span><br><span class="line">    RCC-&gt;CR |= RCC_CR_PLLON;</span><br><span class="line"></span><br><span class="line">    /* 等待 PLL 启动稳定 */</span><br><span class="line">    while((RCC-&gt;CR &amp; RCC_CR_PLLRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">    /* 打开 Over-drive模式 为了达到更高的频率 180 Mhz */</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_ODEN;</span><br><span class="line">    while((PWR-&gt;CSR &amp; PWR_CSR_ODRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_ODSWEN;</span><br><span class="line">    while((PWR-&gt;CSR &amp; PWR_CSR_ODSWRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;      </span><br><span class="line">    /* Configure Flash 预取指,  指令缓存, 数据缓存 and 等待周期 */</span><br><span class="line">    FLASH-&gt;ACR = FLASH_ACR_PRFTEN | FLASH_ACR_ICEN |FLASH_ACR_DCEN |FLASH_ACR_LATENCY_5WS;</span><br><span class="line"></span><br><span class="line">    /* Select the main PLL as system clock source */</span><br><span class="line">    RCC-&gt;CFGR &amp;= (uint32_t)((uint32_t)~(RCC_CFGR_SW));</span><br><span class="line">    RCC-&gt;CFGR |= RCC_CFGR_SW_PLL;</span><br><span class="line"></span><br><span class="line">    /* 等待PLLCLK切换系统时钟 */</span><br><span class="line">    while ((RCC-&gt;CFGR &amp; (uint32_t)RCC_CFGR_SWS ) != RCC_CFGR_SWS_PLL);</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123; /*HSE启动失败后 用户纠错的代码*/</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h1 id="使用HSE配置系统函数"><a href="#使用HSE配置系统函数" class="headerlink" title="使用HSE配置系统函数"></a>使用HSE配置系统函数</h1><p>上面是固件库提供的函数配置的系统频率是180M 为了<strong>自由设置频率</strong>我们可以直接该其中的分频因子来实现，但为了库函数的完整，我们不改库函数而是自己写一个<br>下面的代码与上面一样，只是调用了库函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 使用HSE时，设置系统时钟的步骤</span><br><span class="line"> * 1、开启HSE ，并等待 HSE 稳定</span><br><span class="line"> * 2、设置 AHB、APB2、APB1的预分频因子</span><br><span class="line"> * 3、设置PLL的时钟来源</span><br><span class="line"> *    设置VCO输入时钟 分频因子        m</span><br><span class="line"> *    设置VCO输出时钟 倍频因子        n</span><br><span class="line"> *    设置PLLCLK时钟分频因子          p</span><br><span class="line"> *    设置OTG FS,SDIO,RNG时钟分频因子 q</span><br><span class="line"> * 4、开启PLL，并等待PLL稳定</span><br><span class="line"> * 5、把PLLCK切换为系统时钟SYSCLK</span><br><span class="line"> * 6、读取时钟切换状态位，确保PLLCLK被选为系统时钟</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * m: VCO输入时钟 分频因子，取值2~63</span><br><span class="line"> * n: VCO输出时钟 倍频因子，取值192~432</span><br><span class="line"> * p: PLLCLK时钟分频因子  ，取值2，4，6，8</span><br><span class="line"> * q: OTG FS,SDIO,RNG时钟分频因子，取值4~15</span><br><span class="line"> * 函数调用举例，使用HSE设置时钟</span><br><span class="line"> * SYSCLK=HCLK=180M,PCLK2=HCLK/2=90M,PCLK1=HCLK/4=45M</span><br><span class="line"> * HSE_SetSysClock(25, 360, 2, 7);</span><br><span class="line"> * HSE作为时钟来源，经过PLL倍频作为系统时钟，这是通常的做法</span><br><span class="line"> </span><br><span class="line"> * 系统时钟超频到216M爽一下</span><br><span class="line"> * HSE_SetSysClock(25, 432, 2, 9);</span><br><span class="line"> */</span><br><span class="line">void HSE_SetSysClock(uint32_t m, uint32_t n, uint32_t p, uint32_t q)	</span><br><span class="line">&#123;</span><br><span class="line">  __IO uint32_t HSEStartUpStatus = 0;</span><br><span class="line">  </span><br><span class="line">  // 使能HSE，开启外部晶振，秉火F429使用 HSE=25M</span><br><span class="line">  RCC_HSEConfig(RCC_HSE_ON);</span><br><span class="line">	</span><br><span class="line">  // 等待HSE启动稳定</span><br><span class="line">	HSEStartUpStatus = RCC_WaitForHSEStartUp();</span><br><span class="line"></span><br><span class="line">  if (HSEStartUpStatus == SUCCESS)</span><br><span class="line">  &#123;</span><br><span class="line">    // 调压器电压输出级别配置为1，以便在器件为最大频率</span><br><span class="line">		// 工作时使性能和功耗实现平衡</span><br><span class="line">    RCC-&gt;APB1ENR |= RCC_APB1ENR_PWREN;</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_VOS;</span><br><span class="line">		</span><br><span class="line">		// HCLK = SYSCLK / 1</span><br><span class="line">		RCC_HCLKConfig(RCC_SYSCLK_Div1);</span><br><span class="line">		</span><br><span class="line">		// PCLK2 = HCLK / 2</span><br><span class="line">		RCC_PCLK2Config(RCC_HCLK_Div2);</span><br><span class="line">		</span><br><span class="line">		// PCLK1 = HCLK / 4</span><br><span class="line">		RCC_PCLK1Config(RCC_HCLK_Div4);</span><br><span class="line">		</span><br><span class="line">    // 如果要超频就得在这里下手啦</span><br><span class="line">		// 设置PLL来源时钟，设置VCO分频因子m，设置VCO倍频因子n，</span><br><span class="line">		//  设置系统时钟分频因子p，设置OTG FS,SDIO,RNG分频因子q</span><br><span class="line">		RCC_PLLConfig(RCC_PLLSource_HSE, m, n, p, q);</span><br><span class="line">		</span><br><span class="line">		// 使能PLL</span><br><span class="line">		RCC_PLLCmd(ENABLE);</span><br><span class="line">  </span><br><span class="line">	  // 等待 PLL稳定</span><br><span class="line">    while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">/*-----------------------------------------------------*/</span><br><span class="line">    //开启 OVER-RIDE模式，以能达到更高频率</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_ODEN;</span><br><span class="line">    while((PWR-&gt;CSR &amp; PWR_CSR_ODRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_ODSWEN;</span><br><span class="line">    while((PWR-&gt;CSR &amp; PWR_CSR_ODSWRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;      </span><br><span class="line">    // 配置FLASH预取指,指令缓存,数据缓存和等待状态</span><br><span class="line">    FLASH-&gt;ACR = FLASH_ACR_PRFTEN </span><br><span class="line">		            | FLASH_ACR_ICEN </span><br><span class="line">		            | FLASH_ACR_DCEN </span><br><span class="line">		            | FLASH_ACR_LATENCY_5WS;</span><br><span class="line">/*-----------------------------------------------------*/</span><br><span class="line">		</span><br><span class="line">		// 当PLL稳定之后，把PLL时钟切换为系统时钟SYSCLK</span><br><span class="line">    RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);</span><br><span class="line"></span><br><span class="line">    // 读取时钟切换状态位，确保PLLCLK被选为系统时钟</span><br><span class="line">    while (RCC_GetSYSCLKSource() != 0x08)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123; // HSE启动出错处理</span><br><span class="line"></span><br><span class="line">    while (1)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="使用HSI配置系统函数"><a href="#使用HSI配置系统函数" class="headerlink" title="使用HSI配置系统函数"></a>使用HSI配置系统函数</h1><p>HSI与HSE类似  其中缺少一些对应库函数 我们直接对寄存器操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line"> * 使用HSI时，设置系统时钟的步骤</span><br><span class="line"> * 1、开启HSI ，并等待 HSI 稳定</span><br><span class="line"> * 2、设置 AHB、APB2、APB1的预分频因子</span><br><span class="line"> * 3、设置PLL的时钟来源</span><br><span class="line"> *    设置VCO输入时钟 分频因子        m</span><br><span class="line"> *    设置VCO输出时钟 倍频因子        n</span><br><span class="line"> *    设置SYSCLK时钟分频因子          p</span><br><span class="line"> *    设置OTG FS,SDIO,RNG时钟分频因子 q</span><br><span class="line"> * 4、开启PLL，并等待PLL稳定</span><br><span class="line"> * 5、把PLLCK切换为系统时钟SYSCLK</span><br><span class="line"> * 6、读取时钟切换状态位，确保PLLCLK被选为系统时钟</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"> * m: VCO输入时钟 分频因子，取值2~63</span><br><span class="line"> * n: VCO输出时钟 倍频因子，取值192~432</span><br><span class="line"> * p: PLLCLK时钟分频因子  ，取值2，4，6，8</span><br><span class="line"> * q: OTG FS,SDIO,RNG时钟分频因子，取值4~15</span><br><span class="line"> * 函数调用举例，使用HSI设置时钟</span><br><span class="line"> * SYSCLK=HCLK=180M,PCLK2=HCLK/2=90M,PCLK1=HCLK/4=45M</span><br><span class="line"> * HSI_SetSysClock(16, 360, 2, 7);</span><br><span class="line"> * HSE作为时钟来源，经过PLL倍频作为系统时钟，这是通常的做法</span><br><span class="line"> </span><br><span class="line"> * 系统时钟超频到216M爽一下</span><br><span class="line"> * HSI_SetSysClock(16, 432, 2, 9);</span><br><span class="line"> */</span><br><span class="line"></span><br><span class="line">void HSI_SetSysClock(uint32_t m, uint32_t n, uint32_t p, uint32_t q)	</span><br><span class="line">&#123;</span><br><span class="line">  __IO uint32_t HSIStartUpStatus = 0;</span><br><span class="line">	</span><br><span class="line">	// 把RCC外设初始化成复位状态</span><br><span class="line">  RCC_DeInit();</span><br><span class="line">  </span><br><span class="line">  //使能HSI, HSI=16M</span><br><span class="line">	RCC_HSICmd(ENABLE);</span><br><span class="line">	</span><br><span class="line">  // 等待 HSI 就绪</span><br><span class="line">	HSIStartUpStatus = RCC-&gt;CR &amp; RCC_CR_HSIRDY;</span><br><span class="line">	</span><br><span class="line">	// 只有 HSI就绪之后则继续往下执行</span><br><span class="line">  if (HSIStartUpStatus == RCC_CR_HSIRDY)</span><br><span class="line">  &#123;</span><br><span class="line">    // 调压器电压输出级别配置为1，以便在器件为最大频率</span><br><span class="line">		// 工作时使性能和功耗实现平衡</span><br><span class="line">    RCC-&gt;APB1ENR |= RCC_APB1ENR_PWREN;</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_VOS;</span><br><span class="line">		</span><br><span class="line">		// HCLK = SYSCLK / 1</span><br><span class="line">		RCC_HCLKConfig(RCC_SYSCLK_Div1);</span><br><span class="line">		</span><br><span class="line">		// PCLK2 = HCLK / 2</span><br><span class="line">		RCC_PCLK2Config(RCC_HCLK_Div2);</span><br><span class="line">		</span><br><span class="line">		// PCLK1 = HCLK / 4</span><br><span class="line">		RCC_PCLK1Config(RCC_HCLK_Div4);</span><br><span class="line">		</span><br><span class="line">    // 如果要超频就得在这里下手啦</span><br><span class="line">		// 设置PLL来源时钟，设置VCO分频因子m，设置VCO倍频因子n，</span><br><span class="line">		//  设置系统时钟分频因子p，设置OTG FS,SDIO,RNG分频因子q</span><br><span class="line">		RCC_PLLConfig(RCC_PLLSource_HSI, m, n, p, q);</span><br><span class="line">		</span><br><span class="line">		// 使能PLL</span><br><span class="line">		RCC_PLLCmd(ENABLE);</span><br><span class="line">  </span><br><span class="line">	  // 等待 PLL稳定</span><br><span class="line">    while (RCC_GetFlagStatus(RCC_FLAG_PLLRDY) == RESET)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">/*-----------------------------------------------------*/</span><br><span class="line">    //开启 OVER-RIDE模式，以能达到更高频率</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_ODEN;</span><br><span class="line">    while((PWR-&gt;CSR &amp; PWR_CSR_ODRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    PWR-&gt;CR |= PWR_CR_ODSWEN;</span><br><span class="line">    while((PWR-&gt;CSR &amp; PWR_CSR_ODSWRDY) == 0)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;      </span><br><span class="line">    // 配置FLASH预取指,指令缓存,数据缓存和等待状态</span><br><span class="line">    FLASH-&gt;ACR = FLASH_ACR_PRFTEN </span><br><span class="line">		            | FLASH_ACR_ICEN </span><br><span class="line">		            |FLASH_ACR_DCEN </span><br><span class="line">		            |FLASH_ACR_LATENCY_5WS;</span><br><span class="line">/*-----------------------------------------------------*/</span><br><span class="line">		</span><br><span class="line">		// 当PLL稳定之后，把PLL时钟切换为系统时钟SYSCLK</span><br><span class="line">    RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);</span><br><span class="line"></span><br><span class="line">    // 读取时钟切换状态位，确保PLLCLK被选为系统时钟</span><br><span class="line">    while (RCC_GetSYSCLKSource() != 0x08)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  else</span><br><span class="line">  &#123; // HSI启动出错处理</span><br><span class="line">    while (1)</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/09/21/RCC/">http://yoursite.com/2019/09/21/RCC/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/09/21/寄存器/">寄存器</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
