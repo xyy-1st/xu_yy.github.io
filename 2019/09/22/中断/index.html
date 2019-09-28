@@ -7,7 +7,7 @@
 
 
 
-<title>位带操作 | Hexo</title>
+<title>中断 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">位带操作</h1>
+            <h1 class="post-title">中断</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 21, 2019&nbsp;&nbsp;11:13:56</a>
+                        Date: <a href="#">九月 22, 2019&nbsp;&nbsp;22:41:14</a>
                         </span>
                     
                     
@@ -194,20 +194,16 @@
         </header>
 
         <div class="post-content">
-            <hr>
-<h1 id="什么是位带操作"><a href="#什么是位带操作" class="headerlink" title="什么是位带操作"></a>什么是位带操作</h1><p>是将RAM和外设中的每一个bit映射到一个独立的地址，对这个地址的32位读写操作实现对一个bit的操作（虽然有32位但只有一位有效），就像51单片机中的位寻址区域一样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p0 = 0xfe;    //总线操作</span><br><span class="line">p0^0 = 0;     //位带操作</span><br></pre></td></tr></table></figure>
-
-<h1 id="stm32的位带操作"><a href="#stm32的位带操作" class="headerlink" title="stm32的位带操作"></a>stm32的位带操作</h1><h2 id="位带与位带别名区示意图"><a href="#位带与位带别名区示意图" class="headerlink" title="位带与位带别名区示意图"></a>位带与位带别名区示意图</h2><p><img src="/images/%E4%BD%8D%E5%B8%A6%E5%8C%BA%E4%B8%8E%E4%BD%8D%E5%B8%A6%E5%88%AB%E5%90%8D%E5%8C%BA.png" alt="位带与位带别名区示意图
-" title="位带与位带别名区示意图"><br>片上外设和SRAM均有1MB的位带区，位带区里面的每一个位都可以通过位带别名区的地址来访问。位带区的一个位，对应位带别名区的四个字节。<br><img src="/images/%E5%9C%B0%E5%9D%80%E5%8C%BA%E9%97%B4.png" alt title="地址区间"><br>观察各地址区间可以发现 APB1/2和AHB1有位带操作 AHB2/3没有</p>
-<h2 id="地址转换"><a href="#地址转换" class="headerlink" title="地址转换"></a>地址转换</h2><p>外设位带区与外设位带别名区的地址转换<br>AliasAddr = 0x42000000+ (A-0x40000000)<em>8</em>4 +n<em>4<br>SRAM位带区与SRAM位带别名区的地址转换<br>AliasAddr = 0x22000000+ (A-0x20000000)</em>8<em>4 +n</em>4<br>A：表示我们要操作的那个位所在的寄存器的地址<br>n：位号<br>理解要点：位带区的一个位在位带别名区会被膨胀成四个字节<br>有两个公式的话，在转换的时候每次都需要判断，很麻烦，所以我们把这两个公式的和为一个。<br>((addr &amp; 0xF0000000)+0x02000000+((addr &amp;0x000FFFFF)&lt;&lt;5)+(bitnum&lt;&lt;2))</p>
-<ol>
-<li>addr &amp; 0xF0000000：目的是取出4和2，用于区分是外设还是SRAM。然后再加上0x02000000就等于外设/SRAM位带别名区的起始地址。</li>
-<li>addr &amp;0x000FFFFF ：屏蔽掉高3位。外设位带区的最高地址为0X400F 0000，SRAM位带区的最高地址为 0X200F 0000，(0X400F 0000 – 0X4000 0000)与(0x200F 0000 – 0X2000 0000)在求偏移地址相减的时候只有低 5位有效，所以就把剩下的高三位屏蔽掉，剩下的5位与F做与运算即可。  <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/*片上外设基地址  */</span><br><span class="line">#define PERIPH_BASE           ((unsigned int)0x40000000)                          </span><br><span class="line"></span><br><span class="line">/*总线基地址 */</span><br><span class="line">#define AHB1PERIPH_BASE       (PERIPH_BASE + 0x00020000)	</span><br><span class="line"></span><br><span class="line">/*GPIOH外设基地址*/</span><br><span class="line">#define GPIOH_BASE            (AHB1PERIPH_BASE + 0x1C00)</span><br><span class="line"></span><br><span class="line">/*GPIOH_ODR地址*/</span><br><span class="line">#define GPIOH_ODR_ADDR           (GPIOH_BASE+0X14)</span><br><span class="line"></span><br><span class="line">// 求出位带别名区的地址</span><br><span class="line">#define BITBAND(addr,bitnum)     ((addr &amp; 0xF0000000)+0x02000000+((addr &amp;0x000FFFFF)&lt;&lt;5)+(bitnum&lt;&lt;2))</span><br><span class="line">// 把一个立即数强制类型转换成一个指针，然后对指针 * 操作</span><br><span class="line">#define MEM_ADDR(addr)           (*(volatile unsigned long *)(addr))</span><br><span class="line">#define BIT_ACTION(addr,bitnum)  MEM_ADDR(BITBAND(addr,bitnum)) </span><br><span class="line"></span><br><span class="line">#define PHout(n)  BIT_ACTION(GPIOH_ODR,n)</span><br><span class="line">#define PAout(n)  BIT_ACTION(GPIOA_ODR,n)  </span><br><span class="line"></span><br><span class="line">PHout(10) = 0;</span><br></pre></td></tr></table></figure>
+            <h1 id="异常类型"><a href="#异常类型" class="headerlink" title="异常类型"></a>异常类型</h1><ol>
+<li>系统异常<br><img src="/images/%E7%B3%BB%E7%BB%9F%E5%BC%82%E5%B8%B8%E6%B8%85%E5%8D%95.PNG" alt="系统异常清单"></li>
+<li>外部中断<br><img src="/images/%E5%A4%96%E9%83%A8%E4%B8%AD%E6%96%AD%E6%B8%85%E5%8D%95.PNG" alt="外部中断清单"><h1 id="NVIC简介"><a href="#NVIC简介" class="headerlink" title="NVIC简介"></a>NVIC简介</h1>NVIC 是嵌套向量中断控制器，控制着整个芯片中断相关的功能，它跟内核紧密耦合，是内核里面的一个外设。但是各个芯片厂商在设计芯片的时候会对 Cortex-M4 内核里面的 NVIC 进行裁剪，把不需要的部分去掉，所以说 STM32 的 NVIC 是 Cortex-M4 的 NVIC 的一个子集。<br>NVIC 结构体定义，来自固件库头文件： core_cm4.h<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">__IO uint32_t ISER[8]; // 中断使能寄存器</span><br><span class="line">uint32_t RESERVED0[24];</span><br><span class="line">__IO uint32_t ICER[8]; // 中断清除寄存器</span><br><span class="line">uint32_t RSERVED1[24];</span><br><span class="line">__IO uint32_t ISPR[8]; // 中断使能悬起寄存器</span><br><span class="line">uint32_t RESERVED2[24];</span><br><span class="line">__IO uint32_t ICPR[8]; // 中断清除悬起寄存器</span><br><span class="line">uint32_t RESERVED3[24];</span><br><span class="line">__IO uint32_t IABR[8]; // 中断有效位寄存器</span><br><span class="line">uint32_t RESERVED4[56];</span><br><span class="line">__IO uint8_t IP[240]; // 中断优先级寄存器(8Bit wide)</span><br><span class="line">uint32_t RESERVED5[644];</span><br><span class="line">__O uint32_t STIR; // 软件触发中断寄存器</span><br><span class="line">&#125; NVIC_Type;</span><br></pre></td></tr></table></figure>
 
 </li>
 </ol>
-
+<p>在配置中断的时候我们一般只用 ISER、 ICER 和 IP 这三个寄存器， ISER 用来使能中断，ICER 用来失能中断， IP 用来设置中断优先级。  </p>
+<p>还提供了一些库函数  不过我们不使用 略</p>
+<h1 id="优先级的定义"><a href="#优先级的定义" class="headerlink" title="优先级的定义"></a>优先级的定义</h1><p>中断优先级寄存器 NVIC_IPRx 我们只用高4位<br><img src="/images/%E4%BC%98%E5%85%88%E7%BA%A7%E5%88%86%E7%BB%84.png" alt="优先级分组"><br>优先级：先看主优先级在子优先级 都是数字小的优先级高<br>都相同时比较他们的硬件中断编号，编号越小，优先级越高</p>
+<h1 id="中断编程"><a href="#中断编程" class="headerlink" title="中断编程"></a>中断编程</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"> /**</span><br><span class="line">  * @brief  配置嵌套向量中断控制器NVIC</span><br><span class="line">  * @param  无</span><br><span class="line">  * @retval 无</span><br><span class="line">  */</span><br><span class="line">static void NVIC_Configuration(void)</span><br><span class="line">&#123;</span><br><span class="line">  NVIC_InitTypeDef NVIC_InitStructure;</span><br><span class="line">  </span><br><span class="line">  /* 嵌套向量中断控制器组选择 */</span><br><span class="line">  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);</span><br><span class="line">  </span><br><span class="line">  /* 配置USART为中断源 */</span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannel = DEBUG_USART_IRQ;</span><br><span class="line">  /* 抢断优先级为1 */</span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;</span><br><span class="line">  /* 子优先级为1 */</span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;</span><br><span class="line">  /* 使能中断 */</span><br><span class="line">  NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;</span><br><span class="line">  /* 初始化配置NVIC */</span><br><span class="line">  NVIC_Init(&amp;NVIC_InitStructure);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -221,7 +217,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/09/21/位带操作/">http://yoursite.com/2019/09/21/位带操作/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/22/中断/">http://yoursite.com/2019/09/22/中断/</a></span>
                     </p>
                 
                 
@@ -254,10 +250,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/09/22/启动文件/">启动文件</a>
+                <a class="prev" rel="prev" href="/2019/09/27/EXTI-外部中断-事件控制器/">EXTI-外部中断/事件控制器</a>
             
             
-            <a class="next" rel="next" href="/2019/09/18/GPIO/">GPIO</a>
+            <a class="next" rel="next" href="/2019/09/22/RCC/">RCC</a>
             
         </section>
 

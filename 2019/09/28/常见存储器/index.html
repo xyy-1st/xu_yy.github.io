@@ -7,7 +7,7 @@
 
 
 
-<title>位带操作 | Hexo</title>
+<title>常见存储器 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">位带操作</h1>
+            <h1 class="post-title">常见存储器</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 21, 2019&nbsp;&nbsp;11:13:56</a>
+                        Date: <a href="#">九月 28, 2019&nbsp;&nbsp;16:08:08</a>
                         </span>
                     
                     
@@ -194,19 +194,90 @@
         </header>
 
         <div class="post-content">
-            <hr>
-<h1 id="什么是位带操作"><a href="#什么是位带操作" class="headerlink" title="什么是位带操作"></a>什么是位带操作</h1><p>是将RAM和外设中的每一个bit映射到一个独立的地址，对这个地址的32位读写操作实现对一个bit的操作（虽然有32位但只有一位有效），就像51单片机中的位寻址区域一样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p0 = 0xfe;    //总线操作</span><br><span class="line">p0^0 = 0;     //位带操作</span><br></pre></td></tr></table></figure>
-
-<h1 id="stm32的位带操作"><a href="#stm32的位带操作" class="headerlink" title="stm32的位带操作"></a>stm32的位带操作</h1><h2 id="位带与位带别名区示意图"><a href="#位带与位带别名区示意图" class="headerlink" title="位带与位带别名区示意图"></a>位带与位带别名区示意图</h2><p><img src="/images/%E4%BD%8D%E5%B8%A6%E5%8C%BA%E4%B8%8E%E4%BD%8D%E5%B8%A6%E5%88%AB%E5%90%8D%E5%8C%BA.png" alt="位带与位带别名区示意图
-" title="位带与位带别名区示意图"><br>片上外设和SRAM均有1MB的位带区，位带区里面的每一个位都可以通过位带别名区的地址来访问。位带区的一个位，对应位带别名区的四个字节。<br><img src="/images/%E5%9C%B0%E5%9D%80%E5%8C%BA%E9%97%B4.png" alt title="地址区间"><br>观察各地址区间可以发现 APB1/2和AHB1有位带操作 AHB2/3没有</p>
-<h2 id="地址转换"><a href="#地址转换" class="headerlink" title="地址转换"></a>地址转换</h2><p>外设位带区与外设位带别名区的地址转换<br>AliasAddr = 0x42000000+ (A-0x40000000)<em>8</em>4 +n<em>4<br>SRAM位带区与SRAM位带别名区的地址转换<br>AliasAddr = 0x22000000+ (A-0x20000000)</em>8<em>4 +n</em>4<br>A：表示我们要操作的那个位所在的寄存器的地址<br>n：位号<br>理解要点：位带区的一个位在位带别名区会被膨胀成四个字节<br>有两个公式的话，在转换的时候每次都需要判断，很麻烦，所以我们把这两个公式的和为一个。<br>((addr &amp; 0xF0000000)+0x02000000+((addr &amp;0x000FFFFF)&lt;&lt;5)+(bitnum&lt;&lt;2))</p>
-<ol>
-<li>addr &amp; 0xF0000000：目的是取出4和2，用于区分是外设还是SRAM。然后再加上0x02000000就等于外设/SRAM位带别名区的起始地址。</li>
-<li>addr &amp;0x000FFFFF ：屏蔽掉高3位。外设位带区的最高地址为0X400F 0000，SRAM位带区的最高地址为 0X200F 0000，(0X400F 0000 – 0X4000 0000)与(0x200F 0000 – 0X2000 0000)在求偏移地址相减的时候只有低 5位有效，所以就把剩下的高三位屏蔽掉，剩下的5位与F做与运算即可。  <h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/*片上外设基地址  */</span><br><span class="line">#define PERIPH_BASE           ((unsigned int)0x40000000)                          </span><br><span class="line"></span><br><span class="line">/*总线基地址 */</span><br><span class="line">#define AHB1PERIPH_BASE       (PERIPH_BASE + 0x00020000)	</span><br><span class="line"></span><br><span class="line">/*GPIOH外设基地址*/</span><br><span class="line">#define GPIOH_BASE            (AHB1PERIPH_BASE + 0x1C00)</span><br><span class="line"></span><br><span class="line">/*GPIOH_ODR地址*/</span><br><span class="line">#define GPIOH_ODR_ADDR           (GPIOH_BASE+0X14)</span><br><span class="line"></span><br><span class="line">// 求出位带别名区的地址</span><br><span class="line">#define BITBAND(addr,bitnum)     ((addr &amp; 0xF0000000)+0x02000000+((addr &amp;0x000FFFFF)&lt;&lt;5)+(bitnum&lt;&lt;2))</span><br><span class="line">// 把一个立即数强制类型转换成一个指针，然后对指针 * 操作</span><br><span class="line">#define MEM_ADDR(addr)           (*(volatile unsigned long *)(addr))</span><br><span class="line">#define BIT_ACTION(addr,bitnum)  MEM_ADDR(BITBAND(addr,bitnum)) </span><br><span class="line"></span><br><span class="line">#define PHout(n)  BIT_ACTION(GPIOH_ODR,n)</span><br><span class="line">#define PAout(n)  BIT_ACTION(GPIOA_ODR,n)  </span><br><span class="line"></span><br><span class="line">PHout(10) = 0;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ol>
+            <h1 id="存储器种类"><a href="#存储器种类" class="headerlink" title="存储器种类"></a>存储器种类</h1><p><img src="/images/%E5%AD%98%E5%82%A8%E5%99%A8%E7%A7%8D%E7%B1%BB.png" alt="存储器种类"><br>易失性与非易失性：掉电之后数据是非还存在  </p>
+<h2 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h2><p>RAM是“Random Access Memory”的缩写，被译为随机存储器  </p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>动态随机存储器DRAM(Dynamic RAM)</th>
+<th>静态随机存储器SRAM(Static RAM)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>结构</td>
+<td><img src="/images/DRAM.jpg" alt="DRAM"></td>
+<td><img src="/images/SRAM.jpg" alt="SRAM"></td>
+</tr>
+<tr>
+<td>存取速度</td>
+<td>较慢</td>
+<td>较快</td>
+</tr>
+<tr>
+<td>集成度</td>
+<td>较高</td>
+<td>较低</td>
+</tr>
+<tr>
+<td>生产成本</td>
+<td>较低</td>
+<td>较高</td>
+</tr>
+<tr>
+<td>是否需要刷新</td>
+<td>是</td>
+<td>否</td>
+</tr>
+</tbody></table>
+<p>是否需要刷新是根据结构决定的： DRAM通过电容的电压来判断是1/0，但电容会自己放电导致出错，所以需要刷新不断充电是其稳定。（有一个值 高于这个值是1 否则是0）</p>
+<h2 id="同步-异步存储器"><a href="#同步-异步存储器" class="headerlink" title="同步/异步存储器"></a>同步/异步存储器</h2><p>判断是否有时钟信号线，有同步，无异步。  </p>
+<h3 id="常见的DRAM都采用同步方式，称为SDRAM-Synchronous-DRAM-。"><a href="#常见的DRAM都采用同步方式，称为SDRAM-Synchronous-DRAM-。" class="headerlink" title="常见的DRAM都采用同步方式，称为SDRAM(Synchronous DRAM)。"></a>常见的DRAM都采用同步方式，称为SDRAM(Synchronous DRAM)。</h3><table>
+<thead>
+<tr>
+<th>种类</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>普通SDRAM</td>
+<td>在上升沿时同步数据</td>
+</tr>
+<tr>
+<td>DDRII SDRAM</td>
+<td>在上升沿及下降沿都同步数据，时钟极限频率800MHz</td>
+</tr>
+<tr>
+<td>DDRIII SDRAM</td>
+<td>在上升沿及下降沿都同步数据，时钟极限频率1600MHz</td>
+</tr>
+</tbody></table>
+<h3 id="常见的SRAM都采用异步方式，它们被直接称为SRAM。"><a href="#常见的SRAM都采用异步方式，它们被直接称为SRAM。" class="headerlink" title="常见的SRAM都采用异步方式，它们被直接称为SRAM。"></a>常见的SRAM都采用异步方式，它们被直接称为SRAM。</h3><h2 id="ROM"><a href="#ROM" class="headerlink" title="ROM"></a>ROM</h2><p>ROM是“Read Only Memory”的缩写，意为只能读的存储器。<br>(随着技术的发展已经可以写了，只是名字没改，现在一般用于指代非易失性半导体存储器)  </p>
+<table>
+<thead>
+<tr>
+<th>种类</th>
+<th>特点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MASK ROM</td>
+<td>出厂时固化，不可修改</td>
+</tr>
+<tr>
+<td>OTPROM</td>
+<td>用户可写入一次，之后不可修改</td>
+</tr>
+<tr>
+<td>EPROM</td>
+<td>可重复擦写，需要使用专用紫外线照射设备擦除</td>
+</tr>
+<tr>
+<td>EEPROM</td>
+<td>可重复擦写，电擦除，使用方便</td>
+</tr>
+</tbody></table>
+<h2 id="FLASH"><a href="#FLASH" class="headerlink" title="FLASH"></a>FLASH</h2><p>FLASH存储器又称为闪存，它也是可重复擦写的储器，部分书籍会把FLASH存储器称为FLASH ROM，但它的容量一般比EEPROM大得多，且在擦除时，一般以多个字节为单位<br><img src="/images/flash.png" alt="flash"><br>坏块: 当编程/擦除这个块时，不能将某些位拉高.<br>XIP:CPU能否直接运行上面存储的程序 </p>
 
         </div>
 
@@ -221,7 +292,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/09/21/位带操作/">http://yoursite.com/2019/09/21/位带操作/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/28/常见存储器/">http://yoursite.com/2019/09/28/常见存储器/</a></span>
                     </p>
                 
                 
@@ -254,10 +325,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/09/22/启动文件/">启动文件</a>
             
-            
-            <a class="next" rel="next" href="/2019/09/18/GPIO/">GPIO</a>
+            <a class="next" rel="next" href="/2019/09/27/EXTI-外部中断-事件控制器/">EXTI-外部中断/事件控制器</a>
             
         </section>
 

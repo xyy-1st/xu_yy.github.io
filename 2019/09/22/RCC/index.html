@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 21, 2019&nbsp;&nbsp;14:48:08</a>
+                        Date: <a href="#">九月 22, 2019&nbsp;&nbsp;14:48:08</a>
                         </span>
                     
                     
@@ -194,7 +194,7 @@
         </header>
 
         <div class="post-content">
-            <h1 id="RCC时钟树"><a href="#RCC时钟树" class="headerlink" title="RCC时钟树"></a>RCC时钟树</h1><p><img src="/images/%E6%97%B6%E9%92%9F%E6%A0%91.png" alt="时钟树"></p>
+            <h1 id="RCC时钟树"><a href="#RCC时钟树" class="headerlink" title="RCC时钟树"></a>RCC时钟树</h1><p><img src="/images/RCC%E6%97%B6%E9%92%9F%E6%A0%91.png" alt="RCC时钟树"></p>
 <h2 id="系统时钟"><a href="#系统时钟" class="headerlink" title="系统时钟"></a>系统时钟</h2><h3 id="①HSE：High-Speed-External-Clock-signal，即高速的外部时钟"><a href="#①HSE：High-Speed-External-Clock-signal，即高速的外部时钟" class="headerlink" title="①HSE：High Speed External Clock signal，即高速的外部时钟"></a>①HSE：High Speed External Clock signal，即高速的外部时钟</h3><p>来源：使用有源晶振（1-50M）时，时钟从 OSC_IN 引脚进入， OSC_OUT 引脚悬空，<br>    当选用无源晶振4-26M时，时钟从 OSC_IN 和 OSC_OUT 进入，并且要配谐振电容。<br>我使用的是无源晶振25M。<br>当HSE故障时自动使用HSI时钟<br>控制：RCC_CR 时钟控制寄存器的位16：HSEON控制</p>
 <h3 id="HSI：High-Speed-Internal-Clock-signal，即高速的内部时钟。"><a href="#HSI：High-Speed-Internal-Clock-signal，即高速的内部时钟。" class="headerlink" title="HSI：High Speed Internal Clock signal，即高速的内部时钟。"></a>HSI：High Speed Internal Clock signal，即高速的内部时钟。</h3><p>来源：芯片内部，大小为16M，当HSE故障时，系统时钟会自动切换到HSI，直到HSE启动成功。<br>控制： RCC_CR 时钟控制寄存器的位0：HSION控制</p>
 <h3 id="②锁相环时钟：PLLCLK"><a href="#②锁相环时钟：PLLCLK" class="headerlink" title="②锁相环时钟：PLLCLK"></a>②锁相环时钟：PLLCLK</h3><p>来源：HSI、HSE。</p>
@@ -232,7 +232,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/09/21/RCC/">http://yoursite.com/2019/09/21/RCC/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/22/RCC/">http://yoursite.com/2019/09/22/RCC/</a></span>
                     </p>
                 
                 
@@ -265,8 +265,10 @@
         </section>
         <section class="post-nav">
             
+                <a class="prev" rel="prev" href="/2019/09/22/中断/">中断</a>
             
-            <a class="next" rel="next" href="/2019/09/21/寄存器/">寄存器</a>
+            
+            <a class="next" rel="next" href="/2019/09/22/启动文件/">启动文件</a>
             
         </section>
 
