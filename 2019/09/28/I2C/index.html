@@ -7,7 +7,7 @@
 
 
 
-<title>常见存储器 | Hexo</title>
+<title>I2C | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">常见存储器</h1>
+            <h1 class="post-title">I2C</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">九月 28, 2019&nbsp;&nbsp;16:08:08</a>
+                        Date: <a href="#">九月 28, 2019&nbsp;&nbsp;21:18:53</a>
                         </span>
                     
                     
@@ -194,90 +194,26 @@
         </header>
 
         <div class="post-content">
-            <h1 id="存储器种类"><a href="#存储器种类" class="headerlink" title="存储器种类"></a>存储器种类</h1><p><img src="/images/%E5%AD%98%E5%82%A8%E5%99%A8%E7%A7%8D%E7%B1%BB.png" alt="存储器种类"><br>易失性与非易失性：掉电之后数据是非还存在  </p>
-<h2 id="RAM"><a href="#RAM" class="headerlink" title="RAM"></a>RAM</h2><p>RAM是“Random Access Memory”的缩写，被译为随机存储器  </p>
-<table>
-<thead>
-<tr>
-<th>特性</th>
-<th>动态随机存储器DRAM(Dynamic RAM)</th>
-<th>静态随机存储器SRAM(Static RAM)</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>结构</td>
-<td><img src="/images/DRAM.jpg" alt="DRAM"></td>
-<td><img src="/images/SRAM.jpg" alt="SRAM"></td>
-</tr>
-<tr>
-<td>存取速度</td>
-<td>较慢</td>
-<td>较快</td>
-</tr>
-<tr>
-<td>集成度</td>
-<td>较高</td>
-<td>较低</td>
-</tr>
-<tr>
-<td>生产成本</td>
-<td>较低</td>
-<td>较高</td>
-</tr>
-<tr>
-<td>是否需要刷新</td>
-<td>是</td>
-<td>否</td>
-</tr>
-</tbody></table>
-<p>是否需要刷新是根据结构决定的： DRAM通过电容的电压来判断是1/0，但电容会自己放电导致出错，所以需要刷新不断充电是其稳定。（有一个值 高于这个值是1 否则是0）</p>
-<h2 id="同步-异步存储器"><a href="#同步-异步存储器" class="headerlink" title="同步/异步存储器"></a>同步/异步存储器</h2><p>判断是否有时钟信号线，有同步，无异步。  </p>
-<h3 id="常见的DRAM都采用同步方式，称为SDRAM-Synchronous-DRAM-。"><a href="#常见的DRAM都采用同步方式，称为SDRAM-Synchronous-DRAM-。" class="headerlink" title="常见的DRAM都采用同步方式，称为SDRAM(Synchronous DRAM)。"></a>常见的DRAM都采用同步方式，称为SDRAM(Synchronous DRAM)。</h3><table>
-<thead>
-<tr>
-<th>种类</th>
-<th>特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>普通SDRAM</td>
-<td>在上升沿时同步数据</td>
-</tr>
-<tr>
-<td>DDRII SDRAM</td>
-<td>在上升沿及下降沿都同步数据，时钟极限频率800MHz</td>
-</tr>
-<tr>
-<td>DDRIII SDRAM</td>
-<td>在上升沿及下降沿都同步数据，时钟极限频率1600MHz</td>
-</tr>
-</tbody></table>
-<h3 id="常见的SRAM都采用异步方式，它们被直接称为SRAM。"><a href="#常见的SRAM都采用异步方式，它们被直接称为SRAM。" class="headerlink" title="常见的SRAM都采用异步方式，它们被直接称为SRAM。"></a>常见的SRAM都采用异步方式，它们被直接称为SRAM。</h3><h2 id="ROM"><a href="#ROM" class="headerlink" title="ROM"></a>ROM</h2><p>ROM是“Read Only Memory”的缩写，意为只能读的存储器。<br>(随着技术的发展已经可以写了，只是名字没改，现在一般用于指代非易失性半导体存储器)  </p>
-<table>
-<thead>
-<tr>
-<th>种类</th>
-<th>特点</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MASK ROM</td>
-<td>出厂时固化，不可修改</td>
-</tr>
-<tr>
-<td>OTPROM</td>
-<td>用户可写入一次，之后不可修改</td>
-</tr>
-<tr>
-<td>EPROM</td>
-<td>可重复擦写，需要使用专用紫外线照射设备擦除</td>
-</tr>
-<tr>
-<td>EEPROM</td>
-<td>可重复擦写，电擦除，使用方便</td>
-</tr>
-</tbody></table>
-<h2 id="FLASH"><a href="#FLASH" class="headerlink" title="FLASH"></a>FLASH</h2><p>FLASH存储器又称为闪存，它也是可重复擦写的储器，部分书籍会把FLASH存储器称为FLASH ROM，但它的容量一般比EEPROM大得多，且在擦除时，一般以多个字节为单位<br><img src="/images/flash.png" alt="flash"><br>坏块: 当编程/擦除这个块时，不能将某些位拉高.<br>XIP:CPU能否直接运行上面存储的程序 </p>
+            <h1 id="I2C协议简介"><a href="#I2C协议简介" class="headerlink" title="I2C协议简介"></a>I2C协议简介</h1><p>I2C 通讯协议(Inter－Integrated Circuit)是由Phiilps公司开发的，由于它引脚少（2个），硬件实现简单，可扩展性强，不需要USART、CAN等通讯协议的外部收发设备，现在被广泛地使用在系统内多个集成电路(IC)间的通讯。（一个开发板上）</p>
+<h2 id="物理层"><a href="#物理层" class="headerlink" title="物理层"></a>物理层</h2><p><img src="/images/I2C.png" alt="I2C">  </p>
+<ul>
+<li>一个主机 多个从机   没个从机都有一个独立的地址，主机可以利用这个地址进行不同设备之间的访问。  </li>
+<li>总线通过上拉电阻接到电源。当I2C设备空闲时，会输出高阻态，而当所有设备都空闲，都输出高阻态时，由上拉电阻把总线拉成高电平。<br>高阻态：既不是高电频也不是低电频</li>
+<li>具有三种传输模式：标准模式传输速率为100kbit/s ，快速模式为400kbit/s ，高速模式下可达 3.4Mbit/s，但目前大多I2C设备尚不支持高速模式。</li>
+<li>连接到相同总线的 IC 数量受到总线的最大电容 400pF 限制  <h2 id="协议层"><a href="#协议层" class="headerlink" title="协议层"></a>协议层</h2><h3 id="I2C基本读写过程"><a href="#I2C基本读写过程" class="headerlink" title="I2C基本读写过程"></a>I2C基本读写过程</h3></li>
+</ul>
+<p>S ： 传输开始信号<br>SLAVE_ADDRESS: 从机地址<br>A/A：应答(ACK)或非应答(NACK)信号<br>阴影：数据由主机传输至从机<br>空白：数据由从机传输至主机  </p>
+<p>   主机写数据到从机：<br>   <img src="/images/I2C%E5%9F%BA%E6%9C%AC%E5%86%99%E8%BF%87%E7%A8%8B.jpg" alt="I2C基本写过程"><br>   主机读数据到从机：<br>   <img src="/images/I2C%E5%9F%BA%E6%9C%AC%E8%AF%BB%E8%BF%87%E7%A8%8B.jpg" alt="I2C基本读过程"><br>   通讯复合格式：<br>   <img src="/images/%E9%80%9A%E8%AE%AF%E5%A4%8D%E5%90%88%E6%A0%BC%E5%BC%8F.jpg" alt="通讯复合格式">  </p>
+<ol>
+<li>不要看阴影和空白</li>
+<li>第一个是写  主机先写 一个数据（地址）给从机</li>
+<li>第二个是读  从机发对应地址中的数据给主机  <h3 id="通讯的起始和停止信号"><a href="#通讯的起始和停止信号" class="headerlink" title="通讯的起始和停止信号"></a>通讯的起始和停止信号</h3><img src="/images/I2C%E8%B5%B7%E5%A7%8B%E4%B8%AD%E6%AD%A2%E4%BF%A1%E5%8F%B7.jpg" alt="I2C起始中止信号"><br>起始和停止信号一般由主机产生。<h3 id="数据有效性"><a href="#数据有效性" class="headerlink" title="数据有效性"></a>数据有效性</h3><img src="/images/I2C%E6%95%B0%E6%8D%AE%E6%9C%89%E6%95%88.jpg" alt="I2C数据有效">  <h3 id="地址及数据方向"><a href="#地址及数据方向" class="headerlink" title="地址及数据方向"></a>地址及数据方向</h3>设备地址可以是7位或10位。<br>紧跟设备地址的一个数据位R/W用来表示数据传输方向，数据方向位为“1”时表示主机由从机读数据，该位为“0”时表示主机向从机写数据<br>一般用7位地址 并且和读写位合并位8位<br>地址 1001 000  0X48<br>读地址  1001 0001   0X91<br>写地址  1001 0000   0X90<h3 id="响应"><a href="#响应" class="headerlink" title="响应"></a>响应</h3><img src="/images/I2C%E5%93%8D%E5%BA%94.jpg" alt="I2C响应">  <ol>
+<li>时钟由主机控制  </li>
+<li>在第九给时钟是 发送端释放SDA （设置为高阻态，SDA先的电频由外部决定）</li>
+<li>外部默认是高电平 表示为非应答信号<br>接收端设置为低电频 表示应答信号</li>
+</ol>
+</li>
+</ol>
 
         </div>
 
@@ -292,7 +228,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/09/28/常见存储器/">http://yoursite.com/2019/09/28/常见存储器/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/28/I2C/">http://yoursite.com/2019/09/28/I2C/</a></span>
                     </p>
                 
                 
@@ -325,10 +261,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/09/28/I2C/">I2C</a>
             
-            
-            <a class="next" rel="next" href="/2019/09/27/EXTI-外部中断-事件控制器/">EXTI-外部中断/事件控制器</a>
+            <a class="next" rel="next" href="/2019/09/28/常见存储器/">常见存储器</a>
             
         </section>
 
