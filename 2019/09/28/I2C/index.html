@@ -214,6 +214,63 @@
 </ol>
 </li>
 </ol>
+<h1 id="STM32的I2C特性及架构"><a href="#STM32的I2C特性及架构" class="headerlink" title="STM32的I2C特性及架构"></a>STM32的I2C特性及架构</h1><ul>
+<li>软件模拟协议：使用CPU直接控制通讯引脚的电平，产生出符合通讯协议标准的逻辑。  </li>
+<li>硬件实现协议：由STM32的I2C片上外设专门负责实现I2C通讯协议，只要配置好该外设，它就会自动根据协议要求产生通讯信号，收发数据并缓存起来，CPU只要检测该外设的状态和访问数据寄存器，就能完成数据收发。这种由硬件外设处理I2C协议的方式减轻了CPU的工作，且使软件设计更加简单。<br>STM32的I2C外设可用作通讯的主机及从机，支持100Kbit/s和400Kbit/s的速率，支持7位、10位设备地址，支持DMA数据传输，并具有数据校验功能。<h2 id="STM32的I2C架构剖析"><a href="#STM32的I2C架构剖析" class="headerlink" title="STM32的I2C架构剖析"></a>STM32的I2C架构剖析</h2><img src="/images/STM32%E7%9A%84I2C%E6%9E%B6%E6%9E%84%E5%89%96%E6%9E%90.jpg" alt="STM32的I2C架构剖析">  <h3 id="通讯引脚"><a href="#通讯引脚" class="headerlink" title="通讯引脚"></a>通讯引脚</h3><img src="/images/I2C%E9%80%9A%E8%AE%AF%E5%BC%95%E8%84%9A.png" alt="I2C通讯引脚">  <h3 id="时钟控制逻辑"><a href="#时钟控制逻辑" class="headerlink" title="时钟控制逻辑"></a>时钟控制逻辑</h3>SCL线的时钟信号，由I2C接口根据时钟控制寄存器(CCR)控制，控制的参数主要为时钟频率。</li>
+</ul>
+<ol>
+<li><p>“标准/快速”模式  100/400Kbit/s</p>
+</li>
+<li><p>快速模式下可选择SCL时钟的占空比，可选Tlow/Thigh=2或Tlow/Thigh=16/9模式。(低电频时间长，有更多的时候让数据0/1切换)  </p>
+</li>
+<li><p>CCR寄存器中12位的配置因子CCR，它与I2C外设的输入时钟源共同作用，产生SCL时钟。STM32的I2C外设输入时钟源为PCLK1。  </p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>T<sub>high</sub></th>
+<th>T<sub>low</sub></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>标准模式</td>
+<td>T<sub>high=CCR*T<sub>PCKL1<sub></sub></sub></sub></td>
+<td>T<sub>low = CCR*T<sub>PCKL1<sub></sub></sub></sub></td>
+</tr>
+<tr>
+<td>快速模式中Tlow/Thigh=2</td>
+<td>T<sub>high=CCR*T<sub>PCKL1<sub></sub></sub></sub></td>
+<td>T<sub>low = 2<em>CCR</em>T<sub>PCKL1<sub></sub></sub></sub></td>
+</tr>
+<tr>
+<td>快速模式中Tlow/Thigh=16/9</td>
+<td>T<sub>high= 9* CCR*T<sub>PCKL1<sub></sub></sub></sub></td>
+<td>T<sub>low = 16* CCR*T<sub>PCKL1<sub></sub></sub></sub></td>
+</tr>
+<tr>
+<td>例如，我们的PCLK1=45MHz，想要配置400Kbit/s的速率，计算方式如下：</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p> PCLK时钟周期：            TPCLK1 = 1/45000000<br> 目标SCL时钟周期：        TSCL = 1/400000<br> SCL时钟周期内的高电平时间：    THIGH = TSCL/3<br> SCL时钟周期内的低电平时间：    TLOW = 2*TSCL/3<br> 计算CCR的值：            CCR  = THIGH/TPCLK1  = 37.5<br>计算结果为小数，而CCR寄存器是无法配置小数参数的，所以我们只能把CCR取值为38，这样I2C的SCL实际频率无法达到400KHz (约为394736Hz)。</p>
+<h3 id="数据控制逻辑"><a href="#数据控制逻辑" class="headerlink" title="数据控制逻辑"></a>数据控制逻辑</h3></li>
+</ol>
+<ul>
+<li>当向外发送数据的时候，数据移位寄存器以“数据寄存器”为数据源，把数据一位一位地通过SDA信号线发送出去；</li>
+<li>当从外部接收数据的时候，数据移位寄存器把SDA信号线采样到的数据一位一位地存储到“数据寄存器”中。<br>比较器用来判断是否是自身地址<br>PEC计算用来计算数据传送时是由出错<h3 id="整体控制逻辑"><a href="#整体控制逻辑" class="headerlink" title="整体控制逻辑"></a>整体控制逻辑</h3>在外设工作时，控制逻辑会根据外设的工作状态修改“状态寄存器(SR1和SR2)”，只要读取这些寄存器相关的寄存器位，就可以了解I2C的工作状态。  <h4 id="主发送器通讯过程"><a href="#主发送器通讯过程" class="headerlink" title="主发送器通讯过程"></a>主发送器通讯过程</h4><img src="/images/%E4%B8%BB%E5%8F%91%E9%80%81%E5%99%A8%E9%80%9A%E8%AE%AF%E8%BF%87%E7%A8%8B.jpg" alt="主发送器通讯过程">  </li>
+<li>控制产生起始信号(S)，当发生起始信号后，它产生事件“EV5”，并会对SR1寄存器的“SB”位置1，表示起始信号已经发送；</li>
+<li>发送设备地址并等待应答信号，若有从机应答，则产生事件“EV6”及“EV8”，这时SR1寄存器的“ADDR”位及“TXE”位被置1，ADDR 为1表示地址已经发送，TXE为1表示数据寄存器为空；</li>
+<li>往I2C的“数据寄存器DR”写入要发送的数据，这时TXE位会被重置0，表示数据寄存器非空，I2C外设通过SDA信号线一位位把数据发送出去后，又会产生“EV8”事件，即TXE位被置1，重复这个过程，可以发送多个字节数据；</li>
+<li>发送数据完成后，控制I2C设备产生一个停止信号(P)，这个时候会产生EV2事件，SR1的TXE位及BTF位都被置1，表示通讯结束。<h4 id="主接收器"><a href="#主接收器" class="headerlink" title="主接收器"></a>主接收器</h4><img src="/images/%E4%B8%BB%E6%8E%A5%E6%94%B6%E5%99%A8.jpg" alt="主接收器"></li>
+<li>起始信号(S)是由主机端产生的，控制发生起始信号后，它产生事件“EV5”，并会对SR1寄存器的“SB”位置1，表示起始信号已经发送；</li>
+<li>发送设备地址并等待应答信号，若有从机应答，则产生事件“EV6”这时SR1寄存器的“ADDR”位被置1，表示地址已经发送。</li>
+<li>从机端接收到地址后，开始向主机端发送数据。当主机接收到这些数据后，会产生“EV7”事件，SR1寄存器的RXNE被置1，表示接收数据寄存器非空，读取该寄存器后，可对数据寄存器清空，以便接收下一次数据。此时可以控制I2C发送应答信号(ACK)或非应答信号(NACK)，若应答，则重复以上步骤接收数据，若非应答，则停止传输</li>
+<li>发送非应答信号后，产生停止信号(P)，结束传输。<h1 id="I2C初始化结构体"><a href="#I2C初始化结构体" class="headerlink" title="I2C初始化结构体"></a>I2C初始化结构体</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line"> uint32_t I2C_ClockSpeed; /*!&lt; 设置 SCL 时钟频率，此值要低于 40 0000*/</span><br><span class="line"> uint16_t I2C_Mode; /*!&lt; 指定工作模式，可选 I2C 模式及 SMBUS 模式 */</span><br><span class="line"> uint16_t I2C_DutyCycle; /*指定时钟占空比，可选 low/high = 2:1 及 16:9 模式*/</span><br><span class="line"> uint16_t I2C_OwnAddress1; /*!&lt; 指定自身的 I2C 设备地址 */</span><br><span class="line"> uint16_t I2C_Ack; /*!&lt; 使能或关闭响应(一般都要使能) */</span><br><span class="line"> uint16_t I2C_AcknowledgedAddress; /*!&lt; 指定地址的长度，可为 7 位及 10 位 */</span><br><span class="line"> &#125; I2C_InitTypeDef;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<p>配置完这些结构体成员值，调用库函数I2C_Init即可把结构体的配置写入到寄存器中。</p>
 
         </div>
 
@@ -260,6 +317,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/09/28/STM32的I2C/">STM32的I2C</a>
             
             
             <a class="next" rel="next" href="/2019/09/28/常见存储器/">常见存储器</a>
