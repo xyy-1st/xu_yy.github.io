@@ -197,7 +197,7 @@
 <li>使用伪指令#pragma pack ()，取消自定义字节对齐方式。  </li>
 </ul>
 <p>注意： 如果#pragma pack (n)中指定的 n 大于结构体中最大成员的 size，则其不起作用，结构体仍然按照 size 最大的成员进行对界。<br><font color="red" size="5">字节对齐：</font><br>1) 结构体的首地址   能够被   其最宽基本类型成员的大小   所整除；<br>1) 结构体每个成员  相对于 结构体首地址的偏移量   都是 该成员大小的整数倍，如有需要，编译器会在成员之间加上<font color="red">填充字节</font> ；<br>2) 结构体的总大小 为结构体 最宽基本类型成员大小  的整数倍，如有需要，编译器会在最末一个成员之后加上<font color="red">填充字节。</font></p>
-<p><font color="red" size="5">解答：</font> 程序中#pragma pack (8)虽然指定了对界为 8，但是由于 struct example1 中的成员最大size 为 4（long 变量 size 为 4），故 struct example1 和struct example2 仍然按 4 字节对界.<br><img src="/images/struct.png" alt="struct存储图">  </p>
+<p><font color="red" size="5">解答：</font> 程序中#pragma pack (8)虽然指定了对界为 8，但是由于 struct example1 中的成员最大size 为 4（long 变量 size 为 4），故 struct example1 和struct example2 仍然按 4 字节对界.<br><img src="/images/struct.png" alt="struct存储图"><br>我的理解内存分配情况如上图，其中先对struct example1的成员对齐，导致short a 后面空了两个字节，一共站了4字节，所以在对struct example2对齐时 char c后面要空3个字节。最后保证结构体的总大小为结构体最宽基本类型成员（long）大小的整数倍，所以后面空2个字节。  </p>
 <p><font color="red" size="5">思考：</font>如果指定的n小于最大成员size时输出的结果是什么？<br>（n = 2）<br>short:2<br>char:1<br>long:4<br>example1:6<br>example2:10<br>&amp;struct2.struct1 - &amp;struct2:2<br>一开始以为是把大于n字节的成员变成n字节，从结果上看不是这样的。成员的字节长度没有变，只是用来多段来存储（我将n字节理解为一段）</p>
 <h1 id="C-和-C-间-struct-的深层区别"><a href="#C-和-C-间-struct-的深层区别" class="headerlink" title="C 和 C++间 struct 的深层区别"></a>C 和 C++间 struct 的深层区别</h1><ul>
 <li>在 C++语言中 struct 具有了“类” 的功能，其与关键字 class 的区别在于 struct 中成员变量和函数的默认访问权限为 <font color="red">public</font>，而 class 的为 <font color="red">private</font>。</li>

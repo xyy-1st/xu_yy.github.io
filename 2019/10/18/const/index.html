@@ -190,7 +190,9 @@
             <h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><p>const关键字可以限定一个变量的值 <font color="red">只读 不允许改变</font></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int a;</span><br><span class="line">int const a;</span><br></pre></td></tr></table></figure>
 
-<p>功能一样,都是声明一个只读的常量a。 且a必须初始化,之后值不能改变。</p>
+<p>功能一样,都是声明一个只读的常量a。 且a必须初始化,之后值不能改变,但可以通过指针来改变。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const int a = 4;</span><br><span class="line">a = 5; //错误</span><br><span class="line">int *p = &amp;a;</span><br><span class="line">*p = 5; //正确 输出a的结果为5</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int* a;</span><br><span class="line">int const* a;</span><br></pre></td></tr></table></figure>
 
 <p>功能一样，与上面相同，const都是修饰 *a 的。<br>效果：a的值可以改变，*a的值不能改变 但可以通过”别名”来改变</p>
@@ -212,8 +214,8 @@
 <p>　　const常量有具体的类型，在编译阶段会执行类型检查。<br>(3)const  可以节省空间，避免不必要的内存分配</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">        #define PI 3.14159  </span><br><span class="line">        const doulbe Pi=3.14159;</span><br><span class="line">        double i=Pi; //此时为Pi分配内存，以后不再分配！  </span><br><span class="line">        double I=PI; //编译期间进行宏替换，分配内存  </span><br><span class="line">        double j=Pi; //没有内存分配  </span><br><span class="line">        double J=PI; //再进行宏替换，又一次分配内存！</span><br></pre></td></tr></table></figure>
 
-<p>定义常量时最好使用const</p>
-
+<p>定义常量时最好使用const<br>但是定义矩阵的时候要使用宏定义，因为宏定义（预处理）比const（编译）先处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define SIZE = 100;</span><br><span class="line">const int size = 100;</span><br><span class="line">int a[SIZE];	  //正确</span><br><span class="line">int b[size];      //出错</span><br></pre></td></tr></table></figure>
         </div>
 
         
