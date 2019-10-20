@@ -7,7 +7,7 @@
 
 
 
-<title>const | Hexo</title>
+<title>typedef | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">const</h1>
+            <h1 class="post-title">typedef</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十月 18, 2019&nbsp;&nbsp;16:10:35</a>
+                        Date: <a href="#">十月 20, 2019&nbsp;&nbsp;14:38:50</a>
                         </span>
                     
                     
@@ -194,35 +194,12 @@
         </header>
 
         <div class="post-content">
-            <h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><p>const关键字可以限定一个变量的值 <font color="red">只读 不允许改变</font></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int a;</span><br><span class="line">int const a;</span><br></pre></td></tr></table></figure>
+            <h1 id="typedef-取别名。"><a href="#typedef-取别名。" class="headerlink" title="typedef 取别名。"></a>typedef 取别名。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//为int定义了一个新名字INT，两者功能一样</span><br><span class="line">typedef int INT;</span><br><span class="line">//对结构体取名 方式一</span><br><span class="line">struct student</span><br><span class="line">&#123;</span><br><span class="line">    int ID;</span><br><span class="line">    char NAME[10];</span><br><span class="line">    char SEX;</span><br><span class="line">&#125;;</span><br><span class="line">typedef struct student STUDENT</span><br><span class="line">//对结构体取名 方式二</span><br><span class="line">typedef struct student</span><br><span class="line">&#123;</span><br><span class="line">    int ID;</span><br><span class="line">    char NAME[10];</span><br><span class="line">    char SEX;</span><br><span class="line">&#125;STUDENT;</span><br><span class="line">//两者方式等价</span><br><span class="line">struct student stud1；   //原定义方式</span><br><span class="line">STUDENT stud2;    //更简洁</span><br></pre></td></tr></table></figure>
 
-<p>功能一样,都是声明一个只读的常量a。 且a必须初始化,之后值不能改变,但可以通过指针来改变。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const int a = 4;</span><br><span class="line">a = 5; //错误</span><br><span class="line">int *p = &amp;a;</span><br><span class="line">*p = 5; //正确 输出a的结果为5</span><br></pre></td></tr></table></figure>
+<h1 id="typefef与-define比较"><a href="#typefef与-define比较" class="headerlink" title="typefef与#define比较"></a>typefef与#define比较</h1><p>都替一个对象取一个别名，以此增强程序的可读性<br><font color="red">不同</font>：define<font color="red">预处理</font>时进行简单而机械的字符串<font color="red">替换</font>，不作正确性检查 可以是<font color="red">常量 </font><br>typedef<font color="red">编译</font>时处理，有类型检查功能 <font color="red">作用域内</font>的别名，不可以是常量   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define INTPTR1 int*  </span><br><span class="line">typedef int* INTPTR2;  </span><br><span class="line">INTPTR1 p1, p2;  //声明一个指针变量p1和一个整型变量p2  </span><br><span class="line">INTPTR2 p3, p4;	// 声明两个指针变量p3、p4</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int* a;</span><br><span class="line">int const* a;</span><br></pre></td></tr></table></figure>
 
-<p>功能一样，与上面相同，const都是修饰 *a 的。<br>效果：a的值可以改变，*a的值不能改变 但可以通过”别名”来改变</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">int j = 0;</span><br><span class="line">const int* a = &amp;i;</span><br><span class="line">a = &amp;j   //正确</span><br><span class="line">*a = 4;   //错误</span><br><span class="line">j = 4；   //正确  输出*a的的结果为 4</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int* const d ;</span><br></pre></td></tr></table></figure>
-
-<p>这个const 是修饰d的,必须初始化<br>效果：d的值不能改变，*b的值可以改变</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">int j = 0;</span><br><span class="line">int* const d = &amp;a;//必须初始化</span><br><span class="line">d = &amp;j   //错误</span><br><span class="line">*d = 4;   //正确</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const int * const p;</span><br></pre></td></tr></table></figure>
-
-<p>是const int <em>p 与int * const p 的结合，必须初始化<br>效果：  p与\</em>p都不能改变</p>
-<h1 id="const-与宏定义的区别"><a href="#const-与宏定义的区别" class="headerlink" title="const 与宏定义的区别"></a>const 与宏定义的区别</h1><p>(1) 编译器处理方式不同</p>
-<p>　　define宏是在预处理阶段展开。</p>
-<p>　　const常量是编译运行阶段使用。</p>
-<p>(2) 类型和安全检查不同</p>
-<p>　　define宏没有类型，不做任何类型检查，仅仅是展开。</p>
-<p>　　const常量有具体的类型，在编译阶段会执行类型检查。<br>(3)const  可以节省空间，避免不必要的内存分配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">        #define PI 3.14159  </span><br><span class="line">        const doulbe Pi=3.14159;</span><br><span class="line">        double i=Pi; //此时为Pi分配内存，以后不再分配！  </span><br><span class="line">        double I=PI; //编译期间进行宏替换，分配内存  </span><br><span class="line">        double j=Pi; //没有内存分配  </span><br><span class="line">        double J=PI; //再进行宏替换，又一次分配内存！</span><br></pre></td></tr></table></figure>
-
-<p>定义常量时最好使用const<br>但是定义矩阵的时候要使用宏定义，因为宏定义（预处理）比const（编译）先处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define SIZE = 100;</span><br><span class="line">const int size = 100;</span><br><span class="line">int a[SIZE];	  //正确</span><br><span class="line">int b[size];      //出错</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -236,7 +213,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/10/18/const/">http://yoursite.com/2019/10/18/const/</a></span>
+                        <span><a href="http://yoursite.com/2019/10/20/typedef/">http://yoursite.com/2019/10/20/typedef/</a></span>
                     </p>
                 
                 
@@ -269,10 +246,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/10/20/static/">static</a>
             
-            
-            <a class="next" rel="next" href="/2019/10/09/struct/">struct</a>
+            <a class="next" rel="next" href="/2019/10/20/static/">static</a>
             
         </section>
 
