@@ -7,7 +7,7 @@
 
 
 
-<title>typedef | Hexo</title>
+<title>main函数的参数 | Hexo</title>
 
 
 
@@ -103,73 +103,11 @@
             <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
-    }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">typedef</h1>
+            <h1 class="post-title">main函数的参数</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +116,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十月 20, 2019&nbsp;&nbsp;14:38:50</a>
+                        Date: <a href="#">十一月 3, 2019&nbsp;&nbsp;18:51:04</a>
                         </span>
                     
                     
@@ -194,12 +132,17 @@
         </header>
 
         <div class="post-content">
-            <h1 id="typedef-取别名。"><a href="#typedef-取别名。" class="headerlink" title="typedef 取别名。"></a>typedef 取别名。</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">//为int定义了一个新名字INT，两者功能一样</span><br><span class="line">typedef int INT;</span><br><span class="line">//对结构体取名 方式一</span><br><span class="line">struct student</span><br><span class="line">&#123;</span><br><span class="line">    int ID;</span><br><span class="line">    char NAME[10];</span><br><span class="line">    char SEX;</span><br><span class="line">&#125;;</span><br><span class="line">typedef struct student STUDENT</span><br><span class="line">//对结构体取名 方式二</span><br><span class="line">typedef struct student</span><br><span class="line">&#123;</span><br><span class="line">    int ID;</span><br><span class="line">    char NAME[10];</span><br><span class="line">    char SEX;</span><br><span class="line">&#125;STUDENT;</span><br><span class="line">//两者方式等价</span><br><span class="line">struct student stud1；   //原定义方式</span><br><span class="line">STUDENT stud2;    //更简洁</span><br></pre></td></tr></table></figure>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">int  main(int  argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">	int  i;</span><br><span class="line">	for (i = 0; i &lt; argc; i++)</span><br><span class="line">		printf(&quot;argv[%i]:%s\n&quot;,i, argv[i]);</span><br><span class="line">	printf(&quot;argc = %d\n&quot;, argc);</span><br><span class="line">	return  0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h1 id="typefef与-define比较"><a href="#typefef与-define比较" class="headerlink" title="typefef与#define比较"></a>typefef与#define比较</h1><p>都替一个对象取一个别名，以此增强程序的可读性<br><font color="red">不同</font>：define<font color="red">预处理</font>时进行简单而机械的字符串<font color="red">替换</font>，不作正确性检查 可以是<font color="red">常量 </font><br>typedef<font color="red">编译</font>时处理，有类型检查功能 <font color="red">作用域内</font>的别名，不可以是常量   </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define INTPTR1 int*  </span><br><span class="line">typedef int* INTPTR2;  </span><br><span class="line">INTPTR1 p1, p2;  //声明一个指针变量p1和一个整型变量p2  </span><br><span class="line">INTPTR2 p3, p4;	// 声明两个指针变量p3、p4</span><br></pre></td></tr></table></figure>
+<p>我们知道其他函数是不能调用main函数的 所以main函数一直是没有参数的<br>那么上面的代码中的main函数的参数是从哪里来的呢？<br>查了百度知道<br><font color="red">int   argc </font> 是表示你在<font color="red">命令行</font> 下输入命令的时候，一共有多少个参数。<br><font color="red">char* argv[] </font>是记录你所输入的参数。  </p>
+<p>发现了吧 需要在命令行运行才行：<br>D:&gt;VSproject\Project1\x64\Debug\Project1  you xiu de ren</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">argv[0]:VSproject\Project1\x64\Debug\Project1</span><br><span class="line">argv[1]:you</span><br><span class="line">argv[2]:xiu</span><br><span class="line">argv[3]:de</span><br><span class="line">argv[4]:ren</span><br><span class="line">argc = 5</span><br></pre></td></tr></table></figure>
 
+<p>当我们切换目录之后在执行是的结果：<br>D:\VSproject\Project1\x64\Debug&gt;Project1  you xiu de ren</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">argv[0]:Project1</span><br><span class="line">argv[1]:you</span><br><span class="line">argv[2]:xiu</span><br><span class="line">argv[3]:de</span><br><span class="line">argv[4]:ren</span><br><span class="line">argc = 5</span><br></pre></td></tr></table></figure>
 
+<p>直接用vs运行的结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">argv[0]:D:\VSproject\Project1\x64\Debug\Project1.exe</span><br><span class="line">argc = 1</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -213,7 +156,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/10/20/typedef/">http://yoursite.com/2019/10/20/typedef/</a></span>
+                        <span><a href="http://yoursite.com/2019/11/03/main函数的参数/">http://yoursite.com/2019/11/03/main函数的参数/</a></span>
                     </p>
                 
                 
@@ -246,10 +189,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/11/03/main函数的参数/">main函数的参数</a>
             
-            
-            <a class="next" rel="next" href="/2019/10/20/static/">static</a>
+            <a class="next" rel="next" href="/2019/10/20/typedef/">typedef</a>
             
         </section>
 
