@@ -200,6 +200,10 @@
 <p>（2）void *可以赋值给任何类型的变量 但是需要进行强制转换：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">void* p = NULL;</span><br><span class="line">int a = 1;</span><br><span class="line">int* pa = &amp;a;</span><br><span class="line">double b = 2.0;</span><br><span class="line"></span><br><span class="line">p = pa;</span><br><span class="line">printf(&quot;%d\n&quot;, * (int *)p);         //输出1</span><br><span class="line">p = &amp;b;</span><br><span class="line">printf(&quot;%f\n&quot;, *(double*)p);        //输出2.000000</span><br></pre></td></tr></table></figure>
 
+<p>注意：void* p;<br>p++;与p+=1;编译器都会报错</p>
+<h1 id="void-应用"><a href="#void-应用" class="headerlink" title="void* 应用"></a>void* 应用</h1><p>典型的如内存操作函数 memcpy 和 memset 的函数原型分别为：<br>void * memcpy(void *dest, const void *src, size_t len);<br>void * memset ( void * buffer, int c, size_t num );  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//示例：memset 接受任意类型指针  </span><br><span class="line">int intarray[100];  </span><br><span class="line">memset ( intarray, 0, 100*sizeof(int) ); //将 intarray 清 0  </span><br><span class="line">//示例：memcpy 接受任意类型指针  </span><br><span class="line">int intarray1[100], intarray2[100];  </span><br><span class="line">memcpy ( intarray1, intarray2, 100*sizeof(int) ); //将 intarray2 拷贝给 intarray1</span><br></pre></td></tr></table></figure>
+
 
         </div>
 
