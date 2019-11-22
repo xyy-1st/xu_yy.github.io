@@ -7,7 +7,7 @@
 
 
 
-<title>解线性方程组 | Hexo</title>
+<title>变长数组 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">解线性方程组</h1>
+            <h1 class="post-title">变长数组</h1>
             
                 <div class="post-meta">
                     
@@ -178,35 +178,27 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十一月 21, 2019&nbsp;&nbsp;12:40:33</a>
+                        Date: <a href="#">十一月 22, 2019&nbsp;&nbsp;23:15:22</a>
                         </span>
                     
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <h1 id="LAPACKE-gesv-？是什么"><a href="#LAPACKE-gesv-？是什么" class="headerlink" title="LAPACKE_?gesv   ？是什么"></a>LAPACKE_?gesv   ？是什么</h1><p>？表示数据是什么类型  </p>
-<ul>
-<li>s 单精度实数</li>
-<li>d 双精度实数</li>
-<li>c 单精度复数</li>
-<li>双精度复数<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1>函数定义为：<br>lapack_int LAPACKE_sgesv (int matrix_layout , lapack_int n , lapack_int nrhs , float *a , lapack_int lda , lapack_int * ipiv , float * b , lapack_int ldb );<br>得到的结果是:<br>求出满足AX=B的X矩阵<h1 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h1></li>
-</ul>
-<ol>
-<li>int matrix_layout 表示数据的存储方式<br>行主布局:CblasRowMajor（c语言是行主布局）<br>列主布局:CblasColMajor  </li>
-<li>lapack_int n 线性方程的个数，即矩阵A的阶数（A的行数）</li>
-<li>lapack_int nrhs 矩阵B的列数</li>
-<li>float *a 矩阵A</li>
-<li>lapack_int lda 数组a的首维数;lda≥max(1, n)</li>
-<li>lapack_int * ipiv 矩阵X</li>
-<li>float *b 矩阵B</li>
-<li>lapack_int ldb 数组b的首维数;列主布局ldb≥max(1,n)，行主布局ldb≥nrhs<br><font color="red">注意</font>:调用完这个函数之后，矩阵A,B会被覆盖，所以需要先用memcpy函数备份</li>
-</ol>
-<h1 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h1><ol>
-<li>当B是单位矩阵时，可以得到的就是A的逆矩阵</li>
-</ol>
+            <p>定义数组的时候必须指定数组长度:<br>如 int a[10];<br>但 很多时候数组的长度是不知道 怎么办呢</p>
+<h1 id="动态申请"><a href="#动态申请" class="headerlink" title="动态申请"></a>动态申请</h1><p>int len = 50;<br>int* a = (int<em>)malloc(len * sizeof(int));<br>访问的时候可以用数组的写法 a[0] 代表第一个数据 也可以访问</em>(a+0)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">int i;</span><br><span class="line">	int len = 50;</span><br><span class="line">	int* a = (int*)malloc(len * sizeof(int));</span><br><span class="line">	for (i = 0; i &lt; 50; ++i)</span><br><span class="line">		*(a+i) = i;</span><br><span class="line">		//a[i] = i;</span><br><span class="line">	for (i = 0; i &lt; 50; ++i)</span><br><span class="line">		printf(&quot;%d &quot;, *(a + i));</span><br><span class="line">		//printf(&quot;%d &quot;, a[i]);</span><br></pre></td></tr></table></figure>
+
+<h1 id="C99-C99中的变长数组"><a href="#C99-C99中的变长数组" class="headerlink" title="C99  C99中的变长数组"></a>C99  C99中的变长数组</h1><p><font color="red">不过微软不支持 导致C99普及困难，为了代码的通用性 不建议这样写 这里只是提一下</font><br>int n = 100;<br>int a[n];</p>
 
         </div>
 
@@ -221,7 +213,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/11/21/解线性方程组/">http://yoursite.com/2019/11/21/解线性方程组/</a></span>
+                        <span><a href="http://yoursite.com/2019/11/22/变长数组/">http://yoursite.com/2019/11/22/变长数组/</a></span>
                     </p>
                 
                 
@@ -244,10 +236,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/mkl/"># mkl</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -258,10 +246,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/11/22/变长数组/">变长数组</a>
             
-            
-            <a class="next" rel="next" href="/2019/11/21/向量相加/">向量相加</a>
+            <a class="next" rel="next" href="/2019/11/21/解线性方程组/">解线性方程组</a>
             
         </section>
 
