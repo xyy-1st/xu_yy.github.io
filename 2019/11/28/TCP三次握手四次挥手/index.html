@@ -7,7 +7,7 @@
 
 
 
-<title>变长数组 | Hexo</title>
+<title>TCP三次握手四次挥手 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">变长数组</h1>
+            <h1 class="post-title">TCP三次握手四次挥手</h1>
             
                 <div class="post-meta">
                     
@@ -178,14 +178,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十一月 22, 2019&nbsp;&nbsp;23:15:22</a>
+                        Date: <a href="#">十一月 28, 2019&nbsp;&nbsp;22:08:32</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/网络编程/">网络编程</a>
                             
                         </span>
                     
@@ -194,11 +194,55 @@
         </header>
 
         <div class="post-content">
-            <p>定义数组的时候必须指定数组长度:<br>如 int a[10];<br>但 很多时候数组的长度是不知道 怎么办呢</p>
-<h1 id="动态申请"><a href="#动态申请" class="headerlink" title="动态申请"></a>动态申请</h1><p>int len = 50;<br>int* a = (int<em>)malloc(len * sizeof(int));<br>int</em> b = (int<em>)calloc(len, sizeof(int));<br>malloc与calloc的区别在于calloc多做了一步初始化为0<br>malloc + memset 也可以达到calloc的效果 效率差不多<br>貌似比较多的人用malloc 因为一般都是自己初始化数据的 可以省去calloc自动初始化为0的时间<br>访问的时候可以用数组的写法 a[0] 代表第一个数据 也可以访问</em>(a+0)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int i;</span><br><span class="line">int len = 50;</span><br><span class="line">int* a = (int*)malloc(len * sizeof(int));</span><br><span class="line">for (i = 0; i &lt; 50; ++i)</span><br><span class="line">	*(a+i) = i;</span><br><span class="line">	//a[i] = i;</span><br><span class="line">for (i = 0; i &lt; 50; ++i)</span><br><span class="line">	printf(&quot;%d &quot;, *(a + i));</span><br><span class="line">	//printf(&quot;%d &quot;, a[i]);</span><br><span class="line">free(a);</span><br></pre></td></tr></table></figure>
-
-<h1 id="C99-C99中的变长数组"><a href="#C99-C99中的变长数组" class="headerlink" title="C99  C99中的变长数组"></a>C99  C99中的变长数组</h1><p><font color="red">不过微软不支持 导致C99普及困难，为了代码的通用性 不建议这样写 这里只是提一下</font><br>int n = 100;<br>int a[n];</p>
+            <h1 id="传输控制协议TCP"><a href="#传输控制协议TCP" class="headerlink" title="传输控制协议TCP"></a>传输控制协议TCP</h1><ol>
+<li>TCP是面向连接的运输层协议<br>应用程序在使用TCP协议之前，必须先建立TCP连接，在传输数据完毕后，必须释放已经建立的TCP连接</li>
+<li>每一条TCP连接只能有两个端点，每一天TCP连接只能是点对点的（一对一）</li>
+<li>TCP提供可靠交付的服务<br>通过TCP连接传送的数据，无差错，不丢失，不重复，并且按序到达</li>
+<li>TCP提供全双工通信<br>全双工通信：通信的双方可以同时发送和接收信息的信息交互方式</li>
+<li>面向字节流<br>理解：就是把数据排序，每次传送一部分<h1 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h1><img src="/images/TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B.jpg" alt="tcp三次握手">  <h2 id="部分TCP报文段的格式解释"><a href="#部分TCP报文段的格式解释" class="headerlink" title="部分TCP报文段的格式解释"></a>部分TCP报文段的格式解释</h2></li>
+</ol>
+<ul>
+<li>序号seq（占4字节）<br>本报文段所发送的数据的第一个字节的序号  </li>
+<li>确定号ack（占4字节）<br>期望收到对方下一个报文段的第一个数据字节的序号<br>同时表明到序号N-1为止的所以数据都已经真确收到  </li>
+<li>同步SYN<br>当SYN = 1而ACK = 0 时，表明这是一个连接请求报文段<br>若对方同意建立连接 则响应的报文段中SYN = 1 和 ACK = 1</li>
+<li>确定ACK<br>仅当ACK = 1 时确定号字段才有效<br>ACK = 0 时 确定号无效<br>TCP规定，在建立连接后所以传送的报文段都必须把ACK置1  <h2 id="状态"><a href="#状态" class="headerlink" title="状态"></a>状态</h2></li>
+<li>CLOSED关闭状态 </li>
+<li>LISTEN收听状态</li>
+<li>SYN-SENT同步已发送状态</li>
+<li>SYN-RCVD同步收到状态</li>
+<li>ESTAB-LISHED已建立连接状态<h2 id="理解"><a href="#理解" class="headerlink" title="理解:"></a><font color="red">理解:</font></h2></li>
+</ul>
+<ol>
+<li>客户发送 SYN = 1 （ACK = 0） 表示请求建立连接 ，seq = x 本报文段的序号  （不能携带数据，但消耗一个序号）</li>
+<li>服务器发送 SYN = 1 ACK = 1 表示同意建立连接，ack = x + 1 表示x已经收到了 ，seq = y本报文段的序号  （不能携带数据，但消耗一个序号）</li>
+<li>最后客户还要发送确定 ACK = 1 使ack有效 ack = y + 1表示y已经收到了 seq = x + 1 本报文段的序号   （可以携带数据，如果不携带数据则不消耗序号）<br><font color="red">为什么客户最后还要发送一次确定？ </font><br>主要是为了防止已失效的连接请求报文突然又传到服务器<br>正常情况：客户发送连接请求，丢了，客户重新发连接请求，然后正常通信<br>异常情况：客户发送连接请求，由于网络原来被滞留，客户重新发送连接请求，然后正常通信。最后被滞留连接请求又到了服务器，又会建立连接。</li>
+</ol>
+<h1 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h1><p><img src="/images/TCP%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B.jpg" alt="tcp四次挥手">  </p>
+<h2 id="部分TCP报文段的格式解释-1"><a href="#部分TCP报文段的格式解释-1" class="headerlink" title="部分TCP报文段的格式解释"></a>部分TCP报文段的格式解释</h2><ul>
+<li>序号seq（占4字节）<br>本报文段所发送的数据的第一个字节的序号  </li>
+<li>确定号ack（占4字节）<br>期望收到对方下一个报文段的第一个数据字节的序号<br>同时表明到序号N-1为止的所以数据都已经真确收到  </li>
+<li>中止FIN<br>当FIN = 1时，表明次报文的发送方的疏解已发送完毕，并要求释放运输连接</li>
+<li>确定ACK<br>仅当ACK = 1 时确定号字段才有效<br>ACK = 0 时 确定号无效<br>TCP规定，在建立连接后所以传送的报文段都必须把ACK置1  <h2 id="状态-1"><a href="#状态-1" class="headerlink" title="状态"></a>状态</h2></li>
+<li>CLOSED关闭状态 </li>
+<li>FIN-WAIT-1终止等待1状态</li>
+<li>FIN-WAIT-2终止等待2状态</li>
+<li>TIME-WAIT时间等待状态</li>
+<li>CLOSE-WAIT关闭等待状态</li>
+<li>LAST-ACK最后确认状态</li>
+<li>ESTAB-LISHED已建立连接状态<h2 id="理解-1"><a href="#理解-1" class="headerlink" title="理解:"></a><font color="red">理解:</font></h2></li>
+</ul>
+<ol>
+<li><p>客户（服务器也可以）发送 FIN = 1 表示客户数据发完了 请求释放连接 ，seq = u 本报文段的序号  （不能携带数据，但消耗一个序号）</p>
+</li>
+<li><p>服务器发送  ACK = 1 ack = u + 1 表示u已经收到了 ，seq = v本报文段的序号  </p>
+<p><font color="red">注意：此时属于半关闭(half-close)状态，客户没有数据要发了，但服务器如果有数据要发，客户仍要接收</font></p>
+</li>
+<li><p>服务器数据发完之后 发送 FIN = 1 表示客户数据发完了 请求释放连接 ACK = 1 ack = u + 1 （和前面一样，因为客户没有在发数据过来） seq = w 本报文段的序w号   （不能携带数据，但消耗一个序号）</p>
+</li>
+<li><p>客户发送  ACK = 1 ack = w + 1 表示w已经收到了 ，seq = u + 1本报文段的序号   </p>
+</li>
+</ol>
+<p><font color="red">为什么有TIME-WAIT时间等待状态 </font><br>保证最后发送的ACK报文段能够到达服务器。如果丢了，服务器超时重传报文，客户收到后重新发送ACK报文，重新进入TIME-WAIT时间等待状态</p>
 
         </div>
 
@@ -213,7 +257,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/11/22/变长数组/">http://yoursite.com/2019/11/22/变长数组/</a></span>
+                        <span><a href="http://yoursite.com/2019/11/28/TCP三次握手四次挥手/">http://yoursite.com/2019/11/28/TCP三次握手四次挥手/</a></span>
                     </p>
                 
                 
@@ -246,10 +290,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/11/28/TCP三次握手四次挥手/">TCP三次握手四次挥手</a>
             
-            
-            <a class="next" rel="next" href="/2019/11/21/解线性方程组/">解线性方程组</a>
+            <a class="next" rel="next" href="/2019/11/22/变长数组/">变长数组</a>
             
         </section>
 
