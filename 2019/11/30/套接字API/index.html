@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>套接字API | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">套接字API</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 30, 2019&nbsp;&nbsp;13:34:19</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/网络编程/">网络编程</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="什么是套接字"><a href="#什么是套接字" class="headerlink" title="什么是套接字"></a>什么是套接字</h1><ol>
+<li>套接字是一个主机本地应用程序所创建的, 为操作系统所控制的接口 (“门”) .</li>
+<li>应用进程通过这个接口,使用传输层提供的服务, 跨网络发送(/接收)消息到(/从)其他应用进程。</li>
+<li>Client/server模式的通信接口——套接字接口.</li>
+</ol>
+<h1 id="什么是描述符"><a href="#什么是描述符" class="headerlink" title="什么是描述符"></a>什么是描述符</h1><p>文件描述符</p>
+<ul>
+<li>每个进程有一个单独的文件描述符表(数组指针)</li>
+<li>这些指针指向内部的数据结构(结构体)。</li>
+<li>当进程调用open打开一个文件后，系统将一个指针（指向该文件的内部数据结构）写入文件描述符表，并将这个表的下表返回给调用者</li>
+<li>这个返回的下表就是描述符  </li>
+</ul>
+<p>套接字描述符同理</p>
+<h1 id="类属地址结构"><a href="#类属地址结构" class="headerlink" title="类属地址结构"></a>类属地址结构</h1><p>套接字的普通C定义结构</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr &#123;</span><br><span class="line">    u_char    sa_len;           //1B</span><br><span class="line">    u_short   sa_family；       //2B    地址族</span><br><span class="line">    char   sa_data[14];         //14B   ip+端口</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>TCP/IP的地址定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in </span><br><span class="line">&#123; </span><br><span class="line">    u_char    sin_len;              //1B  </span><br><span class="line">    u_short   sin_family；          //2B  tcp/ip地址族AF_INET</span><br><span class="line">    u_short    sin_port；           //2B  端口</span><br><span class="line">    struct in_addr   sin_addr;      //4B  ip地址</span><br><span class="line">    char   sin_zero[8];             //8B  不使用</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这两个结构占据的内存大小一样，顺序也相同，可以相互转换<br>只有使用TCP/IP协议的应用程序可以使用sockaddr_in结构</p>
+<h1 id="使用TCP的客户和服务器套接字函数调用序列"><a href="#使用TCP的客户和服务器套接字函数调用序列" class="headerlink" title="使用TCP的客户和服务器套接字函数调用序列"></a>使用TCP的客户和服务器套接字函数调用序列</h1><p><img src="/images/TCP%E7%9A%84%E5%AE%A2%E6%88%B7%E5%92%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%A5%97%E6%8E%A5%E5%AD%97%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8%E5%BA%8F%E5%88%97.png" alt="TCP的客户和服务器套接字函数调用序列">   </p>
+<h1 id="套接字API中的主要系统调用"><a href="#套接字API中的主要系统调用" class="headerlink" title="套接字API中的主要系统调用"></a>套接字API中的主要系统调用</h1><h2 id="int-socket-int-domain-int-type-int-protocol"><a href="#int-socket-int-domain-int-type-int-protocol" class="headerlink" title="int socket( int domain, int type, int protocol)"></a>int socket( int domain, int type, int protocol)</h2><ol>
+<li>功能：<br>创建一个新的套接字</li>
+<li>返回值：<br>套接字描述符  </li>
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>domain：域类型，指明使用的协议栈<br>如TCP/IP使用的是 PF_INET      </li>
+<li>type: 指明需要的服务类型,<br>如SOCK_DGRAM: 数据报服务，UDP协议<br>SOCK_STREAM: 流服务，TCP协议    </li>
+<li>protocol:协议号，一般都取0（因为已经指定了服务类型） </li>
+</ul>
+<ol start="4">
+<li>实例：创建一个用于TCP通信的套接字。<br>s=socket(PF_INET,SOCK_STREAM,0)</li>
+</ol>
+<h2 id="int-bind-int-sockfd-struct-sockaddr-my-addr-int-addrlen"><a href="#int-bind-int-sockfd-struct-sockaddr-my-addr-int-addrlen" class="headerlink" title="int bind(int sockfd,struct sockaddr * my_addr,int addrlen)"></a>int bind(int sockfd,struct sockaddr * my_addr,int addrlen)</h2><ol>
+<li>功能：为套接字指明一个本地端点地址  </li>
+</ol>
+<ul>
+<li>TCP/IP协议使用sockaddr_in结构，包含IP地址和端口号  </li>
+<li>服务器使用它来指明熟知的端口号，然后等待连接</li>
+</ul>
+<ol start="2">
+<li>参数说明：  </li>
+</ol>
+<ul>
+<li>Sockfd:套接字描述符，指明创建连接的套接字</li>
+<li>my_addr:本地地址，IP地址和端口号</li>
+<li>addrlen :地址长度</li>
+</ul>
+<ol start="3">
+<li>返回值：</li>
+</ol>
+<ul>
+<li>0表示成功，</li>
+<li>-1表示不成功</li>
+</ul>
+<ol start="4">
+<li>举例：<br>bind(sockfd, (struct sockaddr *)&amp;address, sizeof(address)); </li>
+</ol>
+<h2 id="int-listen-int-sockfd-int-input-queue-size"><a href="#int-listen-int-sockfd-int-input-queue-size" class="headerlink" title="int listen(int sockfd,int input_queue_size)"></a>int listen(int sockfd,int input_queue_size)</h2><ol>
+<li>功能：面向连接的套接字使用它将一个套接字置为被动模式，并准备接收传入连接。用于服务器，指明某个套接字连接是被动的</li>
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>Sockfd:套接字描述符，指明创建连接的套接字</li>
+<li>input_queue_size:该套接字使用的队列长度,指定在请求队列中允许的最大请求数 </li>
+</ul>
+<ol start="3">
+<li>返回值：</li>
+</ol>
+<ul>
+<li>成功返回0 </li>
+<li>失败返回-1</li>
+</ul>
+<ol start="4">
+<li>举例：请将套接字设为被动模式，并允许最大请求数为20。<br>listen(sockfd,20)</li>
+</ol>
+<h2 id="int-accept-int-sockfd-struct-sockaddr-addr-int-addrlen"><a href="#int-accept-int-sockfd-struct-sockaddr-addr-int-addrlen" class="headerlink" title="int accept(int sockfd,struct sockaddr *addr,int *addrlen);"></a>int accept(int sockfd,struct sockaddr *addr,int *addrlen);</h2><ol>
+<li>功能：获取传入连接请求，返回新的连接的套接字描述符。</li>
+</ol>
+<ul>
+<li>为每个新的连接请求创建了一个新的套接字，服务器只对新的连接使用该套接字，原来的监听套接字接受其他的连接请求。</li>
+<li>新的连接上传输数据使用新的套接字，使用完毕，服务器将关闭这个套接字。</li>
+</ul>
+<ol start="2">
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>Sockfd:套接字描述符，指明正在监听的套接字</li>
+<li>addr:提出连接请求的主机地址</li>
+<li>addrlen:地址长度</li>
+</ul>
+<ol start="3">
+<li>举例：<br>new_sockfd = accept(sockfd, (struct sockaddr *)&amp;address, sizeof(address)); </li>
+</ol>
+<h2 id="int-connect-int-sockfd-struct-sockaddr-server-addr-int-sockaddr-len"><a href="#int-connect-int-sockfd-struct-sockaddr-server-addr-int-sockaddr-len" class="headerlink" title="int connect(int sockfd,struct sockaddr *server_addr,int sockaddr_len)"></a>int connect(int sockfd,struct sockaddr *server_addr,int sockaddr_len)</h2><ol>
+<li>功能： 同远程服务器建立主动连接</li>
+<li>返回值：</li>
+</ol>
+<ul>
+<li>成功时返回0</li>
+<li>失败返回－1</li>
+</ul>
+<ol start="3">
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>Sockfd:套接字描述符，指明创建连接的套接字</li>
+<li>Server_addr:指明远程端点：IP地址和端口号</li>
+<li>sockaddr_len :地址长度</li>
+</ul>
+<ol start="4">
+<li>举例:<br>connect(s,remaddr,remaddrlen)</li>
+</ol>
+<h2 id="int-send-int-sockfd-const-void-data-int-data-len-unsigned-int-flags"><a href="#int-send-int-sockfd-const-void-data-int-data-len-unsigned-int-flags" class="headerlink" title="int send(int sockfd, const void * data, int data_len, unsigned int flags)"></a>int send(int sockfd, const void * data, int data_len, unsigned int flags)</h2><ol>
+<li>功能：</li>
+</ol>
+<ul>
+<li>在TCP连接上发送数据,返回成功传送数据的长度，出错时返回－1。</li>
+<li>send会将外发数据复制到OS内核中，也可以使用send发送面向连接的UDP报文。</li>
+</ul>
+<ol start="2">
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>sockfd:套接字描述符</li>
+<li>data:指向要发送数据的指针</li>
+<li>data_len:数据长度</li>
+<li>flags:通常为0（其他情况：如MSG_OOB处理带外数据，MSG_DONTROUTE不使用路由）</li>
+</ul>
+<ol start="3">
+<li>举例：<br>send(s,req,strlen(req),0);</li>
+<li>可以用write替代</li>
+</ol>
+<ul>
+<li>ssize_t write(int fd,const void *buf,size_t nbytes)  </li>
+<li>fd描述符</li>
+<li>buf指向要发送数据的指针</li>
+<li>nbytes要发送数据长度</li>
+<li>返回实际写入长度，返回-1表示write调用中出现了错误</li>
+</ul>
+<h2 id="int-sendto-int-sockfd-const-void-data-int-data-len-unsigned-int-flags-struct-sockaddr-remaddr-int-remaddr-len）"><a href="#int-sendto-int-sockfd-const-void-data-int-data-len-unsigned-int-flags-struct-sockaddr-remaddr-int-remaddr-len）" class="headerlink" title="int sendto(int sockfd, const void * data, int data_len, unsigned int flags, struct sockaddr *remaddr,int remaddr_len）"></a>int sendto(int sockfd, const void * data, int data_len, unsigned int flags, struct sockaddr *remaddr,int remaddr_len）</h2><ol>
+<li>功能：基于UDP发送数据报，返回实际发送的数据长度，出错时返回－1</li>
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>sockfd:套接字描述符</li>
+<li>data:指向要发送数据的指针</li>
+<li>data_len:数据长度</li>
+<li>flags:通常为0</li>
+<li>remaddr:远端地址：IP地址和端口号</li>
+<li>remaddr_len :地址长度</li>
+</ul>
+<ol start="3">
+<li>举例：<br>sendto(sockfd,buf,sizeof(buf),0,(struct sockaddr *)&amp;address, sizeof(address)); </li>
+</ol>
+<h2 id="int-recv-int-sockfd-void-buf-int-buf-len-unsigned-int-flags"><a href="#int-recv-int-sockfd-void-buf-int-buf-len-unsigned-int-flags" class="headerlink" title="int recv(int sockfd, void *buf, int buf_len,unsigned int flags);"></a>int recv(int sockfd, void *buf, int buf_len,unsigned int flags);</h2><ol>
+<li>功能：</li>
+</ol>
+<ul>
+<li>从TCP接收数据,返回实际接收的数据长度，网络中断0，出错时返回－1。</li>
+<li>服务器使用其接收客户请求，客户使用它接受服务器的应答。如果没有数据，将阻塞。</li>
+<li>如果TCP收到的数据大于(/小于)缓存的大小，只抽出能够填满缓存的足够数据(/抽出所有数据并返回它实际接收的字节数)。</li>
+<li>也可以使用recv接收面向连接的UDP的报文，若缓存不能装下整个报文，填满缓存后剩下的数据将被丢弃。</li>
+</ul>
+<ol start="2">
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>Sockfd:套接字描述符</li>
+<li>Buf:指向内存块的指针</li>
+<li>Buf_len:内存块大小，以字节为单位</li>
+<li>flags:一般为0（MSG_WAITALL接收到指定长度数据时才返回）</li>
+</ul>
+<ol start="4">
+<li>举例：<br>recv(sockfd,buf,8192,0)</li>
+<li>可以用read替代</li>
+</ol>
+<ul>
+<li>ssize_t read(int fd,void *buf,size_t nbyte) </li>
+<li>fd描述符</li>
+<li>buf指向内存块的指针</li>
+<li>nbyte长度</li>
+<li>返回实际读入的字节数 ，如果返回-1，表示read调用出现了错误</li>
+</ul>
+<h2 id="int-recvfrom-int-sockfd-void-buf-int-buf-len-unsigned-int-flags-struct-sockaddr-from-int-fromlen"><a href="#int-recvfrom-int-sockfd-void-buf-int-buf-len-unsigned-int-flags-struct-sockaddr-from-int-fromlen" class="headerlink" title="int recvfrom(int sockfd, void *buf, int buf_len,unsigned int flags,struct sockaddr *from,int fromlen);"></a>int recvfrom(int sockfd, void *buf, int buf_len,unsigned int flags,struct sockaddr *from,int fromlen);</h2><ol>
+<li>功能：从UDP接收数据，返回实际接收的字节数，失败时返回－1</li>
+<li>参数说明：</li>
+</ol>
+<ul>
+<li>Sockfd:套接字描述符</li>
+<li>buf:指向内存块的指针</li>
+<li>buf_len:内存块大小，以字节为单位</li>
+<li>flags:一般为0</li>
+<li>from:远端的地址，IP地址和端口号（用来保存）</li>
+<li>fromlen:远端地址长度</li>
+</ul>
+<ol start="3">
+<li>举例：<br>recvfrom(sockfd,buf,8192,0, ,(struct sockaddr *)&amp;address, sizeof(address)); </li>
+</ol>
+<h2 id="close-int-sockfd"><a href="#close-int-sockfd" class="headerlink" title="close(int sockfd);"></a>close(int sockfd);</h2><ol>
+<li>功能：</li>
+</ol>
+<ul>
+<li>撤销套接字.</li>
+<li>如果只有一个进程使用，立即终止连接并撤销该套接字，如果多个进程共享该套接字，将引用数减一，如果引用数降到零，则撤销它。</li>
+</ul>
+<ol start="2">
+<li>参数说明：<br>Sockfd:套接字描述符</li>
+<li>举例：<br>close(socket_descriptor)</li>
+</ol>
+<h2 id="int-shutdown-int-sockfd-int-howto"><a href="#int-shutdown-int-sockfd-int-howto" class="headerlink" title="int shutdown(int sockfd,int howto);"></a>int shutdown(int sockfd,int howto);</h2><p>参数说明：<br>sockfd套接字<br>howto位下列值</p>
+<ul>
+<li>SHUT_RD：值为0，关闭连接的读这一半。</li>
+<li>SHUT_WR：值为1，关闭连接的写这一半。</li>
+<li>SHUT_RDWR：值为2，连接的读和写都关闭</li>
+</ul>
+<h1 id="网络字节序"><a href="#网络字节序" class="headerlink" title="网络字节序"></a>网络字节序</h1><ul>
+<li>网络字节顺序：大端</li>
+<li>本地主机字节顺序：大端或小端</li>
+<li>有些套接字例程要求参数按照网络字节顺序存储。如sockaddr_in  </li>
+</ul>
+<p>转换函数：</p>
+<ul>
+<li>htons:将一个短整数（short 16位）从本地字节顺序转换为网络字节顺序；</li>
+<li>ntohs:将一个短整数从网络字节顺序转换为本地字节顺序；</li>
+<li>htonl：将一个长整数（long 32位）从本地字节顺序转换为网络字节顺序；</li>
+<li>ntohl：将一个长整数从网络字节顺序转换为本地字节顺序；</li>
+</ul>
+<p>在使用小端类型的系统中 这些函数会把字节序进行转换<br>在使用大端类型的系统中 这些函数会定义成空宏</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/11/30/套接字API/">http://yoursite.com/2019/11/30/套接字API/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/11/30/客户端设计/">客户端设计</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/29/并发-进程/">并发-进程</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

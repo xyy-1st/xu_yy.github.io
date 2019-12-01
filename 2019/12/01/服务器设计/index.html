@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>服务器设计 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">服务器设计</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 1, 2019&nbsp;&nbsp;13:08:48</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/网络编程/">网络编程</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="无连接和面向连接"><a href="#无连接和面向连接" class="headerlink" title="无连接和面向连接"></a>无连接和面向连接</h1><ul>
+<li>使用TCP的服务器是面向连接的服务器</li>
+<li>使用UDP的服务器是无连接的服务器</li>
+</ul>
+<p>面向连接的服务</p>
+<ol>
+<li>优点：<br>易于编程<br>自动处理分组丢失，分组失序<br>自动验证数据差错，处理连接状态  </li>
+<li>缺点：<br>对每个连接都有一个单独的套接字，耗费更多的资源<br>在空闲的连接上不发送任何分组<br>始终运行的服务器会因为客户的崩溃，导致无用套接字的过多而耗尽资源，终止运行</li>
+</ol>
+<p>无连接的服务器</p>
+<ol>
+<li>优点：没有资源耗尽问题</li>
+<li>缺陷：需要自己完成可靠通信问题  </li>
+</ol>
+<h1 id="无状态和有状态"><a href="#无状态和有状态" class="headerlink" title="无状态和有状态"></a>无状态和有状态</h1><p>状态化的判断是指两个来自相同发起者的请求在服务器端是否具备上下文关系。</p>
+<ul>
+<li>无状态服务器：没有保留任何状态信息（没关系）</li>
+<li>状态服务器：维护状态信息的服务器（有关系）</li>
+</ul>
+<h1 id="并发和循环"><a href="#并发和循环" class="headerlink" title="并发和循环"></a>并发和循环</h1><ul>
+<li>循环服务器：一个时刻只处理一个请求</li>
+<li>并发服务器：一个时刻可以处理多请求</li>
+<li>循环服务器容易构建，但是性能差；并发服务器难以构建和设计，但是性能</li>
+</ul>
+<h1 id="循环服务器"><a href="#循环服务器" class="headerlink" title="循环服务器"></a>循环服务器</h1><ul>
+<li>循环服务器一次处理一个请求。如果服务器正在处理一个请求，新到的请求则需要排队等待</li>
+<li>观测响应时间：客户发送请求到服务器响应之间的全部时延。</li>
+<li>请求处理时间：服务器处理单个孤立的请求所花费的时间。</li>
+<li>当服务器有一个队列的请求需要处理时，观测响应时间&gt;&gt;请求处理时间  </li>
+</ul>
+<p>循环服务器是否够用：如果一个服务器设计处理K个客户，每个客户每秒发送R个请求，服务器请求处理时间必须小于每请求1/KR秒。否则请求队列将溢出。这时设计者必须考虑并发实现</p>
+<h2 id="面向连接的循环服务器算法"><a href="#面向连接的循环服务器算法" class="headerlink" title="面向连接的循环服务器算法"></a>面向连接的循环服务器算法</h2><ol>
+<li>创建套接字（socket）并将其绑定（bind）到它所提供服务的熟知端口上；</li>
+<li>将该端口设置为被动模式（listen），使其准备为服务器所用；</li>
+<li>从该套接字上接收下一个连接请求（accept），获得该连接的新的套接字；</li>
+<li>重复地读取来自客户的请求，构造响应，按照应用协议向客户发回响应；（send/recv）</li>
+<li>当某个特定客户完成交互时，关闭连接（close），并返回步骤3以接受新的连接。</li>
+</ol>
+<h2 id="无连接的循环服务器算法"><a href="#无连接的循环服务器算法" class="headerlink" title="无连接的循环服务器算法"></a>无连接的循环服务器算法</h2><ol>
+<li>创建套接字（socket）并将其绑定（bind）到它所提供服务的熟知端口上；</li>
+<li>重复地读取来自客户的请求，构造响应，按照应用协议向客户发回响应；（sendto/recvfrom）</li>
+</ol>
+<h1 id="并发服务器的算法"><a href="#并发服务器的算法" class="headerlink" title="并发服务器的算法"></a>并发服务器的算法</h1><p>在以下场合并发将会缩短反应时间，给多个客户提供快速响应。</p>
+<ul>
+<li>构造要求有相当的I/O时间的响应<br>可以部分重叠地使用处理器和外设</li>
+<li>各个请求所要求的处理时间变化很大<br>时间分片允许单个处理器处理那些只要求少量处理的请求尽快完成</li>
+<li>服务器运行在具有多个处理器的计算机上<br>不同的处理器处理不同的请求</li>
+</ul>
+<h2 id="并发的无连接的服务器的算法"><a href="#并发的无连接的服务器的算法" class="headerlink" title="并发的无连接的服务器的算法"></a>并发的无连接的服务器的算法</h2><ul>
+<li>主1、创建套接字并将其绑定到所提供服务的熟知地址上。让该套接字保持为未连接的</li>
+<li>主2、反复调用recvfrom接收来自客户的下一个请求，创建一个新的从线程来处理响应</li>
+<li>从1、从来自主进程的特定请求以及到该套接字的访问开始</li>
+<li>从2、根据应用协议构造应答，并用sendto将该应答发回给客户</li>
+<li>从3、退出（即：从线程处理完一个请求后就终止）</li>
+</ul>
+<p>因为创建进程或线程是昂贵的，所以只有很少的无连接服务器采用并发实现。</p>
+<h2 id="并发的面向连接服务器算法"><a href="#并发的面向连接服务器算法" class="headerlink" title="并发的面向连接服务器算法"></a>并发的面向连接服务器算法</h2><ul>
+<li>主1、创建套接字并将其绑定到所提供服务的熟知地址上。让该套接字保持为面向连接</li>
+<li>主2、将该端口设置为被动模式</li>
+<li>主3、反复调用accept以便接收来自客户的下一个连接请求，并创建新的从线程或者进程来处理响应</li>
+<li>从1、由主线程传递来的连接请求开始</li>
+<li>从2、用该连接与客户进行交互；读取请求并发回响应</li>
+<li>从3、关闭连接并退出</li>
+</ul>
+<h2 id="并发性的实现"><a href="#并发性的实现" class="headerlink" title="并发性的实现"></a>并发性的实现</h2><ul>
+<li>服务器创建多个进程，每个进程都有一个执行线程</li>
+<li>服务器在一个进程中创建多个执行线程</li>
+</ul>
+<h2 id="使用单线程获得表面上的并发性"><a href="#使用单线程获得表面上的并发性" class="headerlink" title="使用单线程获得表面上的并发性"></a>使用单线程获得表面上的并发性</h2><ol>
+<li>创建套接字并将其绑定到这个服务的熟知端口上，将该套接字加到一个表中，该表中的项是可以进行I/O的描述符。</li>
+<li>使用select在已经有的套接字上等待I/O</li>
+<li>如果最初的套接字准备就绪，使用accept获得下一个连接，并将这个新的套接字加入到表中，该表中的项是可以进行I/O的描述符。</li>
+<li>如果最初的套接字以外的套接字就绪，就使用recv或read获得下一个请求，构造响应，用send或者write将响应发回给客户</li>
+<li>继续按照以上的步骤2进行处理</li>
+</ol>
+<h1 id="各个服务器使用的场合"><a href="#各个服务器使用的场合" class="headerlink" title="各个服务器使用的场合"></a>各个服务器使用的场合</h1><ol>
+<li>循环的和并发的：<br>如果循环方案产生的响应时间对应用来说足够，就可以使用循环；否则需要并发</li>
+<li>真正的和表面上的并发性：  </li>
+</ol>
+<ul>
+<li>创建线程或切换环境的开销大，服务器需要在多个连接之间共享或者交换数据，用单线程；</li>
+<li>使用线程开销不大，服务器需要在多个连接之间共享或者交换数据，用多线程；</li>
+<li>每个进程可以孤立运行或者要得到最大并发性，使用多进程</li>
+</ul>
+<ol start="3">
+<li>面向连接的和无连接的：<br>当应用协议处理了可靠性问题，或者应用在局域网环境内时，使用无连接的传输。否则使用有连接传输。</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/01/服务器设计/">http://yoursite.com/2019/12/01/服务器设计/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/01/TCP客户端举例/">TCP客户端举例</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/30/客户端设计/">客户端设计</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

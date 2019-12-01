@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>客户端设计 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">客户端设计</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十一月 30, 2019&nbsp;&nbsp;17:04:56</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/网络编程/">网络编程</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="TCP客户算法"><a href="#TCP客户算法" class="headerlink" title="TCP客户算法"></a>TCP客户算法</h1><ol>
+<li>找到期望与之通信的服务器IP地址和协议端口号</li>
+<li>分配套接字</li>
+<li>指明此连接需要在本地机器中的、任意的、未使用的协议端口，并允许TCP选择一个这样的端口</li>
+<li>将这个套接字连接到服务器</li>
+<li>使用应用级协议与服务器通信（在此，往往包含发送请求和等待应答）</li>
+<li>关闭连接</li>
+</ol>
+<h2 id="找服务器IP地址"><a href="#找服务器IP地址" class="headerlink" title="找服务器IP地址"></a>找服务器IP地址</h2><p>客户程序调用时常通过参数来标识服务器位置</p>
+<ul>
+<li>使用两个参数：mail.uestc.edu.cn  smtp</li>
+<li>使用单个参数：mail.uestc.edu.cn:smtp</li>
+</ul>
+<p>客户必须用sockaddr_in结构指明服务器地址，这ip地址要转换位二进制表示的32比特的IP地址</p>
+<ol>
+<li>inet_addr: IP地址点分十进制的字符串到二进制的转换  </li>
+</ol>
+<ul>
+<li>接受一个点分十进制表示的字符串的地址，返回一个等价的二进制的地址  </li>
+<li>返回：若字符串有效则将字符串转换为32位二进制网络字节序的IPV4地址，否则为INADDR_NONE(无效的IP地址)</li>
+<li>举例daddr.s_addr = inet_addr(“192.168.1.60”);</li>
+</ul>
+<ol start="2">
+<li>gethostbyname: 主机域名到二进制的转换  </li>
+</ol>
+<ul>
+<li>接受一个机器域名字符串，返回一个hostent结构，内含一个二进制表示的主机IP地址</li>
+<li>失败返回0</li>
+<li>hptr = gethostbyname(“mail.sina.com.cn”)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">hostent在文件netdb.h的定义</span><br><span class="line">struct hostent</span><br><span class="line">&#123;</span><br><span class="line">	char *h_name;         //正式主机名</span><br><span class="line">	char **h_aliases;     //主机别名</span><br><span class="line">	int h_addrtype;       //主机IP地址类型：IPV4-AF_INET</span><br><span class="line">	int h_length;		  //主机IP地址字节长度，对于IPv4是四字节，即32位</span><br><span class="line">	char **h_addr_list;	  //主机的IP地址列表</span><br><span class="line">&#125;;</span><br><span class="line">#define h_addr h_addr_list[0]   //保存的是IP地址位置</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="找服务器端口"><a href="#找服务器端口" class="headerlink" title="找服务器端口"></a>找服务器端口</h2><ul>
+<li>getservbyname: 两个参数指明期望的服务和协议。返回servent类型的结构指针；</li>
+<li>getservbyname按网络字节顺序返回服务的协议端口</li>
+<li>失败返回0</li>
+<li>举例sptr = getservbyname(“smtp”, “tcp”)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">servent在文件netdb.h的定义</span><br><span class="line">struct servent &#123;</span><br><span class="line">    char  *s_name;       //表示的是服务名。   </span><br><span class="line">    char **s_aliases;    //表示的是服务别名列表</span><br><span class="line">    int    s_port;       //端口号</span><br><span class="line">    char  *s_proto;      //使用的协议</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="找协议号"><a href="#找协议号" class="headerlink" title="找协议号"></a>找协议号</h2><p>其实可以不用找协议号，因为需要用到协议号的地方是sock创建套接字时的第三个参数，而一般情况下这个参数写0就可以了</p>
+<ul>
+<li>getprotobyname: 由协议名返回协议号；返回一个protoent类型结构的地址</li>
+<li>失败返回0</li>
+<li>举例pptr = getprotobyname(“tcp”)<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct protoent &#123;</span><br><span class="line">    char  *p_name;       //表示的是协议规范名</span><br><span class="line">    char **p_aliases;    //表示的是主机的别名</span><br><span class="line">    int    p_proto;      //协议号</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="用socket分配套接字"><a href="#用socket分配套接字" class="headerlink" title="用socket分配套接字"></a>用socket分配套接字</h2><p><a href="../套接字API" target="_blank">详情见套接字API</a> </p>
+<h2 id="选择本地协议端口号"><a href="#选择本地协议端口号" class="headerlink" title="选择本地协议端口号"></a>选择本地协议端口号</h2><p>规则：</p>
+<ul>
+<li>该端口不与该机器其他进程使用端口冲突</li>
+<li>该端口没有被分配给某个熟知服务</li>
+</ul>
+<p>客户允许TCP自动选择本地端口<br>connect调用的一个效果就是所选择的本地端口能够满足上述准则。</p>
+<h2 id="选择本地IP地址"><a href="#选择本地IP地址" class="headerlink" title="选择本地IP地址"></a>选择本地IP地址</h2><ul>
+<li>一个主机可能具有多个IP地址</li>
+<li>如果应用程序随机选择一个IP地址，可能选择了一个与IP地址的接口并不匹配的地址。</li>
+<li>可能能够正确的工作。但是网络管理会困难和混乱，可靠性降低。</li>
+</ul>
+<p>一般本地地址字段不填，允许TCP/IP自动选取（connect函数）本地IP地址</p>
+<h2 id="用connect建立连接"><a href="#用connect建立连接" class="headerlink" title="用connect建立连接"></a>用connect建立连接</h2><p><a href="../套接字API" target="_blank">详情见套接字API</a> </p>
+<h2 id="用send-recv与服务器进行通信"><a href="#用send-recv与服务器进行通信" class="headerlink" title="用send/recv与服务器进行通信"></a>用send/recv与服务器进行通信</h2><p>举例：发送内容到服务器，等待服务器将相同的内容发回来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">send(s, req, strlen(req), 0);</span><br><span class="line">while ((n = recv (s, bptr, buflen, 0)) &gt; 0)</span><br><span class="line">&#123;</span><br><span class="line">bptr +=n;</span><br><span class="line">buflen -=n；</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为什么要用循环：大块数据被分片封装发送或由于接收方接收缓冲小而数据被发方分次发送</p>
+<h2 id="用close-shutdown关闭连接"><a href="#用close-shutdown关闭连接" class="headerlink" title="用close/shutdown关闭连接"></a>用close/shutdown关闭连接</h2><p><a href="../套接字API" target="_blank">详情见套接字API</a> </p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p><a href="/2019/12/01/TCP客户端举例" target="_blank">TCP客户端举例</a> </p>
+<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><p>用户数据报协议</p>
+<ol>
+<li>无连接</li>
+<li>尽最大努力交付，不保证可靠交互</li>
+<li>面向报文，不对应用层交下来的报文处理，只增加首部后就向下交给网络层</li>
+<li>没有拥塞控制</li>
+<li>支持一对一，一对多，多对一，多对多的交互通信</li>
+<li>首部开销小</li>
+</ol>
+<h2 id="UDP客户算法"><a href="#UDP客户算法" class="headerlink" title="UDP客户算法"></a>UDP客户算法</h2><ol>
+<li>找到期望与之通信的服务器IP地址和协议端口号</li>
+<li>分配套接字</li>
+<li>指明这种通信需要本地机器中的、任意的、未使用的协议端口，并允许UDP选择一个这样的端口</li>
+<li>指明报文所要发往的服务器</li>
+<li>使用应用级协议与服务器通信</li>
+<li>关闭连接</li>
+</ol>
+<p>步骤很TCP很像，只是差别在第4步</p>
+<h2 id="连接的UDP通信"><a href="#连接的UDP通信" class="headerlink" title="连接的UDP通信"></a>连接的UDP通信</h2><ol>
+<li>客户使用connect调用指明远程端点地址</li>
+</ol>
+<ul>
+<li>使用SOCK_DGRAM类型的套接字</li>
+<li>不发起任何分组交换，不检查远程端点合法性</li>
+<li>只是在套接字的数据结构记录远程端点的信息</li>
+</ul>
+<ol start="2">
+<li>不用重复指明远端地址收发报文</li>
+<li>只和一个服务器交互比较方便</li>
+</ol>
+<p>操作：</p>
+<ul>
+<li>每次send发送一个完整的报文</li>
+<li>每次recv接受一个完整的报文，足够大缓存</li>
+<li>不需要重复使用recv获得单个报文</li>
+</ul>
+<h2 id="非连接的UDP通信"><a href="#非连接的UDP通信" class="headerlink" title="非连接的UDP通信"></a>非连接的UDP通信</h2><ol>
+<li>在每次发送报文的时候指明远程目的地</li>
+<li>使用灵活，便于同不同的服务器通信</li>
+</ol>
+<p>操作：</p>
+<ul>
+<li>sendto: 发送报文，含有地址信息 </li>
+<li>recvfrom:接收一个含有源地址的数据报</li>
+</ul>
+<h2 id="举例-1"><a href="#举例-1" class="headerlink" title="举例"></a>举例</h2><p><a href="/2019/12/01/UDP客户端举例" target="_blank">UDP客户端举例</a> </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/11/30/客户端设计/">http://yoursite.com/2019/11/30/客户端设计/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/01/服务器设计/">服务器设计</a>
+            
+            
+            <a class="next" rel="next" href="/2019/11/30/套接字API/">套接字API</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

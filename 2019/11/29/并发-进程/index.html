@@ -217,7 +217,7 @@
 <p>test：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line"></span><br><span class="line">int main (int argc, char *argv[], char *envp[])</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	for( i = 0; envp[i] != NULL; i++ )</span><br><span class="line">	    printf(&quot;envp[%d]:%s\n&quot;,i,envp[i]);</span><br><span class="line">	for( i = 0; i &lt; argc; i++ )</span><br><span class="line">        	printf(&quot;argv[%d]:%s\n&quot;,i,argv[i]);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>结果：<br>envp[0]:envp_1<br>envp[1]:encp_2<br>argv[0]:./test<br>argv[1]:argv_1<br>argv[2]:argv_2  </p>
+<p>结果：<br>envp[0]:envp_1<br>envp[1]:encp_2<br>argv[0]:./test<br>argv[1]:argv_1<br>argv[2]:argv_2<br><font color="red">突然发现execve是一组函数的其中一个，详情<a target="_blank" href="https://blog.csdn.net/qq_31833457/article/details/78545179">https://blog.csdn.net/qq_31833457/article/details/78545179</a> </font></p>
 
         </div>
 
@@ -264,6 +264,8 @@
             </div>
         </section>
         <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/11/30/套接字API/">套接字API</a>
             
             
             <a class="next" rel="next" href="/2019/11/28/TCP三次握手四次挥手/">TCP三次握手四次挥手</a>
