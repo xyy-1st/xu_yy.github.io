@@ -103,6 +103,68 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
@@ -120,12 +182,51 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/网络编程/">网络编程</a>
+                            
+                        </span>
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
-            
+            <h1 id="echo服务器举例"><a href="#echo服务器举例" class="headerlink" title="echo服务器举例"></a>echo服务器举例</h1><h2 id="头文件及宏定义"><a href="#头文件及宏定义" class="headerlink" title="头文件及宏定义"></a>头文件及宏定义</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;stdarg.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">#include &lt;netdb.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line">#include &lt;errno.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line"></span><br><span class="line">#define QLEN 32</span><br><span class="line">#define BUFSIZE 4096</span><br><span class="line">extern int errno;</span><br><span class="line">unsigned short portbase = 0;</span><br></pre></td></tr></table></figure>
+
+<h2 id="主函数"><a href="#主函数" class="headerlink" title="主函数"></a>主函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, char *argv[])&#123;</span><br><span class="line">    char *service= &quot;echo&quot;;</span><br><span class="line">    struct sockaddr_in fsin;</span><br><span class="line">    unsigned int alen;</span><br><span class="line">    int msock,ssock;</span><br><span class="line">    switch(argc)&#123;</span><br><span class="line">    case 1:</span><br><span class="line">        break;</span><br><span class="line">    case 2:</span><br><span class="line">        service=argv[1];</span><br><span class="line">        break;</span><br><span class="line">    default:</span><br><span class="line">        errexit(&quot;usage: TCPechod [port]\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    msock=passiveTCP(service,QLEN); </span><br><span class="line">    </span><br><span class="line">	(void)signal(SIGCHLD,reaper);</span><br><span class="line"></span><br><span class="line">    while(1)&#123;</span><br><span class="line">        alen=sizeof(fsin);</span><br><span class="line">        ssock=accept(msock,(struct sockaddr *)&amp;fsin,&amp;alen);</span><br><span class="line">        if(ssock&lt;0)&#123;</span><br><span class="line">            if(errno==EINTR)    continue;</span><br><span class="line">            errexit(&quot;accept: %s\n&quot;,strerror(errno));</span><br><span class="line">        &#125;</span><br><span class="line">        switch(fork())&#123;</span><br><span class="line">        case 0:</span><br><span class="line">            (void)close(msock);</span><br><span class="line">            exit(TCPechod(ssock));</span><br><span class="line">        default:</span><br><span class="line">            (void)close(ssock);</span><br><span class="line">            break;</span><br><span class="line">        case -1:</span><br><span class="line">            errexit(&quot;fork: %s\n&quot;,strerror(errno));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建TCP被动套接字"><a href="#创建TCP被动套接字" class="headerlink" title="创建TCP被动套接字"></a>创建TCP被动套接字</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">int passiveTCP(const char* service) &#123;</span><br><span class="line">	return passivesock(service, &quot;tcp&quot;, 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建被动套接字"><a href="#创建被动套接字" class="headerlink" title="创建被动套接字"></a>创建被动套接字</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">int passivesock(const char* service, const char* transport, int qlen)</span><br><span class="line">&#123;</span><br><span class="line">    struct servent  *pse;   /* 结构体里有端口号 */</span><br><span class="line">    struct protoent *ppe;   /* 结构体里有协议号 */</span><br><span class="line">    struct sockaddr_in sin; /* 保存ip地址和端口号 */</span><br><span class="line">    int s, type;    /* s 套接字描述符  type 套接字类型  */</span><br><span class="line"></span><br><span class="line">	memset(&amp;sin, 0, sizeof(sin));</span><br><span class="line">    /* 协议族 */</span><br><span class="line">	sin.sin_family = AF_INET;</span><br><span class="line">    /* INADDR_ANY  宏定义 0.0.0.0 表示本机的所有IP */</span><br><span class="line">	sin.sin_addr.s_addr = INADDR_ANY;    </span><br><span class="line"></span><br><span class="line">	/* 找端口号 */</span><br><span class="line">	if (pse = getservbyname(service, transport))</span><br><span class="line">		sin.sin_port = htons(ntohs((unsigned short)pse-&gt;s_port) + portbase);</span><br><span class="line">	else if ((sin.sin_port = htons((unsigned short)atoi(service) + portbase)) == 0)</span><br><span class="line">			errexit(&quot;can&apos;t create passive service %d \n&quot;, sin.sin_port);</span><br><span class="line"></span><br><span class="line">	/* 找协议号 */</span><br><span class="line">	if ((ppe = getprotobyname(transport)) == 0)</span><br><span class="line">		errexit(&quot;can&apos;t get \&quot;%s\&quot; protocol entry\n&quot;, transport);</span><br><span class="line"></span><br><span class="line">	/* 判断套接字类型 */</span><br><span class="line">	if (strcmp(transport, &quot;udp&quot;) == 0)</span><br><span class="line">		type = SOCK_DGRAM;</span><br><span class="line">	else</span><br><span class="line">		type = SOCK_STREAM;</span><br><span class="line"></span><br><span class="line">	/* 创建套接字 */</span><br><span class="line">	s = socket(PF_INET, type, ppe-&gt;p_proto);</span><br><span class="line">	if (s &lt; 0)</span><br><span class="line">		errexit(&quot;can&apos;t create socket: %s\n&quot;, strerror(errno));</span><br><span class="line"></span><br><span class="line">	/* 绑定套接字 */</span><br><span class="line">	if (bind(s, (struct sockaddr*) &amp; sin, sizeof(sin)) &lt; 0)</span><br><span class="line">		errexit(&quot;can&apos;t bind to %s port: %s\n&quot;, service,</span><br><span class="line">			strerror(errno));</span><br><span class="line">    /*  是tcp才listen设置成被动等待连接</span><br><span class="line">    *   udp直接跳过  */</span><br><span class="line">	if (type == SOCK_STREAM &amp;&amp; listen(s, qlen) &lt; 0)</span><br><span class="line">		errexit(&quot;can&apos;t listen on %s port: %s\n&quot;, service,</span><br><span class="line">			strerror(errno));</span><br><span class="line">	return s;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="工作函数"><a href="#工作函数" class="headerlink" title="工作函数"></a>工作函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int TCPechod(int fd)&#123;</span><br><span class="line">    char buf[BUFSIZ];</span><br><span class="line">    int cc;</span><br><span class="line"></span><br><span class="line">    while(cc=read(fd,buf,sizeof(buf)))&#123;</span><br><span class="line">        if(cc&lt;0)</span><br><span class="line">            errexit(&quot;echo read: %s\n&quot;,strerror(errno));</span><br><span class="line">        if(write(fd,buf,cc)&lt;0)</span><br><span class="line">            errexit(&quot;echo write: %s\n&quot;,strerror(errno));</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="输出提示错误信息的函数"><a href="#输出提示错误信息的函数" class="headerlink" title="输出提示错误信息的函数"></a>输出提示错误信息的函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int errexit(const char *format,...)&#123;</span><br><span class="line">    va_list arg;</span><br><span class="line">    va_start(arg, format);</span><br><span class="line">    vfprintf(stderr,format,arg);</span><br><span class="line">    va_end(arg);</span><br><span class="line">    exit(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="当检测到信号时的工作函数"><a href="#当检测到信号时的工作函数" class="headerlink" title="当检测到信号时的工作函数"></a>当检测到信号时的工作函数</h2><p>wait3 回收进程资源</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void reaper(int sig)&#123;</span><br><span class="line">    int status;</span><br><span class="line">    while(wait3(&amp;status,WNOHANG,(struct rusage *)0)&gt;=0) ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sighandler-t-signal-int-signum-sighandler-t-handler"><a href="#sighandler-t-signal-int-signum-sighandler-t-handler" class="headerlink" title="sighandler_t signal(int signum, sighandler_t handler);"></a>sighandler_t signal(int signum, sighandler_t handler);</h3><p>功能：设置某一信号的对应动作<br>参数：  </p>
+<ol>
+<li><p>第一个参数signum：指明了所要处理的信号类型。</p>
+<ul>
+<li>SIGINT   ctrl + c</li>
+<li>SIGCHLD  进程Terminate或Stop的时候，SIGCHLD会发送给它的父进程</li>
+</ul>
+</li>
+<li><p>第二个参数handler：</p>
+<ul>
+<li>当 handler = SIG_IGN 时，表示忽略该信号</li>
+<li>当 handler = SIG_DFL 时，表示恢复对信号的系统默认处理。不写此处理函数默认也是执行系统默认操作</li>
+<li>当 handler = 函数指针时，表示当该信号来时，执行的工作函数</li>
+</ul>
+<p><a href="https://blog.csdn.net/weibo1230123/article/details/81505152" target="_blank">signal 函数详解 https://blog.csdn.net/weibo1230123/article/details/81505152</a> </p>
+</li>
+</ol>
+
         </div>
 
         
@@ -175,7 +276,7 @@
                 <a class="prev" rel="prev" href="/2019/12/01/多线程服务器举例/">多线程服务器举例</a>
             
             
-            <a class="next" rel="next" href="/2019/12/01/循环-面向连接服务器举例/">循环,面向连接服务器举例</a>
+            <a class="next" rel="next" href="/2019/12/01/循环面向连接服务器举例/">循环面向连接服务器举例</a>
             
         </section>
 
