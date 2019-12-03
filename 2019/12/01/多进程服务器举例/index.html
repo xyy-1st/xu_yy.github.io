@@ -206,26 +206,8 @@
 
 <h2 id="输出提示错误信息的函数"><a href="#输出提示错误信息的函数" class="headerlink" title="输出提示错误信息的函数"></a>输出提示错误信息的函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int errexit(const char *format,...)&#123;</span><br><span class="line">    va_list arg;</span><br><span class="line">    va_start(arg, format);</span><br><span class="line">    vfprintf(stderr,format,arg);</span><br><span class="line">    va_end(arg);</span><br><span class="line">    exit(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="当检测到信号时的工作函数"><a href="#当检测到信号时的工作函数" class="headerlink" title="当检测到信号时的工作函数"></a>当检测到信号时的工作函数</h2><p>wait3 回收进程资源</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void reaper(int sig)&#123;</span><br><span class="line">    int status;</span><br><span class="line">    while(wait3(&amp;status,WNOHANG,(struct rusage *)0)&gt;=0) ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SIGCHLD信号处理函数-杀死僵尸进程"><a href="#SIGCHLD信号处理函数-杀死僵尸进程" class="headerlink" title="SIGCHLD信号处理函数 杀死僵尸进程"></a>SIGCHLD信号处理函数 杀死僵尸进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void reaper(int sig)&#123;</span><br><span class="line">    int status;</span><br><span class="line">    while(wait3(&amp;status,WNOHANG,(struct rusage *)0)&gt;=0) ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="sighandler-t-signal-int-signum-sighandler-t-handler"><a href="#sighandler-t-signal-int-signum-sighandler-t-handler" class="headerlink" title="sighandler_t signal(int signum, sighandler_t handler);"></a>sighandler_t signal(int signum, sighandler_t handler);</h3><p>功能：设置某一信号的对应动作<br>参数：  </p>
-<ol>
-<li><p>第一个参数signum：指明了所要处理的信号类型。</p>
-<ul>
-<li>SIGINT   ctrl + c</li>
-<li>SIGCHLD  进程Terminate或Stop的时候，SIGCHLD会发送给它的父进程</li>
-</ul>
-</li>
-<li><p>第二个参数handler：</p>
-<ul>
-<li>当 handler = SIG_IGN 时，表示忽略该信号</li>
-<li>当 handler = SIG_DFL 时，表示恢复对信号的系统默认处理。不写此处理函数默认也是执行系统默认操作</li>
-<li>当 handler = 函数指针时，表示当该信号来时，执行的工作函数</li>
-</ul>
-<p><a href="https://blog.csdn.net/weibo1230123/article/details/81505152" target="_blank">signal 函数详解 https://blog.csdn.net/weibo1230123/article/details/81505152</a> </p>
-</li>
-</ol>
 
         </div>
 
@@ -273,7 +255,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/01/多线程服务器举例/">多线程服务器举例</a>
+                <a class="prev" rel="prev" href="/2019/12/01/一对一聊天服务器/"></a>
             
             
             <a class="next" rel="next" href="/2019/12/01/循环面向连接服务器举例/">循环面向连接服务器举例</a>
