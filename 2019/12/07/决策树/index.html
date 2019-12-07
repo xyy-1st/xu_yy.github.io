@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>决策树 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">决策树</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 7, 2019&nbsp;&nbsp;12:51:17</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/机器学习/">机器学习</a>
+                            
+                        </span>
+                        <span id="/2019/12/07/决策树/" class="leancloud-visitors view" data-flag-title="决策树">
+                            <em class="post-meta-item-text">Pageviews:</em>
+                            <i class="leancloud-visitors-count">loading</i>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="信息增益的决策树构建"><a href="#信息增益的决策树构建" class="headerlink" title="信息增益的决策树构建"></a>信息增益的决策树构建</h1><p>信息熵：</p>
+<p><img src="/images/%E4%BF%A1%E6%81%AF%E7%86%B5.png" alt="信息熵"></p>
+<p>信息增益：</p>
+<p><img src="/images/%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="信息增益"></p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p><img src="/images/%E5%86%B3%E7%AD%96%E6%A0%91%E5%AE%9E%E4%BE%8B.png" alt="决策树实例"></p>
+<p>先求根结点的信息熵：</p>
+<p><img src="/images/%E6%A0%B9%E7%BB%93%E7%82%B9%E4%BF%A1%E6%81%AF%E7%86%B5.png" alt="根结点信息熵"></p>
+<p>信息增益求解：</p>
+<p><img src="/images/%E8%89%B2%E6%B3%BD%E7%9A%84%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="色泽的信息增益"></p>
+<p><img src="/images/%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="其他信息增益"></p>
+<p>选信息增益最大的划分属性：</p>
+<p><img src="/images/%E5%88%92%E5%88%86%E5%B1%9E%E6%80%A7.png" alt="划分属性"></p>
+<p>重复上述步骤完成决策树的构建：</p>
+<p><img src="/images/%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="信息增益的决策树"></p>
+<h1 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h1><p>检查当前结点划分前和划分后的验证集精度 选择是否继续划分</p>
+<p>数据集：</p>
+<p><img src="/images/%E6%95%B0%E6%8D%AE%E9%9B%86.png" alt="数据集"></p>
+<p>通过训练集基于信息增益构建的决策树</p>
+<p><img src="/images/%E6%9C%AA%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="未剪枝的决策树"></p>
+<p>结点1如果不划分，被标记为好瓜(因为训练集中好瓜多)，验证集的精度为 3/7 （{4，5，8}分类正确）<br>如果划分则验证集的精度为 5/7 （{4，5，8，11，12}分类正确）<br>因为划分后的验证集精度高，所以结点1需要划分<br>对结点2，3，4判断同理，得最终结果：</p>
+<p><img src="/images/%E9%A2%84%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="预剪枝的决策树"></p>
+<p>优点：</p>
+<ul>
+<li>降低过拟合风险</li>
+<li>显著减少训练时间了测试时间</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>欠拟合风险提高</li>
+</ul>
+<h1 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h1><p>先构建完整的决策树后，从下面往上计算验证集精度来决定这个结点能不能剪去  </p>
+<p>数据集与预剪枝相同  </p>
+<p>结点6：剪枝前，验证集{4,11,12}分类正确 验证集精度为 3/7<br>剪枝后，验证集{4，11，12，8，9}分类正确 验证集精度提升到 5/7<br>验证集精度提高 所以剪。</p>
+<p>同理分析结点5，2，3，1得最终结果：<br><img src="/images/%E5%90%8E%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="后剪枝的决策树"></p>
+<p>优点：后剪枝比预剪枝保留了更多分支，欠拟合风险小，泛化能力往往优于预剪枝<br>缺点：训练时间开销大</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/07/决策树/">http://yoursite.com/2019/12/07/决策树/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/机器学习/"># 机器学习</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/07/神经网络/">神经网络</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/06/线性回归/">线性回归</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
