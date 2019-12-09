@@ -208,6 +208,7 @@
 
 <h2 id="输出提示错误信息的函数"><a href="#输出提示错误信息的函数" class="headerlink" title="输出提示错误信息的函数"></a>输出提示错误信息的函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int errexit(const char* format, ...) &#123;</span><br><span class="line">	va_list arg;</span><br><span class="line">	va_start(arg, format);</span><br><span class="line">	vfprintf(stderr, format, arg);</span><br><span class="line">	va_end(arg);</span><br><span class="line">	exit(1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%BE%AA%E7%8E%AF%E6%97%A0%E8%BF%9E%E6%8E%A5%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%BE%E4%BE%8B/%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="效果图"></p>
 
         </div>
 

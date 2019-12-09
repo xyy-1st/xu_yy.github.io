@@ -7,7 +7,7 @@
 
 
 
-<title>k近邻学习 | Hexo</title>
+<title>理解异步IO | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">k近邻学习</h1>
+            <h1 class="post-title">理解异步IO</h1>
             
                 <div class="post-meta">
                     
@@ -178,17 +178,17 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 7, 2019&nbsp;&nbsp;19:18:09</a>
+                        Date: <a href="#">十二月 9, 2019&nbsp;&nbsp;16:25:47</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/机器学习/">机器学习</a>
+                                <a href="/categories/网络编程/">网络编程</a>
                             
                         </span>
-                        <span id="/2019/12/07/k近邻学习/" class="leancloud-visitors view" data-flag-title="k近邻学习">
+                        <span id="/2019/12/09/理解异步IO/" class="leancloud-visitors view" data-flag-title="理解异步IO">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -198,8 +198,10 @@
         </header>
 
         <div class="post-content">
-            <h1 id="k近邻学习算法"><a href="#k近邻学习算法" class="headerlink" title="k近邻学习算法"></a>k近邻学习算法</h1><p><img src="/images/k%E8%BF%91%E9%82%BB%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95.png" alt="k近邻学习算法"></p>
-<h1 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h1><p><img src="/images/k%E8%BF%91%E9%82%BB%E5%AD%A6%E4%B9%A0%E4%B8%BE%E4%BE%8B.png" alt="k近邻学习举例"></p>
+            <p>原博客<a href="https://blog.csdn.net/OOFFrankDura/article/details/80441053" target="_blank" rel="noopener"> https://blog.csdn.net/OOFFrankDura/article/details/80441053 </a></p>
+<h1 id="举例理解"><a href="#举例理解" class="headerlink" title="举例理解"></a>举例理解</h1><p>老张爱喝茶，废话不说，煮开水。<br>出场人物：老张，水壶两把（普通水壶，简称水壶；会响的水壶，简称响水壶）。<br>1 老张把水壶放到火上，立等水开。（同步阻塞）<br>老张觉得自己有点傻<br>2 老张把水壶放到火上，去客厅看电视，时不时去厨房看看水开没有。（同步非阻塞）<br>老张还是觉得自己有点傻，于是变高端了，买了把会响笛的那种水壶。水开之后，能大声发出嘀<del>~</del>的噪音。<br>3 老张把响水壶放到火上，立等水开。（异步阻塞）<br>老张觉得这样傻等意义不大<br>4 老张把响水壶放到火上，去客厅看电视，水壶响之前不再去看它了，响了再去拿壶。（异步非阻塞）<br>老张觉得自己聪明了。  </p>
+<p>所谓同步异步，只是对于水壶而言。<br>普通水壶，同步；响水壶，异步。<br>虽然都能干活，但响水壶可以在自己完工之后，提示老张水开了。这是普通水壶所不能及的。<br>同步只能让调用者去轮询自己（情况2中），造成老张效率的低下。  </p>
+<p>所谓阻塞非阻塞，仅仅对于老张而言。<br>立等的老张，阻塞；看电视的老张，非阻塞。<br>情况1和情况3中老张就是阻塞的，媳妇喊他都不知道。虽然3中响水壶是异步的，可对于立等的老张没有太大的意义。所以一般异步是配合非阻塞使用的，这样才能发挥异步的效用。  </p>
 
         </div>
 
@@ -214,7 +216,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/12/07/k近邻学习/">http://yoursite.com/2019/12/07/k近邻学习/</a></span>
+                        <span><a href="http://yoursite.com/2019/12/09/理解异步IO/">http://yoursite.com/2019/12/09/理解异步IO/</a></span>
                     </p>
                 
                 
@@ -238,7 +240,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/机器学习/"># 机器学习</a>
+                        <a href="/tags/网络编程/"># 网络编程</a>
                     
                         
                 </span>
@@ -251,10 +253,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/09/理解异步IO/">理解异步IO</a>
             
-            
-            <a class="next" rel="next" href="/2019/12/07/k均值算法/">k均值算法</a>
+            <a class="next" rel="next" href="/2019/12/07/k近邻学习/">k近邻学习</a>
             
         </section>
 

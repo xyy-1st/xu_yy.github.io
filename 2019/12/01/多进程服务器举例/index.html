@@ -212,6 +212,7 @@
 
 <h2 id="SIGCHLD信号处理函数-杀死僵尸进程"><a href="#SIGCHLD信号处理函数-杀死僵尸进程" class="headerlink" title="SIGCHLD信号处理函数 杀死僵尸进程"></a>SIGCHLD信号处理函数 杀死僵尸进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">void reaper(int sig)&#123;</span><br><span class="line">    int status;</span><br><span class="line">    while(wait3(&amp;status,WNOHANG,(struct rusage *)0)&gt;=0) ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p><img src="/images/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%BE%E4%BE%8B/%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="效果图"></p>
 
         </div>
 
