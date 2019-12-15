@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>ARM编程模型 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ARM编程模型</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 14, 2019&nbsp;&nbsp;22:00:57</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/嵌入式微处理器/">嵌入式微处理器</a>
+                            
+                        </span>
+                        <span id="/2019/12/14/ARM编程模型/" class="leancloud-visitors view" data-flag-title="ARM编程模型">
+                            <em class="post-meta-item-text">Pageviews:</em>
+                            <i class="leancloud-visitors-count">loading</i>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>以ARMv4为背景来描述ARM芯片的编程模型</p>
+<h1 id="数据宽度"><a href="#数据宽度" class="headerlink" title="数据宽度"></a>数据宽度</h1><ol>
+<li>字节型数据（Byte）:数据宽度为8bits </li>
+<li>半字数据类型（HalfWord）:数据宽度为16bits,存取式必须以2字节对齐的方式</li>
+<li>字数据类型（Word）:数据宽度为32bits,存取式必须以4字节对齐的方式 </li>
+</ol>
+<p>2字节对齐:就是读取数据时的起始地址必须能整除2,</p>
+<h1 id="工作状态"><a href="#工作状态" class="headerlink" title="工作状态"></a>工作状态</h1><ol>
+<li>ARM状态：32位,执行字对准的ARM指令</li>
+<li>Thumb状态：16位,执行半字对准的Thumb指令</li>
+</ol>
+<p>ARM和Thumb之间状态的切换不影响处理器的模式或寄存器的内容</p>
+<ul>
+<li>进入Thumb状态：<br>执行BX指令，并设置操作数寄存器的状态（位[0]）为1。<br>在Thumb状态进入异常(IRQ, FIQ, UNDEF, ABORT,SWI等)，当异常处理返回时自动转换到Thumb状态</li>
+<li>进入ARM状态：<br>执行BX指令，并设置操作数寄存器的状态（位[0]）为0。<br>进入异常时，将PC放入异常模式链接寄存器中，从异常向量地址开始执行也可进入ARM状态</li>
+</ul>
+<p>BX指令时ARM处理器的一种分支指令,并且在完成程序跳转的同时处理器根据操作数寄存器位【0】的设置情况完成ARM或Thumb状态的转换</p>
+<h1 id="工作模式"><a href="#工作模式" class="headerlink" title="工作模式"></a>工作模式</h1><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F.png" alt="工作模式"></p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F%E7%89%B9%E7%82%B9.png" alt="工作模式特点"></p>
+<h1 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h1><h2 id="寄存器概述"><a href="#寄存器概述" class="headerlink" title="寄存器概述"></a>寄存器概述</h2><p>ARM处理器共37个寄存器,其中31个通用寄存器,6个状态寄存器<br>不同的工作状态和工作模式使用不同的寄存器</p>
+<p>ARM状态下寄存器(右下角有阴影的为该模式下特有的寄存器)<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/ARM%E7%8A%B6%E6%80%81%E4%B8%8B%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="ARM状态下寄存器"></p>
+<p>Thumb状态下寄存器<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/Thumb%E7%8A%B6%E6%80%81%E4%B8%8B%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="Thumb状态下寄存器"></p>
+<p>ARM与Thumb寄存器关系<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/ARM%E4%B8%8EThumb%E5%AF%84%E5%AD%98%E5%99%A8%E5%85%B3%E7%B3%BB.png" alt="ARM与Thumb寄存器关系"></p>
+<p>异常发生时伴随的模式切换意味着, 被调用的异常处理程序会访问：   </p>
+<ul>
+<li>它自己的堆栈指针 (SP_&lt; mode&gt;)  </li>
+<li>它自己的链接寄存器 (LR_&lt; mode&gt;)   </li>
+<li>它自己的备份程序状态寄存器 (SPSR_&lt; mode&gt;)</li>
+<li>如果是FIQ异常处理, 5个其它的通用状态寄存器 (r8_FIQ to r12_FIQ)</li>
+<li>其它寄存器和原来模式下的寄存器是相同的</li>
+<li>如果在异常处理程序中要使用公共的寄存器,需要使用前先保存(入栈),返回前恢复(出栈)</li>
+</ul>
+<p>各模式分组的堆栈指针寄存器是需要在系统初始化（即系统复位）时被设置好的，这样才能在进入不同的模式时自动切换使用不同的堆栈空间。初始化时需注意堆栈指针必须保持8字节对齐。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">；中断模式堆栈的设置</span><br><span class="line">MSR CPSR_c, #0x000000D2    ；切换到中断模式 </span><br><span class="line">LDR R1, = IrqStack</span><br><span class="line">MOV SP, R1                               ；设置中断模式堆栈指针</span><br><span class="line">；快速中断模式堆栈的设置</span><br><span class="line">MSR CPSR_c, #0x000000D1    ；切换到快速中断模式</span><br><span class="line">LDR R1, = FiqStack</span><br><span class="line">MOV SP, R1                               ；设置快速中断模式堆栈指针</span><br><span class="line">；中止模式堆栈的设置</span><br><span class="line">……</span><br></pre></td></tr></table></figure>
+
+<h2 id="通用寄存器"><a href="#通用寄存器" class="headerlink" title="通用寄存器"></a>通用寄存器</h2><p>用户模式和系统模式的运行环境一样,只是权限不同,故尽在这里看成一个模式</p>
+<ol>
+<li>R0-R7所有工作模式共用,所以使用前需要保存,返回时需要恢复</li>
+<li>R8-R12除FIQ模式有属于自己的寄存器,其他模式共用</li>
+<li>R13也称为SP指针,每个模式有一个</li>
+<li>R14用于保存返回地址，每个模式有一个</li>
+<li>R15也称PC,读PC时得到的值为当前PC值加8或12(流水线),当写时相当于将程序跳转到指定的地址执行</li>
+</ol>
+<h3 id="程序状态寄存器CPSR"><a href="#程序状态寄存器CPSR" class="headerlink" title="程序状态寄存器CPSR"></a>程序状态寄存器CPSR</h3><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/CPSR.png" alt="CPSR">  </p>
+<p>模式控制位</p>
+<table>
+<thead>
+<tr>
+<th>M[4:0]</th>
+<th>模式</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>10000</td>
+<td>User</td>
+</tr>
+<tr>
+<td>10001</td>
+<td>FIQ</td>
+</tr>
+<tr>
+<td>10010</td>
+<td>IRQ</td>
+</tr>
+<tr>
+<td>10011</td>
+<td>Supervisor</td>
+</tr>
+<tr>
+<td>10111</td>
+<td>Abort</td>
+</tr>
+<tr>
+<td>11011</td>
+<td>Undefined</td>
+</tr>
+<tr>
+<td>11111</td>
+<td>System</td>
+</tr>
+</tbody></table>
+<p>CPSR寄存器可以被分成f(标志域),s(状态域),x(扩展域),c(控制域),可以指令中指定特定的域以便对该寄存器进行局部操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MRS r0,CPSR         ;读CPSR到r0</span><br><span class="line">ORR r0,r0,#0x1F     ;将r0后5位置1</span><br><span class="line">MSR CPSR_c,r0       ;把r0的低8位给CPSR，其它位不受影响</span><br></pre></td></tr></table></figure>
+
+<h1 id="中断与异常"><a href="#中断与异常" class="headerlink" title="中断与异常"></a>中断与异常</h1><h2 id="中断与异常概述"><a href="#中断与异常概述" class="headerlink" title="中断与异常概述"></a>中断与异常概述</h2><ul>
+<li>外部中断：由于CPU外部的原因而改变程序执行流程的过程，属于异步事件，又称为硬件中断，可以被屏蔽。</li>
+<li>软件中断（又称自陷）：表示通过处理器所拥有的软件指令、可预期地使处理器正在执行的程序的执行流程发生变化，以执行特定的程序。自陷是显式的事件，需要无条件地执行。典型的自陷指令如Motorola 68000系列中的Trap指令、ARM中的SWI指令和Intel 80x86中的INT指令。</li>
+<li>异常：由CPU内部的原因（比如遇到非法指令）或外部的原因（比如访存的错误）引起的事件</li>
+<li>ARM处理器把上述三种事件都以异常模式来处理，并且都通过异常向量来响应 </li>
+<li>当异常发生时CPU自动到指定的向量地址读取指令并且执行，即ARM的向量地址处存放的是一条指令（一般是一条跳转指令）</li>
+<li>在X86上，当有异常发生时CPU是到指定的向量地址读取要执行的程序的地址</li>
+</ul>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/%E5%BC%82%E5%B8%B8%E4%BA%8B%E4%BB%B6%E7%B1%BB%E5%9E%8B.png" alt="异常事件类型">  </p>
+<h2 id="异常响应过程"><a href="#异常响应过程" class="headerlink" title="异常响应过程"></a>异常响应过程</h2><ul>
+<li>在所有异常的入口，IRQ 中断被屏蔽 </li>
+<li>在 FIQs 和 Reset 异常的入口，FIQ中断被屏蔽</li>
+</ul>
+<p>ARM处理器响应异常的过程如下：</p>
+<ol>
+<li>拷贝CPSR寄存器的内容至对应模式下的 SPSR_< mode>寄存器中；</li>
+<li>将返回地址保存到对应模式下的LR_< mode>寄存器中；</li>
+<li>对 CPSR 寄存器的一些控制位进行设置： </li>
+      <ul>
+      <li>无论发生异常时处理器处于Thumb 状态还是ARM状态，响应异常后处理器都会切换到 ARM 状态，即CPSR[5]=0； </li>
+      <li>将模式位 CPSR[4:0]设置为被响应异常的模式编码；  </li>
+      <li>设置中断屏蔽位：如果异常模式为Reset 或 FIQ 则   </li>
+      <li>CPSR[6]=1       /*禁止快速中断*/ </li>             
+      <li> CPSR[7]=1       /*禁止正常中断*/</li>
+      </ul>
+<li>将程序计数器(PC)设置为异常向量的地址</li>
+</ol>
+
+<p>异常返回(复位不用返回)</p>
+<ol>
+<li>将SPSR_&lt; mode&gt;中的内容恢复到CPSR中；</li>
+<li>将PC设置为LR_&lt; mode&gt; 的值  </li>
+</ol>
+<p>同异常响应过程一样，上述过程只能在ARM状态下完成。 </p>
+<h3 id="Reset异常"><a href="#Reset异常" class="headerlink" title="Reset异常"></a>Reset异常</h3><p>当Reset被触发时,CPU进入Supervisor模式并且禁止FIQ和IRQ</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_svc		= 不确定的值</span><br><span class="line">SPSR_svc 	= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b10011			//进入管理模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">CPSR[6]		= 1					//禁止快速中断FIQ</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff0000</span><br><span class="line">否则</span><br><span class="line">PC  =  0x00000000</span><br></pre></td></tr></table></figure>
+
+<p>不用返回</p>
+<h3 id="未定义指令异常-undefined-instruction"><a href="#未定义指令异常-undefined-instruction" class="headerlink" title="未定义指令异常 undefined instruction"></a>未定义指令异常 undefined instruction</h3><p>CPU执行一条未被定义的指令时触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_und		= 未定义指令后的下一条指令地址</span><br><span class="line">SPSR_und 	= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b11011			//进入未定义模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">									// CPSR[6]状态不变</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff0004</span><br><span class="line">否则</span><br><span class="line">PC  =  0x00000004</span><br></pre></td></tr></table></figure>
+
+<p>异常是在当前指令产生,PC的值尚未更新,常用中断返回方式  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MOVS  PC , R14      //跳过异常的指令  </span><br><span class="line">SUBS   PC , R14 , #4    //重新执行异常的指令</span><br></pre></td></tr></table></figure>
+
+<p>指令后缀加S,不仅将PC的值更新,而且将SPRC寄存器的内容加载到CPSR</p>
+<h3 id="软件中断异常-software-Interrupt"><a href="#软件中断异常-software-Interrupt" class="headerlink" title="软件中断异常 software Interrupt"></a>软件中断异常 software Interrupt</h3><p>执行SWI指令时触发,主要用于进入OS的系统调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_svc		= SWI指令后的下一条指令地址</span><br><span class="line">SPSR_svc 	= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b10011			//进入管理模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">									// CPSR[6]状态不变</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff0008</span><br><span class="line">否则</span><br><span class="line">PC  =  0x00000008</span><br></pre></td></tr></table></figure>
+
+<p>异常是在当前指令产生,PC的值尚未更新,返回时，当前指令不再执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MOVS  PC , R14</span><br></pre></td></tr></table></figure>
+
+<h3 id="指令预取异常-prefetch-abort"><a href="#指令预取异常-prefetch-abort" class="headerlink" title="指令预取异常 prefetch abort"></a>指令预取异常 prefetch abort</h3><p>取指令失败,且该指令还要被执行时触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_abt		= 中断指令后的下一条指令地址</span><br><span class="line">SPSR_abt 	= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b10111			//进入中断模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">									// CPSR[6]状态不变</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff000c</span><br><span class="line">否则</span><br><span class="line">PC  =  0x0000000c</span><br></pre></td></tr></table></figure>
+
+<p>当前指令即将执行时触发异常,此时PC还没有更新,返回时,指令重新执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBS  PC , R14 , #4</span><br></pre></td></tr></table></figure>
+
+<h3 id="数据中止异常-data-abort"><a href="#数据中止异常-data-abort" class="headerlink" title="数据中止异常  data abort"></a>数据中止异常  data abort</h3><p>CPU在和存储系统之间进行加载/存储数据操作时,发生错误触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_abt		= 中止指令后的下一条指令地址</span><br><span class="line">SPSR_abt 	= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b10111			//进入中止模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">									// CPSR[6]状态不变</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff0010</span><br><span class="line">否则</span><br><span class="line">PC  =  0x00000010</span><br></pre></td></tr></table></figure>
+
+<p>指令已经执行(发送错误),PC值已经更新</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SUBS  PC , R14 , #8       //返回时重新执行该指令</span><br><span class="line">SUBS  PC , R14 , #4       //返回时跳过该指令</span><br></pre></td></tr></table></figure>
+
+<h3 id="IRQ"><a href="#IRQ" class="headerlink" title="IRQ"></a>IRQ</h3><p>当外部IRQ输入请求发生时触发</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_irq		= 下一条指令地址</span><br><span class="line">SPSR_irq	 	= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b10010			//进入IRQ模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">									// CPSR[6]状态不变</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff0018</span><br><span class="line">否则</span><br><span class="line">PC  =  0x00000018</span><br></pre></td></tr></table></figure>
+
+<p>当前指令已经执行完,PC值已经更新,返回时,执行下一条指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBS  PC , R14 , #4</span><br></pre></td></tr></table></figure>
+
+<h3 id="FIQ"><a href="#FIQ" class="headerlink" title="FIQ"></a>FIQ</h3><p>当外部IRQ输入请求发生时触发,常用于快速传输数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">R14_fiq		=下一条指令地址</span><br><span class="line">SPSR_fiq 		= CPSR				</span><br><span class="line">CPSR[4:0]		= 0b10001			//进入FIQ模式</span><br><span class="line">CPSR[5]		= 0					//在ARM状态中执行</span><br><span class="line">CPSR[6]		= 1					// 禁止快速中断FIQ</span><br><span class="line">CPSR[7]		= 1					//禁止普通中断IRQ</span><br><span class="line">如果配置的是高端向量，则</span><br><span class="line">PC  =  0Xffff001c</span><br><span class="line">否则</span><br><span class="line">PC  =  0x0000001c</span><br></pre></td></tr></table></figure>
+
+<p>当前指令已经执行完,PC值已经更新,返回时,执行下一条指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SUBS  PC , R14 , #4</span><br></pre></td></tr></table></figure>
+
+<h1 id="大小端"><a href="#大小端" class="headerlink" title="大小端"></a>大小端</h1><p>a = 0x1234<br>大端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a-&gt; 34</span><br><span class="line">    12</span><br></pre></td></tr></table></figure>
+
+<p>小端</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a-&gt; 12</span><br><span class="line">    34</span><br></pre></td></tr></table></figure>
+
+<h1 id="I-O端口编址"><a href="#I-O端口编址" class="headerlink" title="I/O端口编址"></a>I/O端口编址</h1><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E7%BC%96%E7%A8%8B%E6%A8%A1%E5%9E%8B/io%E7%BC%96%E5%9D%80.png" alt="io编址">  </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/14/ARM编程模型/">http://yoursite.com/2019/12/14/ARM编程模型/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/嵌入式微处理器/"># 嵌入式微处理器</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/12/09/理解异步IO/">理解异步IO</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
