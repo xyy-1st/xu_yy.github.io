@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>ARM指令集 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">ARM指令集</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 15, 2019&nbsp;&nbsp;15:45:46</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/嵌入式微处理器/">嵌入式微处理器</a>
+                            
+                        </span>
+                        <span id="/2019/12/15/ARM指令集/" class="leancloud-visitors view" data-flag-title="ARM指令集">
+                            <em class="post-meta-item-text">Pageviews:</em>
+                            <i class="leancloud-visitors-count">loading</i>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="ARM指令集的特点"><a href="#ARM指令集的特点" class="headerlink" title="ARM指令集的特点"></a>ARM指令集的特点</h1><ul>
+<li>所有ARM指令都是32位定长的 </li>
+<li>加载－存储（Load-Store）架构 </li>
+<li>提供功能强大的一次加载和存储（Load-Store）多个寄存器的指令 </li>
+<li>CPU内核硬件中提供了桶型（barrel）移位器，移位操作可以内嵌在其他指令中 </li>
+<li>所有的ARM指令都是可以条件执行的 </li>
+</ul>
+<h1 id="ARM-V4T架构指令体系"><a href="#ARM-V4T架构指令体系" class="headerlink" title="ARM V4T架构指令体系"></a>ARM V4T架构指令体系</h1><h2 id="条件执行和标志位"><a href="#条件执行和标志位" class="headerlink" title="条件执行和标志位"></a>条件执行和标志位</h2><p>通过在指令后加上合适的条件标志位，ARM指令可以条件执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMP    r0, r1       ;r0 - r1, 比较 r0 和 r1 并设置标志位</span><br><span class="line">ADDGT  r2, r2, #1   ;if &gt; r2=r2+1 标志位保持不变 </span><br><span class="line">ADDLE  r3, r3, #1   ;if &lt;= r3=r3+1 标志位保持不变</span><br></pre></td></tr></table></figure>
+
+<p>默认情况下,数据处理指令不会影响条件标志位，但是，可在指令后加“s”(或其它条件位)后缀，以实现标志位的置位。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">功能r2循环加r1次r3</span><br><span class="line">loop    </span><br><span class="line">    ADD    r2, r2, r3       ; r2=r2+r3 </span><br><span class="line">    SUBS   r1, r1, #0x01    ; r1 减1并设置标志位 </span><br><span class="line">    BNE    loop             ;如果 Z 标志清除则分支跳转</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E6%9D%A1%E4%BB%B6%E6%89%A7%E8%A1%8C%E5%AF%B9%E6%AF%94.png" alt="条件执行对比">  </p>
+<p>非条件执行</p>
+<ul>
+<li>5条指令:CMP BNE ADD B ADD</li>
+<li>不相等时CMP一个周期 BNE三个周期 ADD一个个周期</li>
+<li>相等时CMP一个周期 BNE一个周期 ADD一个周期 B三个周期<br>其中B跳转指令需要三个周期因为流水线,并不是它本身需要三个周期,而是它的下一条指令需要重新取指，译码，执行三个周期，为了方便说它占三个周期，自己其实是一个周期</li>
+</ul>
+<p>条件执行：三条指令，每条一个周期</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E6%9D%A1%E4%BB%B6%E5%90%8E%E7%BC%80.png" alt="条件后缀">  </p>
+<h2 id="数据处理指令"><a href="#数据处理指令" class="headerlink" title="数据处理指令"></a>数据处理指令</h2><ul>
+    <li>算术运算</li>
+        <ul>
+            <li>加 ADD</li>
+            <li>带进位的加 ADC</li>
+            <li>减 SUB</li>
+            <li>带借位的减 SUC</li>
+            <li>反向减 RSB</li>
+            <ul>
+                <li>例 RSB r1,r1,#2  ; r1 = 2 - r1</li>
+            </ul>
+            <li>带借位的反向减 RSC</li>
+        </ul>
+    <li>逻辑运算</li>
+    <ul>
+            <li>与 AND</li>
+            <li>或 ORR</li>
+            <li>异或 EOR</li>
+            <li>清零 BIC</li>
+            <ul>
+                <li>例 BIC Rd,Rn,Oprands2  ; Rd = Rn & Oprands2的反码</li>
+            </ul>
+        </ul>
+    <li>比较运算</li>
+    <ul>
+            <li>比较 CMP</li>
+            <ul>
+                <li>例 CMP R0,R1 ; 用R0-R1来设置条件标志位,R0,r1本身的值不改变</li>
+            </ul>
+            <li>负数比较 CMN</li>
+            <ul>
+                <li>例 CMN R0,R1 ; 用R0-(-R1)来设置条件标志位,R0,r1本身的值不改变</li>
+            </ul>
+            <li>按位与 TST</li>
+            <ul>
+                <li>例 TST R0,R1 ; 用R0 & R1来设置条件标志位,R0,r1本身的值不改变</li>
+            </ul>
+            <li>按位异或 TEQ</li>
+            <ul>
+                <li>例 TEQ R0,R1 ; 用R0⊕R1来设置条件标志位,R0,r1本身的值不改变</li>
+            </ul>
+        </ul>
+    <li>数据运算</li>
+    <ul>
+            <li>等于 MOV</li>
+            <ul>
+                <li>例 MOV R0,R1 ; R0 = R1</li>
+            </ul>
+            <li>取反等于 MVN</li>
+            <ul>
+                <li>例 MVN R0,R1 ; R0 = ~R1</li>
+            </ul>
+        </ul>
+</ul>
+
+<p>数据处理指令仅限于对寄存器中的数据和立即数进行操作,对内存中的数据是无效的</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>&lt; Operation &gt;{&lt; cond &gt;}{S} Rd, Rn, Operand2</p>
+<ul>
+<li>Operation 指令名</li>
+<li>cond 条件(可选)</li>
+<li>S 设置条件标志位(可选)</li>
+<li>Rd 目标寄存器</li>
+<li>Rn 第一操作数，只能是寄存器</li>
+<li>Operand2 第二操作数,可是寄存器,立即数</li>
+</ul>
+<p>比较指令和数据传输指令不需要Rd</p>
+<h4 id="第二操作数是寄存器"><a href="#第二操作数是寄存器" class="headerlink" title="第二操作数是寄存器"></a>第二操作数是寄存器</h4><p>可以附加移位操作<br>ADD r0, r5, r5 LSL 1   ;  r0 = r5 x3<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E7%A7%BB%E4%BD%8D%E6%93%8D%E4%BD%9C.png" alt="移位操作"><br>移位的值可以是5位的无符号整数(0-31),或其他寄存器的最低字节</p>
+<h4 id="第二操作数是立即数"><a href="#第二操作数是立即数" class="headerlink" title="第二操作数是立即数"></a>第二操作数是立即数</h4><p>要求：  </p>
+<ol>
+<li>0-255的8位立即数</li>
+<li>通过一个8位立即数循环右移偶数位得到</li>
+</ol>
+<p>原因:ARM指令时32位的,所以操作数的位数有限,用0-7位表示8位的立即数,8-11表示循环右移的位数</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E7%AB%8B%E5%8D%B3%E6%95%B0%E4%BA%A7%E7%94%9F%E8%A7%84%E5%88%99.png" alt="立即数产生规则">  </p>
+<p>例: 来表达0xFF000000 第二位操作数的实际编码位0100 11111111<br>0x000000FF循环右移0100 * 2 = 8位,就能得到0xFF000000</p>
+<p>为了摆脱上面的限制,可以使用LDR伪指令,格式：LDR rd,=const<br>实现：根据const的具体情况,产生一条MOV或者MVN指令,或者产生一条PC相对寻址的 LDR指令将立即数从文字池(literal pool)里读出来.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">LDR r0,=0x55    //MOV r0,#0x55</span><br><span class="line">LDR r0,=0x55555555  //LDR r0,[PC,#12位立即数]   r0 = M[PC+立即数]</span><br></pre></td></tr></table></figure>
+
+<h2 id="乘法和除法"><a href="#乘法和除法" class="headerlink" title="乘法和除法"></a>乘法和除法</h2><p>32位结果乘法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MUL r0, r1, r2		; r0 = r1 * r2</span><br><span class="line">MLA r0, r1, r2, r3	; r0 = (r1 * r2) + r3</span><br></pre></td></tr></table></figure>
+
+<p>64位的乘法提供了两种乘法指令：无符号和有符号乘<br>这类指令有两个目标寄存器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[U|S]MULL r4, r5, r2, r3	; r5:r4 = r2 * r3</span><br><span class="line">[U|S]MLAL r4, r5, r2, r3	; r5:r4 = (r2 * r3) + r5:r4</span><br></pre></td></tr></table></figure>
+
+<p>大多数的 ARM 核不提供整数除法指令,除法操作由c的库函数例程或者移位操作实现</p>
+<h2 id="分支指令"><a href="#分支指令" class="headerlink" title="分支指令"></a>分支指令</h2><p>格式：B{L}{&lt; cond&gt;} label</p>
+<ul>
+<li>B 指令</li>
+<li>子函数调用可加上 {L}实现 加L完成 保存返回地址和跳转到子程序的首地址</li>
+<li>cond 条件 可选</li>
+<li>label 在指令编码中是一个 24 位的地址,因为指令是4字节对齐的,所以后两位固定是0,所以表示一个26位的偏移地址,跳转范围是当前指令地址-32MB~+32MB</li>
+<li>执行该指令会引起流水线的情况,下条指令需要3个时钟周期</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">B   start       ;PC 相对寻址的标号 “start”</span><br><span class="line">    .</span><br><span class="line">    .		</span><br><span class="line">start           ;跳转到此处继续执行</span><br></pre></td></tr></table></figure>
+
+<p>子程序调用需要两个步骤:</p>
+<ol>
+<li>保存返回地址 </li>
+<li>跳转到子程序的首地址   </li>
+</ol>
+<p>返回：<br>重新加载链接寄存器的内容至PC寄存器</p>
+<h2 id="单寄存器数据传输（加载-存储指令）"><a href="#单寄存器数据传输（加载-存储指令）" class="headerlink" title="单寄存器数据传输（加载 / 存储指令）"></a>单寄存器数据传输（加载 / 存储指令）</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LDR	STR	    加载/存储字的操作</span><br><span class="line">LDRB	STRB	加载/存储字节的操作</span><br><span class="line">LDRH	STRH	加载/存储半字的操作</span><br><span class="line">LDRSB		    有符号的字节加载</span><br><span class="line">LDRSH		    有符号的半字加载</span><br></pre></td></tr></table></figure>
+
+<p>格式:LDR{&lt; cond&gt;}{&lt; size&gt;} Rd, &lt; address&gt;<br>address地址可以通过一个基址寄存器和一个偏移量来确定  </p>
+<ol>
+<li>对于字和无符号字节的访问,偏移量可以为:<br>一个无符号的12位立即数(0-4095),如<br>LDR r0,[r1,#8]    ;r0 = M[r1+8]<br>一个寄存器,并且可以对其移位,如<br>LDR r0, [r1, r2]<br>LDR r0，[r1, r2, LSL#2]</li>
+<li>对于半字和有符号字节访问,偏移量可以为<br>一个8为立即数<br>一个寄存器,但不能对其移位</li>
+</ol>
+<h3 id="前序寻址-STR-r0-r1-8"><a href="#前序寻址-STR-r0-r1-8" class="headerlink" title="前序寻址: STR r0, [r1, #8]"></a>前序寻址: STR r0, [r1, #8]</h3><p>先算地址再存</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E5%89%8D%E5%BA%8F%E5%AF%BB%E5%9D%80.png" alt="前序寻址"><br>执行完后r1寄存器的值还是0x300没有改变<br>可以通过在后面加上”!”使r1的值改变为0x308<br>STR r0,[r1,#8]! </p>
+<h3 id="后序寻址-STR-r0-r1-8"><a href="#后序寻址-STR-r0-r1-8" class="headerlink" title="后序寻址: STR r0, [r1], #8"></a>后序寻址: STR r0, [r1], #8</h3><p>先存再算地址</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E5%90%8E%E7%BB%AD%E5%AF%BB%E5%9D%80.png" alt="后序寻址"> </p>
+<h3 id="内存拷贝举例"><a href="#内存拷贝举例" class="headerlink" title="内存拷贝举例"></a>内存拷贝举例</h3><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E4%B8%BE%E4%BE%8B%E5%86%85%E5%AD%98%E5%9B%BE.png" alt="举例内存图"> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">; r5 源数据块的起始指针</span><br><span class="line">; r6 源数据块的结束指针</span><br><span class="line">; r8 目的数据块的起始指针</span><br><span class="line"></span><br><span class="line">loop	LDR	r0, [r5], #4	; 加载4个字节</span><br><span class="line">		STR	r0, [r8], #4	; 存储至目标地址</span><br><span class="line">		CMP	r5, r6		; 检查是否完毕</span><br><span class="line">		BLT	loop		; 循环</span><br></pre></td></tr></table></figure>
+
+<h2 id="批量加载-存储指令"><a href="#批量加载-存储指令" class="headerlink" title="批量加载/存储指令"></a>批量加载/存储指令</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E6%89%B9%E9%87%8F%E5%8A%A0%E8%BD%BD%E5%AD%98%E5%82%A8%E6%8C%87%E4%BB%A4.png" alt="批量加载存储指令"><br>地址r0的值没有改变<br>加”!”改变LDMxx,r0!,{r1,r2,r3}<br>注意:不管{}中寄存器的顺序如何,以及地址是递增还是递减,始终是低编号的寄存器对应低地址空间,高编号的寄存器对应高地址空间</p>
+<p>对上面拷贝内存拷贝的例子进行优化,每次加载16个字节,减少了循环次数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">; r5 源数据块的起始指针</span><br><span class="line">; r6 源数据块的结束指针</span><br><span class="line">; r8 目的数据块的起始指针</span><br><span class="line">loop	LDMIA	r5!, &#123;r0-r3&#125;	; 加载 16 个字节</span><br><span class="line">		STMIA	r8!, &#123;r0-r3&#125;	; 存储至目标地址</span><br><span class="line">		CMP	r5, r6		; 检查拷贝是否完毕</span><br><span class="line">		BLT	loop		; 循环</span><br></pre></td></tr></table></figure>
+
+<h3 id="堆栈的工作方式"><a href="#堆栈的工作方式" class="headerlink" title="堆栈的工作方式"></a>堆栈的工作方式</h3><ul>
+<li>满递增：堆栈由低地址向高地址增长，堆栈指针指向最后压入的有效数据。指令如LDMFA、STMFA等； </li>
+<li>空递增：堆栈由低地址向高地址增长，堆栈指针指向下一个要放入数据的空位置。指令如LDMEA、STMEA等；</li>
+<li>满递减：堆栈由高地址向低地址增长，堆栈指针指向最后压入的有效数据。指令如LDMFD、STMFD等；</li>
+<li>空递减：堆栈由高地址向低地址增长，堆栈指针向下一个要放入数据的空位置。指令如LDMED、STMED等。</li>
+</ul>
+<p>实际上ARM的堆栈操作指令就是属于数据传输指令的一种:  </p>
+<ul>
+<li>STMFD    (Push)    实际是批量存储指令,对应 满递减堆栈 [STMDB]  </li>
+<li>LDMFD    (Pop)    实际是批量加载指令,对应 满递减堆栈 [LDMIA]</li>
+</ul>
+<h2 id="交换（SWP）指令"><a href="#交换（SWP）指令" class="headerlink" title="交换（SWP）指令"></a>交换（SWP）指令</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E4%BA%A4%E6%8D%A2%E6%8C%87%E4%BB%A4SWP.png" alt="交换指令SWP">   </p>
+<h2 id="软中断指令（SWI）"><a href="#软中断指令（SWI）" class="headerlink" title="软中断指令（SWI）"></a>软中断指令（SWI）</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E8%BD%AF%E4%B8%AD%E6%96%AD%E6%8C%87%E4%BB%A4SWI.png" alt="软中断指令SWI">   </p>
+<h2 id="程序状态寄存器访问指令"><a href="#程序状态寄存器访问指令" class="headerlink" title="程序状态寄存器访问指令"></a>程序状态寄存器访问指令</h2><ol>
+<li>MRS  读CPSR / SPSR寄存器</li>
+<li>MSR  写CPSR / SPSR寄存器</li>
+</ol>
+<p>使能IRQ中断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MRS r0,CPSR	; 将 CPSR 的内容读至 r0</span><br><span class="line">BIC r0,r0,#0x80	; 将第7位清零以允许IRQ中断</span><br><span class="line">MSR CPSR_c,r0	; 将修改后的值仅写入‘c’字节</span><br></pre></td></tr></table></figure>
+
+<p>在用户模式下, 所有的位都可以被读出来，但是仅有条件标志位（f）可以被改变</p>
+<h2 id="协处理器指令"><a href="#协处理器指令" class="headerlink" title="协处理器指令"></a>协处理器指令</h2><p>ARM 体系支持16个协处理器,每个协处理器的指令集都占据了ARM指令集的固定部分。如果系统中没有某个协处理器, 那么就会触发未定义指令异常。<br>有三种协处理器指令</p>
+<ol>
+<li>协处理器数据操作指令<br>CDP : 初始化协处理器的数据处理操作</li>
+<li>协处理器寄存器与ARM处理器寄存器数据传输指令<br>MRC : 协处理器寄存器到ARM 处理器寄存器的数据传输指令<br>MCR : ARM 处理器寄存器到协处理器寄存器的数据传输指令  </li>
+<li>协处理器寄存器和内存的数据传输指令<br>LDC : 协处理器数据加载指令<br>STC : 协处理器数据存储指令</li>
+</ol>
+<h1 id="ARM-v5TE-架构"><a href="#ARM-v5TE-架构" class="headerlink" title="ARM v5TE 架构"></a>ARM v5TE 架构</h1><p>v5TE 架构包含了v4T架构下所有的ARM / Thumb指令集, 新增了:</p>
+<ul>
+<li>对ARM / Thumb交互支持的改进</li>
+<li>前导0计数指令</li>
+<li>半字的符号乘法指令</li>
+<li>对饱和运算的支持</li>
+<li>程序状态寄存器新增Q标志位</li>
+<li>双字的加载 / 存储指令</li>
+<li>断点中断指令 (ARM 和 Thumb)</li>
+<li>高速缓存(cache)预加载指令</li>
+</ul>
+<h2 id="前导0计数指令"><a href="#前导0计数指令" class="headerlink" title="前导0计数指令"></a>前导0计数指令</h2><p>格式:CLZ{cond} Rd, Rm<br>功能:计算Rm寄存器内容中第一个1之前的二进制0的个数，并存储到Rd寄存器中<br>如果Rm中所有位为0则返回32,如果第31位是1则返回0  </p>
+<h2 id="符号乘法操作指令"><a href="#符号乘法操作指令" class="headerlink" title="符号乘法操作指令"></a>符号乘法操作指令</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E7%AC%A6%E5%8F%B7%E4%B9%98%E6%B3%95%E6%93%8D%E4%BD%9C%E6%8C%87%E4%BB%A4.png" alt="符号乘法操作指令">   </p>
+<h2 id="饱和运算指令"><a href="#饱和运算指令" class="headerlink" title="饱和运算指令"></a>饱和运算指令</h2><p>非饱和运算:0x7fffffff + 1 = 0x80000000会导致正值转变为负值<br>  饱和运算:0x7fffffff + 1 = 0x7fffffff 结果不变,置位Q标志位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">QSUB&#123;cond&#125; Rd, Rm, Rn	;Rd = saturate(Rm - Rn)</span><br><span class="line">QADD&#123;cond&#125; Rd, Rm, Rn	;Rd = saturate(Rm + Rn)</span><br><span class="line">QDSUB&#123;cond&#125; Rd, Rm, Rn	;Rd = saturate(Rm - saturate(Rn*2))</span><br><span class="line">QDADD&#123;cond&#125; Rd, Rm, Rn	;Rd = saturate(Rm + saturate(Rn*2))</span><br></pre></td></tr></table></figure>
+
+<p>在这些指令的执行中，如果饱和发生，那么Q 标志位就会被置位</p>
+<h2 id="加载-存储2个寄存器指令"><a href="#加载-存储2个寄存器指令" class="headerlink" title="加载 / 存储2个寄存器指令"></a>加载 / 存储2个寄存器指令</h2><ul>
+<li>格式:LDR/STR{&lt; cond&gt;}D &lt; Rd&gt;, &lt; addressing_mode &gt;  </li>
+<li>功能:一次加载/存储两个2个寄存器内容  </li>
+<li>Rd需指定为偶数号的寄存器 – 紧跟其后的奇数号寄存器用来传输第二个字</li>
+<li>使用与 LDRH/STRH指令相同的寻址模式</li>
+<li>地址是两个字中内存较小的地址,较高地址由该地址+4产生</li>
+<li>地址必须是8字节对齐的</li>
+</ul>
+<h2 id="断点指令"><a href="#断点指令" class="headerlink" title="断点指令"></a>断点指令</h2><p>断点指令 - BKPT &lt;#imm16&gt;<br>执行该指令或将引起一个预取指令异常,或者使处理器进入调试状态,这通常被调试工具/软件利用,以实现对软件的调试功能。  </p>
+<p>立即数的值是供调试工具使用的,将被处理器忽略.</p>
+<h2 id="高速缓存预加载指令"><a href="#高速缓存预加载指令" class="headerlink" title="高速缓存预加载指令"></a>高速缓存预加载指令</h2><p>它告诉存储系统对一个指定地址的数据访问即将到来<br>格式:PLD [Rn, &lt; offset&gt;]<br>偏移量offset可以为  </p>
+<ul>
+<li>无符号的12位立即数 (ie 0 - 4095 bytes).  </li>
+<li>寄存器, 可选择移位操作  </li>
+</ul>
+<p>PLD 是一条提示指令<br>如果在实现时对该指令不支持，那么相当于做了一条空操作语句 NOP</p>
+<h1 id="ARM-v6-架构指令体系新特性"><a href="#ARM-v6-架构指令体系新特性" class="headerlink" title="ARM v6 架构指令体系新特性"></a>ARM v6 架构指令体系新特性</h1><p>ARM 的 V6 版本 包含了 81 条新的指令<br>几类附加的指令</p>
+<ul>
+<li>打包数据</li>
+<li>SIMD (单指令多数据处理)</li>
+<li>绝对差值求和操作</li>
+<li>饱和运算</li>
+<li>对混合端（大/小端）的支持</li>
+<li>异常入口与返回指令</li>
+</ul>
+<p>V6 扩充的指令几乎都是条件执行的</p>
+<h2 id="打包数据类型指令"><a href="#打包数据类型指令" class="headerlink" title="打包数据类型指令"></a>打包数据类型指令</h2><p>PKHBT {&lt; cond&gt;} &lt; Rd&gt;, &lt; Rn&gt;, &lt; Rm&gt; { LSL #&lt; imm&gt;}<br>将第一个操作数的低半字和第二个操作数的高半字组合成一个新字放入Rd<br>第二个操作数可逻辑左移0-31位</p>
+<p>PKHTB {&lt; cond&gt;} &lt; Rd&gt;, &lt; Rn&gt;, &lt; Rm&gt; { ASR #&lt; imm&gt;}<br>将第一个操作数的高半字和第二个操作数的低半字组合成一个新字放入Rd<br>第二个操作数可算术右移 0-31位  </p>
+<p>UXT&lt; type&gt;{&lt; cond&gt;} &lt; Rd&gt;, {&lt; Rn&gt;}, &lt; Rm&gt; {&lt; rotation&gt;}<br>循环移位值可以为  #8, #16 or #24<br>类型 </p>
+<ul>
+<li>AB    Rd = Rn + (rotate(Rm) AND 0x000000FF)</li>
+<li>AH    Rd = Rn +(rotate(Rm) AND 0x0000FFFF)</li>
+<li>B    Rd = rotate(Rm) AND 0x000000FF</li>
+<li>B16    Rd = rotate(Rm) AND 0x00FF00FF</li>
+<li>H    Rd = rotate(Rm) AND 0x0000FFFF</li>
+</ul>
+<h2 id="字节选择指令"><a href="#字节选择指令" class="headerlink" title="字节选择指令"></a>字节选择指令</h2><p>根据状态寄存器GE[3:0] 位的值，决定目标寄存器中每个字节该是选择第一个寄存器的值还是第二个寄存器的值。<br>格式:SEL Rd, Rn, Rm<br>操作:      </p>
+<ul>
+<li>IF GE[0]=1 Rd[7:0] = Rn[7:0] else Rm[7:0]</li>
+<li>IF GE[1]=1 Rd[15:8] = Rn[15:8] else Rm[15:8]</li>
+<li>Rd[31:24]和Rd[23:16]的值根据GE[2]和G[3]位同理可得</li>
+</ul>
+<h2 id="单指令多数据处理指令SIMD"><a href="#单指令多数据处理指令SIMD" class="headerlink" title="单指令多数据处理指令SIMD"></a>单指令多数据处理指令SIMD</h2><p>v6 引入了新的指令来执行数据的并行处理，这些操作被称之为SIMD (单指令多数据)</p>
+<p>在 v6 中 SIMD 指令可分为下面三种:加法和减法,乘法,差的绝对值和</p>
+<h3 id="加法-amp-减法-1"><a href="#加法-amp-减法-1" class="headerlink" title="加法 &amp; 减法(1)"></a>加法 &amp; 减法(1)</h3><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E5%8A%A0%E6%B3%95%E5%92%8C%E5%87%8F%E6%B3%95%E7%9A%84SIMD%E6%8C%87%E4%BB%A41.png" alt="加法和减法的SIMD指令1">   </p>
+<h3 id="加法-amp-减法-2"><a href="#加法-amp-减法-2" class="headerlink" title="加法 &amp; 减法(2)"></a>加法 &amp; 减法(2)</h3><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E5%8A%A0%E6%B3%95%E5%92%8C%E5%87%8F%E6%B3%95%E7%9A%84SIMD%E6%8C%87%E4%BB%A42.png" alt="加法和减法的SIMD指令2">   </p>
+<h3 id="乘法的SIMD指令"><a href="#乘法的SIMD指令" class="headerlink" title="乘法的SIMD指令"></a>乘法的SIMD指令</h3><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E4%B9%98%E6%B3%95%E7%9A%84SIMD%E6%8C%87%E4%BB%A4.png" alt="乘法的SIMD指令">   </p>
+<h3 id="绝对值求和指令-png"><a href="#绝对值求和指令-png" class="headerlink" title="绝对值求和指令.png"></a>绝对值求和指令.png</h3><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E7%BB%9D%E5%AF%B9%E5%80%BC%E6%B1%82%E5%92%8C%E6%8C%87%E4%BB%A4.png" alt="绝对值求和指令">   </p>
+<h2 id="SETEND指令"><a href="#SETEND指令" class="headerlink" title="SETEND指令"></a>SETEND指令</h2><p>功能:选择数据访问的大小端方式<br>格式:SETEND {BE  | LE}<br>操作:设置了CPSR寄存器中的E位(v6架构)<br>也可以直接设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MRS r0, cpsr</span><br><span class="line">BIC r0, r0, #0x0200</span><br><span class="line">MSR cpsr_x, r0</span><br></pre></td></tr></table></figure>
+
+<h2 id="字节反转指令"><a href="#字节反转指令" class="headerlink" title="字节反转指令"></a>字节反转指令</h2><ul>
+<li>REV{cond} Rd, Rm        将一个字内的字节反转</li>
+<li>例:3210 -&gt;0123</li>
+<li>REV16{cond} Rd, Rm    将两个半字内的字节反转</li>
+<li>例:3210 -&gt;2310</li>
+<li>REVSH{cond} Rd, Rm    反转最低的两个字节,并将结果扩展为32位</li>
+<li>例:3210 -&gt;0001</li>
+</ul>
+<h2 id="饱和指令"><a href="#饱和指令" class="headerlink" title="饱和指令"></a>饱和指令</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E9%A5%B1%E5%92%8C%E6%8C%87%E4%BB%A4.png" alt="饱和指令">   </p>
+<h2 id="排他的加载-存储指令"><a href="#排他的加载-存储指令" class="headerlink" title="排他的加载 / 存储指令"></a>排他的加载 / 存储指令</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E6%8E%92%E4%BB%96%E6%8C%87%E4%BB%A4.png" alt="排他指令">   </p>
+<h2 id="异常进入与退出指令"><a href="#异常进入与退出指令" class="headerlink" title="异常进入与退出指令"></a>异常进入与退出指令</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E5%BC%82%E5%B8%B8%E8%BF%9B%E5%85%A5%E4%B8%8E%E9%80%80%E5%87%BA%E6%8C%87%E4%BB%A4.png" alt="异常进入与退出指令">   </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/15/ARM指令集/">http://yoursite.com/2019/12/15/ARM指令集/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/嵌入式微处理器/"># 嵌入式微处理器</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/16/Verilog基本语法/">Verilog基本语法</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/14/ARM编程模型/">ARM编程模型</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>

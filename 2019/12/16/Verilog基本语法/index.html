@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Verilog基本语法 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Verilog基本语法</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 16, 2019&nbsp;&nbsp;16:08:08</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Verilog-HDL语言概述"><a href="#Verilog-HDL语言概述" class="headerlink" title="Verilog HDL语言概述"></a>Verilog HDL语言概述</h1><p>Verilog HDL是一种硬件描述语言，最终是为了产生实际的<font color="red">硬件电路</font>或对硬件电路进行仿真。<br>利用Verilog HDL编程时，要时刻牢记Verilog是硬件语言，要将<font color="red">Verilog HDL语句</font>与<font color="red">硬件电路</font>对应起来；   </p>
+<ul>
+<li>电路在物理上是并行工作（只要电源接通，所有电路都同时工作）</li>
+<li>在Verilog HDL的module中，所有描述语句（包括连续赋值语句assign、行为语句块always/initial、模块实例化）都是<font color="red">并发执行</font>的；</li>
+<li>电路行为的先后顺序通过时钟节拍顺序来体现。</li>
+</ul>
+<h1 id="Verilog-HDL基本语法"><a href="#Verilog-HDL基本语法" class="headerlink" title="Verilog HDL基本语法"></a>Verilog HDL基本语法</h1><h2 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h2><ul>
+<li>Verilog HDL中的标识符是由任意的字母、数字、$符和下划线组成的字符序列。</li>
+<li>标识符的第一个字符必须是字母或者下划线。标识符<font color="red">区分大小写</font>。例如，count和COUNT是不同的。</li>
+</ul>
+<p>Verilog HDL定义了一系列的保留标识符，叫做关键词，仅用于表示特定的含义。</p>
+<h2 id="数值和常数"><a href="#数值和常数" class="headerlink" title="数值和常数"></a>数值和常数</h2><p>Verilog HDL有4种基本数值：</p>
+<ul>
+<li>0：逻辑0或“假”；</li>
+<li>1：逻辑1或“真”；</li>
+<li>x或X：未知；</li>
+<li>z或Z：高阻。</li>
+</ul>
+<p>Verilog HDL中有3种类型的常数：  </p>
+<h3 id="1-整数"><a href="#1-整数" class="headerlink" title="1.整数"></a>1.整数</h3><h4 id="十进制数格式表示法"><a href="#十进制数格式表示法" class="headerlink" title="十进制数格式表示法"></a>十进制数格式表示法</h4><p>十进制数格式的整数前面可以有“+”或“-”</p>
+<h4 id="基数格式表示法"><a href="#基数格式表示法" class="headerlink" title="基数格式表示法"></a>基数格式表示法</h4><p>格式为：<br>&lt;位宽&gt;&lt;’[s或S]进制&gt;&lt;数值&gt;<br>其中，位宽是该常量用二进制表示的位数，位宽可以采用缺省位宽；s或S表示有符号数；进制为<font color="red">b、o、d、h</font>表示是<font color="red">二、八、十和十六</font>进制整数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">8’b10101100      //位宽为8的二进制数10101100</span><br><span class="line">8’ha2            //位宽为8bit的十六进制数10100010</span><br><span class="line">6’so72        //位宽为6bit的有符号八进制数111010，它是十进制下的-6</span><br><span class="line">4’d-4            //非法：数值不能为负</span><br><span class="line">(2+3)’b10     //非法：位宽不能用表达式表示</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果定义的位宽比常量指定的位宽大,对于<font color="red">无符号数</font>则在数的左边<font color="red">填0补齐</font>，对于<font color="red">有符号数</font>则在左边<font color="red">填符号位补齐</font>，但如果数<font color="red">最左边一位是x或z</font>，则相应地在左边填<font color="red">x或z补齐</font>，</li>
+<li>若定义的位宽比常量指定的位宽小，则左边超出的位将<font color="red">被截除</font></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">10’b10           //左边填0占位，0000000010</span><br><span class="line">10’bx0x1         //左边填x占位，xxxxxxx0x1</span><br><span class="line">8’sb101101       //左边填符号位占位，11101101</span><br><span class="line"></span><br><span class="line">3’b110010011     //等同于3’b011</span><br><span class="line">5’h0FFF          //等同于5’h1F</span><br><span class="line">3’sb10100        //等同于3’sb100</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-实数"><a href="#2-实数" class="headerlink" title="2.实数"></a>2.实数</h3><p>十进制表示法<br>例如，12.56、1.345、1234.5678。<br>科学计数法<br>例如，1.56E2、5E-3  </p>
+<h3 id="3-字符串"><a href="#3-字符串" class="headerlink" title="3.字符串"></a>3.字符串</h3><p>字符串由双引号内的字符序列组成，用一串8位二进制ASCII码的形式表示，每一个8位二进制ASCII码表示一个字符。<br>用反斜杠（\）字符来表示某些特殊的字符.</p>
+<h2 id="数据类型及变量"><a href="#数据类型及变量" class="headerlink" title="数据类型及变量"></a>数据类型及变量</h2><p>数据类型与基本逻辑单元建库有关，由半导体厂家和EDA工具厂家共同提供。</p>
+<p>Verilog HDL 有两大类数据类型</p>
+<h3 id="线网类型：nets-type"><a href="#线网类型：nets-type" class="headerlink" title="线网类型：nets type"></a>线网类型：nets type</h3><p>表示Verilog结构化元件间的<font color="red">物理连线</font>。它的值由驱动元件的值决定,例如:连续赋值或门的输出.<br>如果没有驱动元件连接到线网，线网的<font color="red">缺省值为Z</font>.  </p>
+<p>nets型变量的输出<font color="red">始终随输入变化而更新</font>，一般是指硬件电路中的各种物理连接。<br>Verilog HDL中提供了多种nets型变量，包括wire、trior、trireg、tri、wand、tril、wor、triand、tri0、supply0、supply1等，但最常用的是wire型变量。<br>Verilog HDL模块中的输入/输出信号类型缺省时自动定义为wire型。</p>
+<p>wire型变量的定义格式如下：<br>     wire [n-1:0] 变量名1, 变量名2, …, 变量名n;<br>例1：wire a,b;<br>定义了两个1位的wire型变量a,b。<br>例2：wire[7:0] databus;<br>定义了8位宽度的数据总线。</p>
+<h3 id="寄存器类型：register-type"><a href="#寄存器类型：register-type" class="headerlink" title="寄存器类型：register type"></a>寄存器类型：register type</h3><p>表示一个抽象的数据<font color="red">存储单元</font>，它只能在always语句和initial语句中被赋值，并且它的值从一个赋值到另一个赋值被保存下来。寄存器类型的变量的<font color="red">缺省值为X</font>.</p>
+<p>register型变量对应的是具有状态保持作用的电路元件，如触发器、寄存器等。<br>register型变量与 nets 型变量的根本区别: register型变量需要<font color="red">被明确地赋值，并且在被重新赋值前一直保持原值</font>。所以在设计中要将register型变量放在过程块语句（如Initial , always)中赋值。</p>
+<p>在Verilog HDL中提供了5种register类型，包括reg、integer、time、real、realtime，通过赋值语句改变变量的值  </p>
+<p>reg型变量的定义格式类似于wire型，格式为：<br>reg [n-1:0] 变量名1, 变量名2, …, 变量名n;<br>例1：reg a,b;  //定义了两个一位的reg型变量a,b<br>例2：reg [7:0] data  //定义data为8位宽的数据  </p>
+<h2 id="Verilog-HDL的基本结构"><a href="#Verilog-HDL的基本结构" class="headerlink" title="Verilog HDL的基本结构"></a>Verilog HDL的基本结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module 模块名（端口列表）；</span><br><span class="line">       端口定义；</span><br><span class="line">       中间变量定义；</span><br><span class="line">       程序主体；</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注释要用“/<em>”与“</em>/”，或在注释前用“//”。</li>
+<li>模块名要满足标识符的规定。</li>
+<li>module与endmodule相呼应，成对出现。</li>
+<li>input定义输入信号变量。</li>
+<li>output定义输出信号变量。</li>
+<li>在门级描述方式中，调用Verilog-HDL的内置门实例语句，描述顺序为“（输出，输入1，输入2········）；”的形式。</li>
+<li>在数据流描述方式中，以保留字assign和位运算符来描述逻辑表达式。</li>
+<li>最后写入endmodule,注意行末没有“；”。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module  examplemodule(in1, in2, out1, out2);  </span><br><span class="line">//定义了一个名为examplemodule的模块</span><br><span class="line">        input  in1, in2;             //定义了in1和in2为输入端口</span><br><span class="line">        output  out1, out2;       //定义了out1和out2为输出端口</span><br><span class="line">        wire  x, y;      //定义了两个wire类型的中间变量x和y</span><br><span class="line">        reg  a, b;       //定义了两个reg类型的中间变量a和b</span><br><span class="line">        assign  x=in1&amp;y;                 //连续赋值语句assign</span><br><span class="line">        module_name  u1(in1, in2, …);      //调用模块实例</span><br><span class="line">        always@(in2) //与同一模块的其他并发语句，并行执行</span><br><span class="line">        begin                                 //过程语句，顺序执行</span><br><span class="line">        …</span><br><span class="line">        end</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/16/Verilog基本语法/">http://yoursite.com/2019/12/16/Verilog基本语法/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/硬件描述语言Verilog/"># 硬件描述语言Verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/16/Verilog的操作符/">Verilog的操作符</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/15/ARM指令集/">ARM指令集</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>

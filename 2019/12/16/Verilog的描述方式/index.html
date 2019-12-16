@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Verilog的描述方式 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Verilog的描述方式</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 16, 2019&nbsp;&nbsp;18:57:41</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>提供了多种描述方式：开关级描述方式（开关级建模）、门级描述方式（门级建模）、数据流级描述方式（数据流级建模）和行为级描述方式（行为级建模）；</p>
+<h4 id="Verilog的开关级描述方式"><a href="#Verilog的开关级描述方式" class="headerlink" title="Verilog的开关级描述方式"></a>Verilog的开关级描述方式</h4><p>能够使用内置开关级原语对设计完整建模；<br>开关级基本结构模型：内置pmos、nmos等。</p>
+<h4 id="Verilog的门级描述方式"><a href="#Verilog的门级描述方式" class="headerlink" title="Verilog的门级描述方式"></a>Verilog的门级描述方式</h4><p>能够使用内置门级原语对设计完整建模；<br>门级基本结构模型：内置and、or、nand等。</p>
+<h4 id="Verilog的数据流级描述方式"><a href="#Verilog的数据流级描述方式" class="headerlink" title="Verilog的数据流级描述方式"></a>Verilog的数据流级描述方式</h4><p>能够使用内置数据流级原语assign和位运算符对设计完整建模；<br>位运算符有：&amp;、︳、<del>、 ˆ、</del>ˆ等。</p>
+<h4 id="Verilog的行为级描述方式"><a href="#Verilog的行为级描述方式" class="headerlink" title="Verilog的行为级描述方式"></a>Verilog的行为级描述方式</h4><p>能够使用结构和算法对设计完整建模；<br>常用语句有：<br>initial(只执行一次)   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">initial </span><br><span class="line">       语句块;</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p>always (循环执行)  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">always@(敏感事件表) </span><br><span class="line">       语句块;</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p>if_else语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">if (条件表达式1)        语句1； </span><br><span class="line">else if (条件表达式2)   语句2;</span><br><span class="line">……</span><br><span class="line">else                  语句n；</span><br></pre></td></tr></table></figure>
+
+<p>case语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">case (控制表达式) </span><br><span class="line">  分支项表达式1：   语句1;</span><br><span class="line">  分支项表达式2：   语句2;</span><br><span class="line">  ……</span><br><span class="line">  default：         语句n；</span><br><span class="line">endcase</span><br></pre></td></tr></table></figure>
+
+<h1 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h1><p>设计一个4选1数据选择器电路(MUX)<br><img src="/images/%E7%A1%AC%E4%BB%B6%E6%8F%8F%E8%BF%B0%E8%AF%AD%E8%A8%80Verilog/Verilog%E7%9A%84%E6%8F%8F%E8%BF%B0%E6%96%B9%E5%BC%8F/4%E9%80%891%E5%85%AC%E5%BC%8F.png" alt="4选1公式"><br><img src="/images/%E7%A1%AC%E4%BB%B6%E6%8F%8F%E8%BF%B0%E8%AF%AD%E8%A8%80Verilog/Verilog%E7%9A%84%E6%8F%8F%E8%BF%B0%E6%96%B9%E5%BC%8F/4%E9%80%891%E5%9B%BE.png" alt="4选1图">  </p>
+<p>数据流级描述方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module MUX4_1(Y,D0,D1,D2,D3,A0,A1);</span><br><span class="line">    output Y;</span><br><span class="line">    input A0,A1;</span><br><span class="line">    input D0,D1,D2,D3;</span><br><span class="line">    assign Y=((~A1)&amp;(~A0)&amp;D0)|((~A1)&amp;A0&amp;D1)</span><br><span class="line">            |(A1&amp;(~A0)&amp;D2)|(A1&amp;A0&amp;D3);</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p>门级描述方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module MUX4_1(Y,D0,D1,D2,D3,A0,A1);</span><br><span class="line">    output Y;</span><br><span class="line">    Input A0,A1;</span><br><span class="line">    Input D0,D1,D2,D3;</span><br><span class="line">    wire A0n,A1n,and1,and2,and3,and4;</span><br><span class="line">    not U1(A0n,A0);</span><br><span class="line">    not U2(A1n,A1);</span><br><span class="line">    and U3(and1,A1n,A0n,D0);</span><br><span class="line">    and U4(and2,A1n,A0,D1);</span><br><span class="line">    and U5(and3,A1,A0n,D2);</span><br><span class="line">    and U6(and4,A1,A0,D3);</span><br><span class="line">    or  U7(Y,and1,and2,and3,and4);</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+
+<p>行为级描述方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">module MUX4_1(Y,D0,D1,D2,D3,A);</span><br><span class="line">    output reg Y;</span><br><span class="line">    input [1:0] A;</span><br><span class="line">    Input D0,D1,D2,D3;</span><br><span class="line">    always@(D0 or D1 or D2 or D3 or A)</span><br><span class="line">    case (A)</span><br><span class="line">        2’b00: Y=D0;</span><br><span class="line">        2’b01: Y=D1;</span><br><span class="line">        2’b10: Y=D2;</span><br><span class="line">        2’b11: Y=D3;</span><br><span class="line">    endcase</span><br><span class="line">endmodule</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/16/Verilog的描述方式/">http://yoursite.com/2019/12/16/Verilog的描述方式/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/硬件描述语言Verilog/"># 硬件描述语言Verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/16/组合逻辑电路实现/">组合逻辑电路实现</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/16/基本逻辑门电路/">基本逻辑门电路</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>

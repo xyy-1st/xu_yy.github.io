@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Verilog的操作符 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Verilog的操作符</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 16, 2019&nbsp;&nbsp;16:58:33</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="算术操作符"><a href="#算术操作符" class="headerlink" title="算术操作符"></a>算术操作符</h1><p>Verilog HDL支持6种算术操作符：<br>加法（+）、减法（-）、乘法（<em>）、除法（/）、取模（%）和幂运算（*</em>）。</p>
+<ul>
+<li>算术操作符中任意操作数中只要<font color="red">有一位为x或z</font>，则整个运算<font color="red">结果为x</font><br>例如：’b10x1+’b01111的运算结果为不确定数’bxxxxx。  </li>
+<li>算术表达式运算结果的位宽由最大操作数的位宽决定。在赋值语句中，算术运算结果的位宽也由赋值等号左端目标变量的位宽决定。</li>
+</ul>
+<h1 id="关系操作符"><a href="#关系操作符" class="headerlink" title="关系操作符"></a>关系操作符</h1><p>Verilog HDL支持4种关系操作符：<br>大于（&gt;）、小于（&lt;）、大于等于（&gt;=）、小于等于（&lt;=）。<br>关系操作符对两个操作数逐位进行比较，其结果为真（值为1）或假（值为0）；若操作数中<font color="red">有一位为x或z，则结果为x</font>。   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">23 &gt; 25             //结果为假（值为0）  </span><br><span class="line">52 &lt; 16’hxFF        //结果为x</span><br></pre></td></tr></table></figure>
+
+<p>若操作数的<font color="red">位宽不同</font>，对于无符号数，则位宽较小的操作数需在高位填0补齐；对于有符号数，则位宽较小的操作数需在高位填符号位补齐。  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">’b1000 &gt;= ’b01110    //等同于’b01000 &gt;= ’b01110，结果为假（值为0）   </span><br><span class="line">4’sb1011 &lt;= 8’sh1A   //等同于8’sb11111011 &lt;= 8’sb00011010，结果为真（值为1）</span><br></pre></td></tr></table></figure>
+
+<p>若表达式中有一个操作数是无符号数，则该表达式的其余操作数都被当作无符号数处理，  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(4’sd9 * 4’d2) &lt; 4     //等同于18 &lt; 4，结果为假（值为0）</span><br></pre></td></tr></table></figure>
+
+<h1 id="等价操作符"><a href="#等价操作符" class="headerlink" title="等价操作符"></a>等价操作符</h1><ul>
+<li>逻辑相等（= =）、逻辑不等（!=）、全等（= = =）、非全等（! = =）</li>
+<li>等价操作符对两个操作数逐位进行比较</li>
+<li>对于逻辑相等（= =）和逻辑不等（!=）的比较结果是真（值为1）或假（值为0），若操作数中有一位为x或z，则结果为x。</li>
+<li>对于全等（= = =）和非全等（! = =），则是<font color="red">将x或z当作数值</font>（不考虑其物理含义）严格地按字符值进行比较，其结果不是1就是0，没有未知的情况。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">’b100x == ’b100x    //结果为x  </span><br><span class="line">’b100x === ’b100x    //结果为真</span><br></pre></td></tr></table></figure>
+
+<h1 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h1><p>取反（ ~ ）、与（&amp;）、或（|）、异或（^）、同或（^~ 或 ~^）<br>位操作符对输入的操作数进行逐位操作（即对应位进行操作）。<br>例如：<br>假设a = ’b0110，b = ’b0100，则a | b = ’b0110，a &amp; b = ’b0100。</p>
+<h1 id="逻辑操作符"><a href="#逻辑操作符" class="headerlink" title="逻辑操作符"></a>逻辑操作符</h1><ul>
+<li>逻辑与（&amp;&amp;）、逻辑或（||）、逻辑非（!）</li>
+<li>如果操作数中没有x或z，则逻辑操作的结果是1位宽的布尔值（0或1）；</li>
+<li>如果操作数中有x或z，则逻辑操作的结果是1位宽的x。</li>
+<li>逻辑操作符与位操作符不同，通常逻辑操作符用于连接布尔表达式，而位操作符用于电路信号的连接。</li>
+</ul>
+<p>例如：(a = = b) &amp;&amp; (( c != d) || (e &gt; 10))       //连接三个布尔表达式</p>
+<h1 id="缩减操作符"><a href="#缩减操作符" class="headerlink" title="缩减操作符"></a>缩减操作符</h1><ul>
+<li>缩减与（&amp;）：只要操作数中<font color="red">任意一位的值为0</font>，则操作的<font color="red">结果便为0</font>；只要操作数中<font color="red">任意一位的值为x或z</font>，则操作的<font color="red">结果便为x</font>；否则其操作结果为1。</li>
+<li>缩减与非（~ &amp;）：对缩减与的操作结果求反便可以得到缩减与非的操作结果。</li>
+<li>缩减或（|）：只要操作数中<font color="red">任意一位的值为1</font>，则操作的<font color="red">结果便为1</font>；只要操作数中<font color="red">任意一位的值为x或z</font>，则操作的<font color="red">结果便为x</font>；否则其操作结果为0。</li>
+<li>缩减或非（~|）：对缩减或的操作结果求反便可以得到缩减或非的操作结果。</li>
+<li>缩减异或（^）：只要操作数中<font color="red">任意一位的值为x或z</font>，则操作的<font color="red">结果便为x</font>；若操作数中有<font color="red">偶数个1</font>，则操作的<font color="red">结果为0</font>；否则其操作结果为1。</li>
+<li>缩减同或（~ ^或^ ~）：对缩减异或的操作结果求反便可以得到缩减同或的操作结果。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">| ’b0110         //操作结果为1</span><br><span class="line">&amp; ’b0100         //操作结果为0</span><br><span class="line">~ ^ ’b0110       //操作结果为1</span><br><span class="line">^ 4’b01x0        //操作结果为x</span><br></pre></td></tr></table></figure>
+
+<h1 id="移位操作符"><a href="#移位操作符" class="headerlink" title="移位操作符"></a>移位操作符</h1><p>逻辑左移（&lt;&lt;）、逻辑右移（&gt;&gt;）、算术左移（&lt;&lt;&lt;）、算术右移（&gt;&gt;&gt;）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">8’b00010111 &gt;&gt; 2       //移位结果为8’b00000101</span><br><span class="line">8’b00010111 &lt;&lt; 2       //移位结果为8’b01011100</span><br><span class="line">8’b00010111 &gt;&gt;&gt; 4     //移位结果为8’b00000001</span><br><span class="line">8’b00010111 &lt;&lt;&lt; 4     //移位结果为8’b01110000</span><br><span class="line">4’sb1011 &gt;&gt;&gt;2            //移位结果为4’sb1110</span><br></pre></td></tr></table></figure>
+
+<h1 id="条件操作符"><a href="#条件操作符" class="headerlink" title="条件操作符"></a>条件操作符</h1><p>条件表达式？表达式1 : 表达式2;</p>
+<ul>
+<li>若条件表达式的值为真，则选择表达式1；若条件表达式的值为假，则选择表达式2；</li>
+<li>若条件表达式的值为x或z，则先计算表达式1和表达式2的值，然后逐位比较计算结果，如果相等，则该结果为最后结果，否则结果为x。</li>
+</ul>
+<p>wire  [2:0] student = marks &gt; 18? grade_a : grade_b;<br>执行该条件操作符时，先计算条件表达式marks &gt; 18，若为真，则student = grade_a，若为假，则student = grade_b</p>
+<h1 id="拼接和复制操作符"><a href="#拼接和复制操作符" class="headerlink" title="拼接和复制操作符"></a>拼接和复制操作符</h1><p>在Verilog HDL中，<font color="red">拼接操作符用花括号{}</font>表示，通过拼接操作符可以将多个操作数拼接在一起，组成一个操作数，拼接操作符的每个操作数<font color="red">必须有确定的位宽</font>条件。</p>
+<ul>
+<li>将各个操作数用花括号扩起来，每个操作数之间用逗号隔开，操作数类型可以是线网类型或者寄存器类型<br>例如：wire [7:0] Dbus<br>assign Abus [7:4] = {Dbus [0], Dbus [1], Dbus[2], Dbus[ 3 ] } ;</li>
+<li>如果需要多次重复拼接同一个操作数，可以使用常数表示需要重复拼接的次数。<br>例如：assign Bbus [7:4] = {Dbus [0], 2{Dbus [1]}, Dbus[2]} ;</li>
+</ul>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/16/Verilog的操作符/">http://yoursite.com/2019/12/16/Verilog的操作符/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/硬件描述语言Verilog/"># 硬件描述语言Verilog</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/16/基本逻辑门电路/">基本逻辑门电路</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/16/Verilog基本语法/">Verilog基本语法</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
