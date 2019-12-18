@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>处理器存储器子系统 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">处理器存储器子系统</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 18, 2019&nbsp;&nbsp;10:30:29</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/嵌入式微处理器/">嵌入式微处理器</a>
+                            
+                        </span>
+                        <span id="/2019/12/18/处理器存储器子系统/" class="leancloud-visitors view" data-flag-title="处理器存储器子系统">
+                            <em class="post-meta-item-text">Pageviews:</em>
+                            <i class="leancloud-visitors-count">loading</i>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="SoC"><a href="#SoC" class="headerlink" title="SoC"></a>SoC</h1><p>SOC即System On Chip，被称为系统级芯片或者片上系统，它是一个面向应用领域的、面向应用系统的集成电路，包含完整系统的绝大部分功能部件。SOC嵌入式微处理器就是这样一种超大规模集成电路系统，它将许多功能模块做在一个单一的芯片上。<br>特点:  </p>
+<ul>
+<li>可以大幅度缩小整个系统所占的体积，在大批量生产的情况下，生产成本大大降低；</li>
+<li>通过改变系统内部工作电压，能有效降低芯片的功率消耗；</li>
+<li>通过减少芯片的对外引脚数，能够简化制造过程；</li>
+<li>芯片外部的驱动接口单元数量减少，相应的电路板级的信号传递量也减少，大量的信号和数据在芯片内部传递和处理，能加快微处理器的处理速度，并降低系统噪声干扰，提高可靠性；</li>
+<li>大量利用可重复的IP（Intellectual Property)，包括各种原器件库、宏单元及特殊的专用IP如微处理器核心IP、通信接口IP、多媒体压缩解压缩IP及输入输出接口IP等）来构建系统，缩短产品开发周期，并大幅降低嵌入式微处理器及系统开发的复杂度。   </li>
+</ul>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%98%E5%82%A8%E5%99%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/soc.png" alt="soc"></p>
+<h1 id="处理器存储器子系统"><a href="#处理器存储器子系统" class="headerlink" title="处理器存储器子系统"></a>处理器存储器子系统</h1><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%98%E5%82%A8%E5%99%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%98%E5%82%A8%E5%AD%90%E7%B3%BB%E7%BB%9F.png" alt="处理器存储子系统"></p>
+<h2 id="高速缓冲存储器cache"><a href="#高速缓冲存储器cache" class="headerlink" title="高速缓冲存储器cache"></a>高速缓冲存储器cache</h2><p>由于CUP访问内存较慢,cache的作用就是将内存中常用的数据放到cache中,CPU可以快速访问.<br>专业术语：</p>
+<ul>
+<li>cache命中:CPU要读的数据在cache中</li>
+<li>cache未命中：CPU要读的数据不再cache中,则对主存储器进行操作,并将数据移入cache.</li>
+<li>通写：写cache时,cache和对应的内存<font color="red">同步更新</font></li>
+<li>回写: <font color="red">先写cache</font>，等这部分数据在cache中被<font color="red">移出时更新内存</font></li>
+</ul>
+<h1 id="写缓冲write-buffer"><a href="#写缓冲write-buffer" class="headerlink" title="写缓冲write buffer"></a>写缓冲write buffer</h1><p>写缓冲时一块高速缓冲,用于缓解CPU写内存时的等待.</p>
+<ul>
+<li>Write Buffer：当数据写到write buffer后<font color="red">不需要CPU的任何干预</font>而由write buffer的控制逻辑自动将数据写到内存的目的地址中。<font color="red">Cache的回写则需要CPU的干预</font>。Write Buffer较小，通常只有几十个字节。</li>
+<li>Read Buffer：当读数据时read buffer<font color="red">自动多读取一些字节，但是不占用CPU的总线时间</font>，所以能加快读数据的速度。当使用<font color="red">cache</font>时如果要从内存中读取数据则每个数据都会<font color="red">占用CPU的时间</font>，这是它与read buffer的最大不同点。Read buffer通常也较小，只有几十个字节。 </li>
+</ul>
+<h1 id="紧耦合内存TCM"><a href="#紧耦合内存TCM" class="headerlink" title="紧耦合内存TCM"></a>紧耦合内存TCM</h1><p>TCM是一种快速的本地内存，它对应了内存中特定的地址范围。<br>感觉功能cache与一样,不同的是cache中的内容不是固定,会随时替换,而TCM中的内容是固定的,不会被替换</p>
+<h1 id="MMU-MPU"><a href="#MMU-MPU" class="headerlink" title="MMU/MPU"></a>MMU/MPU</h1><p>对CPU来说是可选项</p>
+<ul>
+<li>MMU（内存管理单元）：能够控制内存的访问权限，以及各内存区域的属性（是否可以被高速缓存、是否能被缓冲），并提供虚拟地址到物理地址的转换。</li>
+<li>MPU（内存保护单元）：比MMU的功能弱一些，能够控制内存的访问权限，以及各内存区域的属性（是否可以被高速缓存、是否能被缓冲），<font color="red">但不提供虚拟地址到物理地址的转换</font>。 </li>
+</ul>
+<p>CPU使用虚拟地址给MMU,MMU转换为物理地址给内存</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%98%E5%82%A8%E5%99%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/VA%E4%B8%8EPA.png" alt="VA与PA"></p>
+<p>ARM处理器基本上采用页目录，页表的方式实现MMU，结果如下图。<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%98%E5%82%A8%E5%99%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/VA%E4%B8%8EPA.png" alt="VA与PA"></p>
+<ol>
+<li>虚拟地址被分为一级转换表地址索引，二级转换表地址索引，页地址索引</li>
+<li>首先得到一级转换表地址: 转换表基地址+一级转换表地址索引+00</li>
+<li>通过一级转换表地址得到一级描述符:页的基地址+控制位</li>
+<li>得到二级转换表地址: 页的基地址+二级转换表地址索引+00</li>
+<li>通过二级转换表地址得到二级描述符:微页的基地址+控制位</li>
+<li>得到物理地址:微页的基地址+页地址索引</li>
+</ol>
+<p>表存放在内存中,同样的道理，引入了快表(TLB),与cache类似,里面存放上述的转换表.</p>
+<h1 id="协处理器（Coprocessor）"><a href="#协处理器（Coprocessor）" class="headerlink" title="协处理器（Coprocessor）"></a>协处理器（Coprocessor）</h1><p>顾名思义就是协助的处理器</p>
+<ul>
+<li>协处理器可以附属于ARM处理器。一个协处理器通过扩展指令集或提供配置寄存器来扩展内核的处理功能。一个或多个协处理器可以通过协处理器接口与ARM内核相连。</li>
+<li>协处理器可以通过一组专门的、提供“加载 / 存储”类型接口的ARM指令来访问。例如协处理器15（CP15），ARM处理器使用CP15的寄存器来控制cache、TCM和MMU。</li>
+<li>协处理器也能通过提供一组专门的新指令来扩展指令集，例如处理向量浮点（VFP）运算的指令。这些新指令是在ARM流水线的译码阶段被处理的。如果在译码阶段发现是一条协处理器指令，则把它送给相应的协处理器。如果该协处理器不存在，或ARM不认识这条指令，则发生未定义指令异常。这也使得软件开发者可以用软件来仿真协处理器的行为（使用未定义指令异常的服务程序来实现）。 </li>
+</ul>
+<h1 id="cache工作原理"><a href="#cache工作原理" class="headerlink" title="cache工作原理"></a>cache工作原理</h1><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%A4%84%E7%90%86%E5%99%A8%E5%AD%98%E5%82%A8%E5%99%A8%E5%AD%90%E7%B3%BB%E7%BB%9F/cache%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86.png" alt="cache工作原理"></p>
+<ol>
+<li>得到该虚拟地址对应的物理地址</li>
+<li>根据条目中的C(cache)控制位和B(Bufferable)控制位决定是否缓存该内存访问的结果 </li>
+<li>根据存取权限控制位和域访问控制位确定该内存访问是否被允许。如果该内存访问不被允许，向ARM处理器报告存储访问中止。</li>
+<li>对于不允许缓存的存储访问，使用步骤（1）中得到的物理地址访问内存。对于允许缓存的存储访问，如果在cache命中，则忽略物理地址；如果cache没有命中，使用步骤（1）中得到的物理地址访问内存，并把该块数据读取到cache中。</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/18/处理器存储器子系统/">http://yoursite.com/2019/12/18/处理器存储器子系统/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/嵌入式微处理器/"># 嵌入式微处理器</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/12/18/常用总线/">常用总线</a>
+            
+            
+            <a class="next" rel="next" href="/2019/12/16/时序逻辑电路实现/">时序逻辑电路实现</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>

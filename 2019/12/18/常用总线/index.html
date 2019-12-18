@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>常用总线 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">常用总线</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 18, 2019&nbsp;&nbsp;15:05:42</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/嵌入式微处理器/">嵌入式微处理器</a>
+                            
+                        </span>
+                        <span id="/2019/12/18/常用总线/" class="leancloud-visitors view" data-flag-title="常用总线">
+                            <em class="post-meta-item-text">Pageviews:</em>
+                            <i class="leancloud-visitors-count">loading</i>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="EBI"><a href="#EBI" class="headerlink" title="EBI"></a>EBI</h1><ul>
+<li>EBI总线主要用于<font color="red">处理器与外部存储器芯片</font>之间进行数据交换</li>
+<li>并行总线</li>
+</ul>
+<h2 id="接口信号"><a href="#接口信号" class="headerlink" title="接口信号"></a>接口信号</h2><ul>
+<li>数据总线 D0,D1,D2……</li>
+<li>地址总线 A0,A1,A2……</li>
+<li>控制总线 CS（芯片片选信号）、CKE（时钟使能）、WR（写控制信号）、OE（输出使能）等</li>
+<li>多个外设可以共享地址总线和数据总线，通过不同的CS信号线来选择不同的外设 </li>
+</ul>
+<h2 id="读操作"><a href="#读操作" class="headerlink" title="读操作"></a>读操作</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/EBI%E8%AF%BB.png" alt="EBI读">  </p>
+<p>发起数据传输的主机首先在总线上发出地址信息，然后使能nGS，选中某个外设，该外设在EXTCLK（外部时钟信号）的同步下读取地址信息；之后主机再将读使能信号nOE拉低，产生读操作信号，此后外设就将对应地址中的数据放在DATA信号线上，主机也在EXTCLK的同步下读取DATA值，从而完成一次读操作</p>
+<h2 id="写操作"><a href="#写操作" class="headerlink" title="写操作"></a>写操作</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/EBI%E5%86%99.png" alt="EBI写">  </p>
+<p>主机首先将需要写入数据的地址值从ADDR信号线送出，然后主机使能nGS，选中某个外设，外设在EXTCLK的同步下读取该地址信息。主机再将需要写入的数据放于DATA线上，并使能nWE信号，外设在EXTCLK的同步下从DATA线上读取数据值，并写入到ADDR指定的地址中 </p>
+<h1 id="LCD"><a href="#LCD" class="headerlink" title="LCD"></a>LCD</h1><p>并行总线<br>LCD总线是连接<font color="red">处理器和LCD显示器</font>的数据传输通道,根据LCD的不同分为专用接口和总线接口</p>
+<ol>
+<li>专用接口是由处理器对LCD的所有数据点直接进行处理和控制，需要处理器产生LCD所需的时钟和点阵数据。这种接口的优点是所有显示均由处理器控制，使用灵活。缺点对处理器的速度要求比较高</li>
+<li>总线接口可以将LCD挂接到系统总线（EBI）上，通过外设访问时序，发送控制命令给LCD即可完成显示。其优点是对处理器的性能要求不高，使用方法简单，但是由于LCD集成了显示控制器，所以成本较高 </li>
+</ol>
+<h2 id="专业接口"><a href="#专业接口" class="headerlink" title="专业接口"></a>专业接口</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/LCD%E4%B8%93%E7%94%A8%E6%8E%A5%E5%8F%A3.png" alt="LCD专用接口">  </p>
+<p>LCD工作时，先将VFRAME置为高电平，指示LCD一帧数据的开始，然后将VLINE置高电平，开始传送一行新数据，然后再由VCLK将每一位数据同步送到LCD模块进行显示 </p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/LCD%E4%B8%93%E4%B8%9A%E6%8E%A5%E5%8F%A3%E6%97%B6%E5%BA%8F.png" alt="LCD专业接口时序">  </p>
+<h2 id="总线接口"><a href="#总线接口" class="headerlink" title="总线接口"></a>总线接口</h2><p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/LCD%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3.png" alt="LCD总线接口">  </p>
+<p>LCD工作时，由R/W信号控制读写状态，R/W为高则进行读操作，R/W为低则进行写操作。A0决定当前传送的字节是命令还是数据。写数据操作时首先设置R/W为低电平，再设置A0为高电平，将数据从DB0-DB7送出，然后将使能信号E拉低，数据就写入LCD控制器中。读数据操作时将R/W设置为高电平，A0为高电平，然后将使能信号E拉低，从DB0-DB7上读取LCD送出的数据 </p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/LCD%E6%80%BB%E7%BA%BF%E6%8E%A5%E5%8F%A3%E6%97%B6%E5%BA%8F.png" alt="LCD总线接口时序"> </p>
+<h1 id="SPI"><a href="#SPI" class="headerlink" title="SPI"></a>SPI</h1><ul>
+<li>SPI (Serial Peripheral Interface)总线是一种<font color="red">同步串行外设接口</font></li>
+<li>通过SPI总线连接的设备可以<font color="red">同时发送和接收串行数据</font></li>
+</ul>
+<h2 id="接口信号-1"><a href="#接口信号-1" class="headerlink" title="接口信号"></a>接口信号</h2><p>SPI的接口一般使用4根信号线：</p>
+<ul>
+<li>串行时钟线（SCK），</li>
+<li>主机输入/从机输出数据线MISO，</li>
+<li>主机输出/从机输入数据线MOSI，</li>
+<li>低电平有效的从机选择线SSx（x可为0,1,2……） </li>
+</ul>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/SPI%E7%B3%BB%E7%BB%9F.png" alt="SPI系统"> </p>
+<h2 id="读操作-1"><a href="#读操作-1" class="headerlink" title="读操作"></a>读操作</h2><p>当主机需要对从机进行读出操作时，主机首先将SS信号拉低，选中某个从机，与从机建立通信通道。然后主机通过MOSI发送读命令字节和寄存器地址字节，在SCK的驱动下，从机将数据从MISO上送出，直到停止SCK信号为止 </p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/SPI%E8%AF%BB%E6%97%B6%E5%BA%8F.png" alt="SPI读时序"> </p>
+<h2 id="写操作-1"><a href="#写操作-1" class="headerlink" title="写操作"></a>写操作</h2><p>当主机需要对从机进行写入操作时，主机首先将SS信号拉低，选中某个从机，与从机建立通信通道。然后主机通过MOSI发送写命令字节和寄存器地址字节，然后再发送数据字节，数据字节可以是一个或者多个 </p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/SPI%E5%86%99%E6%97%B6%E5%BA%8F.png" alt="SPI写时序"> </p>
+<h1 id="I2C"><a href="#I2C" class="headerlink" title="I2C"></a>I2C</h1><ul>
+<li>串行</li>
+<li>两条线,SDA,SCL</li>
+<li>多主机模式:任何能够进行数据发送和接收的设备都可以成为主机</li>
+</ul>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
+<li>开始信号: SCL为高电平时，SDA由高电平向低电平跳变，开始传送数据。 </li>
+<li>结束信号: SCL为高电平时，SDA由低电平向高电平跳变，结束传送数据 </li>
+<li>应答信号：接受数据的器件在接受到8位数据后,向发送数据的器件发出特定的低电平脉冲,表示已收到数据</li>
+</ul>
+<p>开始信号：<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/i2c%E5%BC%80%E5%A7%8B%E4%BF%A1%E5%8F%B7.png" alt="i2c开始信号"><br>结束信号：<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/i2c%E7%BB%93%E6%9D%9F%E4%BF%A1%E5%8F%B7.png" alt="i2c结束信号"> </p>
+<p>总线协议：</p>
+<ol>
+<li>总线上每次传送开始时有起始信号，结束时有停止信号 </li>
+<li>启动总线后第一个字节(命令字节)的高7位是从器件的寻址地址，其中最高4位为器件类型识别码，接着的3位为器件地址，第８位为方向位（“０”表示写操作，“１”表示读操作)</li>
+<li>地址字节后面的字节为传输的数据,数据字节可以是1~n个</li>
+<li>每个字节传输完成后，接收方必须发出一个应答位（Acknowledge Bit） ,主机方用于确认接收方是否正确接收</li>
+<li>总线的数据传输采用最高位（MSB） 在前的方式</li>
+</ol>
+<p>读：</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/i2c%E8%AF%BB.png" alt="i2c读"> </p>
+<p>写：</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/i2c%E5%86%99.png" alt="i2c写"> </p>
+<h1 id="UART"><a href="#UART" class="headerlink" title="UART"></a>UART</h1><ul>
+<li>UART（Universal Asynchronous Receiver/Transmitter）即<font color="red">通用异步收发器</font>，是嵌入式系统上很常用的一种<font color="red">串行</font>接口，用于异步通信，可以实现<font color="red">全双工</font>数据&lt;传输和接收。</li>
+<li>UART主要用于各种<font color="red">低速</font>数据传输的场合，如控制台、modem等。UART工作于对等模式下，只要通信速率设置正确，UART接口两端的设备都可以自由发送数据。传输速率一般从1200bps到115200bps。</li>
+<li>根据应用环境的不同，UART接口可以转换为RS232、RS422或者RS485的工业标准与其他设备进行互联，来完成<font color="red">几十米至几公里距离上</font>的数据传输。 </li>
+</ul>
+<h2 id="信号组成"><a href="#信号组成" class="headerlink" title="信号组成"></a>信号组成</h2><ul>
+<li>DSR，数据设备就绪（Data set ready)。当该信号处于有效（ON）状态，表明MODEM处于可以使用的状态</li>
+<li>DTR，数据终端就绪(Data Terminal ready)。当该信号处于有效（ON）状态，表明数据终端可以使用  </li>
+<li>RTS，请求发送(Request to send)。用来表示DTE（数据终端设备）请求DCE（数据通信设备）发送数据，当终端需要发送数据时，使该信号有效（ON状态），向MODEM请求发送。它用来控制MODEM是否要进入发送状态 </li>
+<li>CTS，允许发送（Clear to send ）。用来表示DCE准备好接收DTE发来的数据，是对请求发送信号RTS的响应信号。当MODEM已准备好接收终端传来的数据，并向前发送时，使该信号有效，通知终端开始向发送数据线TxD发送数据。RTS/CTS这对请求应答联络信号用于半双工MODEM系统中发送方式和接收方式之间的切换，在全双工系统中，因配置为双向通道，故不需要RTS/CTS联络信号，可以使其一直保持为高电平 </li>
+<li>RLSD，接收线信号检出(Received Line detection)。用来表示DCE已接通通信链路，告知DTE准备接收数据。当本地的MODEM收到由通信链路另一端（远地）的MODEM送来的载波信号时，使RLSD信号有效，通知终端准备接收，并且由MODEM将接收下来的载波信号解调成数字数据后，通过接收数据线RxD送到终端。此线也叫做数据载波检测(Data Carrier dectection — DCD）线 </li>
+<li>RI，振铃指示(Ringing)。当MODEM收到交换台送来的振铃呼叫信号时，使该信号有效（ON状态），通知终端已被呼叫 </li>
+<li>TxD，发送数据(Transmitted data)。通过TxD线，终端将串行数据发送到MODEM(DTE→DCE)</li>
+<li>RxD，接收数据(Received data)。通过RxD线，终端接收从MODEM发来的串行数据(DCE→DTE)  </li>
+<li>GND: 接地线</li>
+</ul>
+<p>在某些应用场合采用更简单的<font color="red">3线制（只有RD、TD和GND信号）</font>进行数据传输。</p>
+<h2 id="工作原理-1"><a href="#工作原理-1" class="headerlink" title="工作原理"></a>工作原理</h2><ul>
+<li>UART工作采用<font color="red">异步模式</font>，<font color="red">数据位</font>可以设置为8位、9位和10位三种，<font color="red">停止位</font>分为1位、1.5位和2位三种。因为<font color="red">没有时钟信号</font>，所以需要<font color="red">双方约定好通信的格式和速率</font>才能进行通信。接收方定时检查信号线上的电平变化来确定当前传输的数据位，从而接收完整的数据帧。</li>
+<li>在没有数据传输时<font color="red">TxD和RxD端都是高电平</font>；当需要发送数据时，传输方就将<font color="red">TxD先置为低电平(起始位)</font>，通知对方开始接收数据，然后按照预先设置好的波特率按从低位到高位的顺序发送数据位，最后将<font color="red">TxD置为高电平，产生结束位</font>，从而结束一次通信过程 </li>
+</ul>
+<h1 id="USB"><a href="#USB" class="headerlink" title="USB"></a>USB</h1><ul>
+<li>USB是英文Universal Serial Bus的缩写，中文含义是“<font color="red">通用串行总线</font>”，是重要的串行接口之一。</li>
+<li>USB的目的在于将众多的接口（串口、并口、PS2口等），改为通用的标准。</li>
+<li>主从模式</li>
+<li>热插拔</li>
+<li>从机接入USB总线时，主机端会检测到从机接入的信号。然后主机会对从机进行相关的功能、特性配置，配置完成后从机就可以根据主机的请求进行数据传输了。<h2 id="总线信号"><a href="#总线信号" class="headerlink" title="总线信号"></a>总线信号</h2>USB总线由差分数据线D+、D-和电源VCC、地GND四根信号线组成，D+，D-用于传送数据，VCC和GND用于向从机提供电源。</li>
+</ul>
+<p>在物理结构上，主机是通过集线器与各个逻辑设备通信的，但是在逻辑结构上，主机还是直接与各个逻辑设备通信，就<font color="red">好像它们是直接被连到主机上一样</font>。</p>
+<h2 id="数据传输"><a href="#数据传输" class="headerlink" title="数据传输"></a>数据传输</h2><ol>
+<li>控制传输(Control Transfer)<br> 控制传送是<font color="red">双向传送，数据量通常较小</font>。USB系统软件用来主要进行查询、配置和给USB设备发送通用的<font color="red">命令</font>。控制传送方式可以包括8、16、32和64字节的数据，这依赖于设备和传输速度。控制传输典型地用在主计算机和USB外设之间的端点(Endpoint)0之间的传输，但是指定供应商的控制传输可能用到其它的端点。 </li>
+<li>同步传输(Isochronous Transfer)<br> 同步传输提供了<font color="red">确定的带宽和间隔时间（latency)</font>。它被用于时间严格并具有<font color="red">较强容错性的流数据传输</font>，或者用于要求<font color="red">恒定的数据传送率的即时应用</font>中。例如执行即时通话的网络电话应用时，使用同步传输模式是很好的选择。同步数据要求确定的带宽值和确定的最大传送次数。对于同步传送来说，即时的数据传递比完美的精度和数据的完整性更重要一些。</li>
+<li>中断传输(Interrupt Transfer)<br>   中断方式传输主要用于<font color="red">定时查询设备是否有中断数据要传送</font>。设备的端点模式器的结构决定了它的查询频率，从1到255ms之间。这种传输方式典型的应用在<font color="red">少量的分散的、不可预测数据的传输</font>。键盘、操纵杆和鼠标就属于这一类型。中断方式传送是<font color="red">单向的</font>并且对于host来说只有<font color="red">输入</font>的方式。</li>
+<li>批量传输(Bulk Transfer)<br> 主要应用在<font color="red">数据大量传送和接收</font>，同时又<font color="red">没有带宽和间隔时间要求</font>的情况下，要求<font color="red">保证传输</font>。打印机和扫描仪属于这种类型。这种类型的设备适合于传输非常慢和大量被延迟的传输，可以等到所有其它类型的数据的传送完成之后再传送和接收数据。</li>
+</ol>
+<h1 id="I2S"><a href="#I2S" class="headerlink" title="I2S"></a>I2S</h1><ul>
+<li>I2S（Inter IC sound）接口主要是为<font color="red">数字音频</font>设备开发的</li>
+<li>它采用了沿独立的导线传输时钟与数据信号的设计，通过将<font color="red">数据和时钟信号分离</font>，避免了因时差诱发的失真，为用户节省了购买抵抗音频抖动的专业设备的费用。</li>
+</ul>
+<h2 id="信号组成-1"><a href="#信号组成-1" class="headerlink" title="信号组成"></a>信号组成</h2><ul>
+<li>串行时钟SCK，也叫位时钟（BCLK），即对应于数字音频的每一位数据，SCK都有1个脉冲。SCK的频率通过以下公式计算得到：<font color="red">SCK频率 = 2 * 采样频率 * 采样位数 </font></li>
+<li>帧时钟LRCK，用于切换左右声道的数据。LRCK为“1”表示正在传输的是左声道的数据，为“0”则表示正在传输的是右声道的数据。<font color="red">LRCK的频率等于采样频率。</font> </li>
+<li>串行数据SDATA，就是用二进制补码表示的音频数据。有时为了使系统间能够更好地同步，还需要另外的一个信号MCLK，称为主时钟，也叫系统时钟（System Clock），它是<font color="red">采样频率的256倍或384倍</font>。 </li>
+<li>字段（声道）选择（WS），它表明了正在被传输的声道。WS为“0”表示正在传输的是左声道的数据，WS为“1”表示正在传输的是右声道的数据。WS可以在串行时钟的上升沿或者下降沿发生改变，并且WS信号不一定是要对称的。在从属装置端，WS在时钟信号的上升沿发生改变。WS总是在最高位传输前的一个时钟周期内发生改变，这样可以使从属装置得到与被传输的串行数据同步的时间，并且使接收端存储当前的命令并为下次的命令清除空间。 </li>
+</ul>
+<h2 id="工作时序"><a href="#工作时序" class="headerlink" title="工作时序"></a>工作时序</h2><p>SCK的每一个脉冲对应SD的一位，接收方就通过SCK来同步采样SD的数据，WS用于切换左右声道。SD上传输的数据格式是高位在前，低位在后。无论被传输的信号有多少位有效数据，数据的最高位总是被最先传输（在WS发生变化也就是一帧开始后的第2个SCK脉冲处），因此最高位拥有固定的位置，而最低位的位置则依赖于数据的有效位数，这也就使得接收端与发送端的有效位数可以不同。如果接收端能处理的有效位数少于发送端，它可以放弃数据帧中多余的低位数据；如果接收端能处理的有效位数多于发送端，则它可以自行补足剩余的位（通常用零来补足）。这种同步机制使得数字音频设备的互连更加方便，而且不会造成数据错位。为了保证数字音频信号的正确传输，发送端和接收端应该采用相同的数据格式和长度。</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/I2S.png" alt="I2S"> </p>
+<h1 id="SDIO"><a href="#SDIO" class="headerlink" title="SDIO"></a>SDIO</h1><p>SDIO总线主要用于<font color="red">连接SD卡</font>，它主要的特点是其数据线可以采用<font color="red">1线到4线</font>。上电后，SD卡默认使用0号数据线DAT0。初始化之后，主机可以改变线宽（比如2根线、3根线…）。因此，<font color="red">不同配置的SD卡都可以和主机连接</font>，称之为<font color="red">混和的SD卡连接方式</font>。在混和连接中Vcc、Vss和CLK的信号连接可以通用，但是命令、回复和数据（DAT0～3）这几根信号线，各个SD卡必须独立与主机连接。 </p>
+<h2 id="信号组成-2"><a href="#信号组成-2" class="headerlink" title="信号组成"></a>信号组成</h2><ul>
+<li>CLK：时钟信号。每个时钟周期传输一个命令或数据位。时钟的频率可在0～25MHz之间变化。SD卡的总线管理器可以不受任何限制地自由产生0～25MHz的频率。</li>
+<li>CMD：命令信号。主机发出的命令在CMD线上串行传输。一个命令是一次主机到从卡操作的开始。命令可以对单机寻址（寻址命令），或呼叫所有卡（广播命令）。回复信号也在CMD线上串行传输，一个命令是对之前命令的回答。回复可以来自单机或所有卡。</li>
+<li>DATA0～3：数据线。</li>
+</ul>
+<h2 id="工作时序-1"><a href="#工作时序-1" class="headerlink" title="工作时序"></a>工作时序</h2><p>SDIO的工作时序相对比较简单，主机方通过<font color="red">CMD指示</font>当前数据线上发送的值是<font color="red">命令还是数据</font>；然后根据命令送出写入SD卡的数据，或者接收从SD卡中读取的数据。<br>SD总线上的命令和数据比特流从一个起始位开始，以停止位中止。</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/SDIO%E6%97%B6%E5%BA%8F.png" alt="SDIO时序"> </p>
+<h1 id="MII"><a href="#MII" class="headerlink" title="MII"></a>MII</h1><p>MII（Media Independent Interface）主要用于<font color="red">以太网设备的互联</font>，通常是<font color="red">MAC与PHY</font>之间的通信通道。RMII-Reduced MII、SMII-Serial MII都是在MII的基础上发展而来。MII总线可以支持10M/100Mbps的数据传输率。</p>
+<h2 id="总线信号-1"><a href="#总线信号-1" class="headerlink" title="总线信号"></a>总线信号</h2><ul>
+<li>TXD[3:0]   数据发送信号，方向是从MAC控制器到PHY，每次传输半个字节</li>
+<li>RXD[3:0]  数据接收信号，方向是从PHY到MAC控制器，每次传输半个字节</li>
+<li>TXC  发送时钟，由PHY器件提供，用于数据同步</li>
+<li>RXC  接收时钟，由PHY器件提供，用于数据同步</li>
+<li>TXER 发送错误指示，当PHY器件发现MAC控制器发送的数据校验码有误，则会置位TXER通知MAC控制器</li>
+<li>RXER 接收错误指示，当MAC控制器发现PHY器件发送的数据校验码有误，则会置位RXER通知MAC控制器</li>
+<li>CRS  载波检测，当网线上检测到通信载波时置位</li>
+<li>TXEN 发送使能，指示TXD数据线上的数据有效</li>
+<li>RXDV 接收数据有效，指示RXD数据线上的数据有效</li>
+<li>MDC 时钟信号，用于管理接口数据同步</li>
+<li>MDIO 数据信号，管理接口数据收发</li>
+</ul>
+<h2 id="接收时序"><a href="#接收时序" class="headerlink" title="接收时序"></a>接收时序</h2><p>接收数据时MII外设会将RXDV置为高电平，并根据RXCLK的时序依次将数据分成两个4位从RXD[0:3]送出。接收方在接收完一帧数据后，如果数据帧有误，MII外设将RXER置为高电平，表明接收的数据有误，这时接收方将丢弃刚接收的数据帧；如果接收正确的话则保留接收到的数据帧。 </p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/MII%E6%8E%A5%E5%8F%97%E6%97%B6%E5%BA%8F.png" alt="MII接受时序"> </p>
+<h2 id="发送时序"><a href="#发送时序" class="headerlink" title="发送时序"></a>发送时序</h2><p>发送数据时MAC控制器先将TXEN置为高电平，在TXCLK的同步下开始传送数据。在数据帧传输完成后，如果数据帧经校验有误，则拉高TXER表明刚发送的数据无效，接收方则会丢弃刚收到的数据帧。如果没有TXER信号，则表明数据帧正确。</p>
+<p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/%E5%B8%B8%E7%94%A8%E6%80%BB%E7%BA%BF/MII%E5%8F%91%E9%80%81%E6%97%B6%E5%BA%8F.png" alt="MII发送时序"> </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/18/常用总线/">http://yoursite.com/2019/12/18/常用总线/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/嵌入式微处理器/"># 嵌入式微处理器</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/12/18/处理器存储器子系统/">处理器存储器子系统</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
