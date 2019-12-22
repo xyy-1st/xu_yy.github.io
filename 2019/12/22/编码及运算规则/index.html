@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>编码及运算规则 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">编码及运算规则</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 22, 2019&nbsp;&nbsp;10:52:24</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="原码表示"><a href="#原码表示" class="headerlink" title="原码表示"></a>原码表示</h1><ol>
+<li>最高位为符号位,负数为1,正数为0</li>
+<li>其余位为数值位</li>
+</ol>
+<p>例   </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+5表示为 0000 0101  </span><br><span class="line">-5表示为 1000 0101</span><br></pre></td></tr></table></figure>
+
+<p>0的表示不唯一,因为有+0和-0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+0表示为 0000 0000  </span><br><span class="line">-0表示为 1000 0000</span><br></pre></td></tr></table></figure>
+
+<h1 id="反码表示"><a href="#反码表示" class="headerlink" title="反码表示"></a>反码表示</h1><ol>
+<li>正数,反码与原码相同  </li>
+<li>负数,反码为原码的符号位不变,数值位取反</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">+5原码表示为 0000 0101  </span><br><span class="line">  反码表示为 0000 0101 </span><br><span class="line">-5原码表示为 1000 0101</span><br><span class="line">  反码表示为 1111 1010</span><br></pre></td></tr></table></figure>
+
+<p>0的表示不唯一</p>
+<h1 id="补码表示"><a href="#补码表示" class="headerlink" title="补码表示"></a>补码表示</h1><p>[X<sub>T</sub>]<sub>补</sub> = 2<sup>n</sup> + X<sub>T</sub>  (mod 2<sup>n</sup>)<br>其中(-2<sup>n-1</sup> &lt;= X<sub>T</sub> &lt; 2<sup>n-1</sup>)<br>例 n = 8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 5: (5 + 256 ) mod 256 = 5    0000 0101</span><br><span class="line">-5: (-5 + 256) mod 256 = 251  1111 1011</span><br></pre></td></tr></table></figure>
+
+<p>0的表示唯一</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+0: (+0 + 256 ) mod 256 = 0    0000 0000</span><br><span class="line">-0: (-0 + 256 ) mod 256 = 0    0000 0000</span><br></pre></td></tr></table></figure>
+
+<p>原码到补码</p>
+<ol>
+<li>正数原码补码相同</li>
+<li>负数,原码符号位不变,数值位取反 + 1 得补码</li>
+</ol>
+<p>补码到原码</p>
+<ol>
+<li>正数原码补码相同</li>
+<li>负数,补码符号位不变,数值位取反 + 1 得原码</li>
+</ol>
+<h1 id="移码表示"><a href="#移码表示" class="headerlink" title="移码表示"></a>移码表示</h1><p>将每一个数值加上一个偏置常数（ bias）<br>一般来说，当编码位数为n时，bias取 2<sup>n-1</sup><br>例 n = 8</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> 5: 5 + 128  = 133    1000 0101</span><br><span class="line">-5: -5 + 128 = 123    0111 1011</span><br></pre></td></tr></table></figure>
+
+<p>0的表示唯一<br>移码和补码仅第一位不同</p>
+<h1 id="IEEE754浮点数标准"><a href="#IEEE754浮点数标准" class="headerlink" title="IEEE754浮点数标准"></a>IEEE754浮点数标准</h1><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E7%A0%81%E5%8F%8A%E8%BF%90%E7%AE%97%E8%A7%84%E5%88%99/IEEE754.png" alt="IEEE754"></p>
+<p>规格化数：+/-1.xx…x × 2<sup>E</sup></p>
+<ul>
+<li>符号S: 1 表示负 ; 0表示 正</li>
+<li>(阶码)指数E 用移码表示<br>  <font color="red">偏移值为2<sup>7</sup>-1=127 (单精度), (双精度为2<sup>10</sup>-1=1023 )</font><br>  阶码取值范围：-127 ~ 128,移码为:0000 0000 ~ 1111 1111<br>  其中全0和全1用来表示特殊值</li>
+<li>尾数就是xx…x（原码）  <font color="red">隐含了最高位的1</font>  </li>
+</ul>
+<p>例 0.75<br>0.75  = 0.11<br>规格化为 1.1 x 2<sup>-1</sup><br>符号位 0<br>阶码 -1 + 127 = 126  二进制为 0111 1110<br>尾数 100…0 共22个0<br>0.75的IEEE754标准表示为 0 0111 1110 100…0共22个0 </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E7%A0%81%E5%8F%8A%E8%BF%90%E7%AE%97%E8%A7%84%E5%88%99/IEEE754%E5%8D%95%E7%B2%BE%E5%BA%A6.png" alt="IEEE754单精度"></p>
+<h1 id="补码加减运算"><a href="#补码加减运算" class="headerlink" title="补码加减运算"></a>补码加减运算</h1><p>[x + y]<sub>补</sub> = [x]<sub>补</sub> + [y]<sub>补</sub> (mod 2<sup>n</sup>)<br>[x - y]<sub>补</sub> = [x]<sub>补</sub> + [-y]<sub>补</sub> (mod 2<sup>n</sup>) </p>
+<p>已知[y]<sub>补</sub>,如何求[–y]<sub>补</sub>？<br>[–y]<sub>补</sub>= ~ [y]<sub>补</sub> + 1</p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E7%A0%81%E5%8F%8A%E8%BF%90%E7%AE%97%E8%A7%84%E5%88%99/%E8%A1%A5%E7%A0%81%E5%8A%A0%E5%87%8F%E8%BF%90%E7%AE%97%E9%83%A8%E4%BB%B6.png" alt="补码加减运算部件"></p>
+<p>溢出位判断</p>
+<ol>
+<li><p>最高位和次高位的进位不同<br>OF=Cn  ⊕ Cn-1</p>
+</li>
+<li><p>若两个加数的符号位相同,且与和的符号位不同,则产生溢出<br> OF=X<sub>n-1</sub>Y<sub>n-1</sub>(<del>F<sub>n-1</sub>) + X<sub>n-1</sub>Y<sub>n-1</sub>（</del>F<sub>n-1</sub>）</p>
+</li>
+</ol>
+<h1 id="原码加减运算"><a href="#原码加减运算" class="headerlink" title="原码加减运算"></a>原码加减运算</h1><ul>
+<li>比较两数符号，对加法执行“同号求和，异号求差”，对减法执行“异号求和，同号求差”。</li>
+<li>求和：数值位相加，和的符号取被加数（被减数）的符号。若最高位产生进位，则结果溢出。</li>
+<li>求差：加数（减数）求补后与被加数（被减数）相加。</li>
+</ul>
+<ol>
+<li>最高位产生进位(Cout=1)则无借位(CF=0)，表示够减结果为正，该结果即为“差”的数值位的原码。</li>
+<li>最高位无进位(Cout=0)则CF=1，结果为负，它是“差”的数值位的补码形式，需对结果求补，还原为原码形式的数值位。</li>
+<li>差的符号位：对于1)情况，符号位取被加数（被减数）的符号；       对于2)情况，符号位为被加数（被减数）的符号取反。</li>
+</ol>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E7%A0%81%E5%8F%8A%E8%BF%90%E7%AE%97%E8%A7%84%E5%88%99/%E5%8E%9F%E7%A0%81%E5%8A%A0%E5%87%8F%E4%B8%BE%E4%BE%8B.png" alt="原码加减举例"></p>
+<h1 id="移码加减"><a href="#移码加减" class="headerlink" title="移码加减"></a>移码加减</h1><p>移码的和/差等于和/差的补码！<br>OF=X<sub>n-1</sub>Y<sub>n-1</sub>F<sub>n-1</sub> + （<del>X<sub>n-1</sub>）（</del>Y<sub>n-1</sub>）(~F<sub>n-1</sub>）</p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E7%A0%81%E5%8F%8A%E8%BF%90%E7%AE%97%E8%A7%84%E5%88%99/%E7%A7%BB%E7%A0%81%E5%8A%A0%E5%87%8F%E8%BF%90%E7%AE%97%E4%B8%BE%E4%BE%8B.png" alt="移码加减运算举例"></p>
+<h1 id="原码乘法"><a href="#原码乘法" class="headerlink" title="原码乘法"></a>原码乘法</h1><ol>
+<li>乘积的符号位由两个乘数的异或得到</li>
+<li>计算乘积的数值位<br> X x Y   当Y[i] 为1时先加X在右移一位 为0时直接右移一位  </li>
+</ol>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E7%BC%96%E7%A0%81%E5%8F%8A%E8%BF%90%E7%AE%97%E8%A7%84%E5%88%99/%E5%8E%9F%E7%A0%81%E4%B9%98%E6%B3%95%E4%B8%BE%E4%BE%8B.png" alt="原码乘法举例"></p>
+<h1 id="浮点数加减"><a href="#浮点数加减" class="headerlink" title="浮点数加减"></a>浮点数加减</h1><p>用IEE754格式</p>
+<ol>
+<li>对阶 小阶向大阶看齐, 右移,(后面添加了保护位)<br>△E = E<sub>x</sub> - E<sub>x</sub><br>小于等于 0 x右移  E<sub>b</sub> = E<sub>y</sub><br> 大于 0 y右移 E<sub>b</sub> = E<sub>x</sub></li>
+<li>尾数加减  M<sub>b</sub> = M<sub>x</sub> + M<sub>y</sub><br>原码加减</li>
+<li>尾数规格化 右移一位,阶码加一。左移一位,阶码减一</li>
+<li>尾数的舍入问题（舍去保护位）<br>就近舍入:找到中间值 大于中间值 进,小于中间值 舍,等于中间值,看最低位,为1进,为0舍<br>朝正无穷方向舍入:让数变大<br>朝负无穷方向舍入:让数变小<br>朝0方向舍入:直接舍  </li>
+<li>溢出判断<br>检查阶码是否超范围</li>
+</ol>
+<p>例0.5 + （-0.4375）<br>x = 1.0…0x2<sup>-1</sup><br>y = -1.110…0x2<sup>-2</sup>   </p>
+<ol>
+<li>对阶<br>△E = E<sub>x</sub> - E<sub>x</sub> = 1<br>y右移移位,y = -0.1110…0<font color="red">00</font>x2<sup>-1</sup><br>E<sub>b</sub> = E<sub>x</sub>    </li>
+<li>尾数相加 (<font color="red">原码加减规则</font>)<br>M<sub>b</sub> = M<sub>x</sub> + M<sub>y</sub> = 00.00100…0<font color="red">00</font></li>
+<li>规格化<br>左移3位,并将阶码减3<br> M<sub>b</sub> = M<sub>x</sub> + M<sub>y</sub> = 1.0000…0<font color="red">00</font></li>
+<li>舍入<br>不管用什么方式舍入,都是将保护位的00舍去</li>
+<li>溢出判断<br>没有溢出</li>
+</ol>
+<p>结果<br>符号位为0<br>E<sub>b</sub> = E<sub>x</sub> - 3 = -4 + 127 = 0111 1011<br>M<sub>b</sub> = 0…0<br>拼起来位 0 01111011 0…0 及1.0x2<sup>-4</sup> = 0.0625</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/22/编码及运算规则/">http://yoursite.com/2019/12/22/编码及运算规则/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/12/18/常用总线/">常用总线</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
