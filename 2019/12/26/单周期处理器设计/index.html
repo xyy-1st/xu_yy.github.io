@@ -7,7 +7,7 @@
 
 
 
-<title>MIPS汇编 | Hexo</title>
+<title>单周期处理器设计 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">MIPS汇编</h1>
+            <h1 class="post-title">单周期处理器设计</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 26, 2019&nbsp;&nbsp;12:38:22</a>
+                        Date: <a href="#">十二月 26, 2019&nbsp;&nbsp;21:10:23</a>
                         </span>
                     
                     
@@ -188,7 +188,7 @@
                                 <a href="/categories/组成原理/">组成原理</a>
                             
                         </span>
-                        <span id="/2019/12/26/MIPS汇编/" class="leancloud-visitors view" data-flag-title="MIPS汇编">
+                        <span id="/2019/12/26/单周期处理器设计/" class="leancloud-visitors view" data-flag-title="单周期处理器设计">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -198,32 +198,44 @@
         </header>
 
         <div class="post-content">
-            <h1 id="MIPS指令中数据的表示"><a href="#MIPS指令中数据的表示" class="headerlink" title="MIPS指令中数据的表示"></a>MIPS指令中数据的表示</h1><p>MIPS提供了<font color="yellow">32个32位的通用寄存器,寄存器编号占5位</font></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="通用寄存器"></p>
-<p>在汇编语言中使用寄存器时可以用寄存器名，也可以用寄存器号，在寄存器号前加“$”,例如，$8即为$t0</p>
-<p>MIPS提供了32个32位的单精度浮点数寄存器,用汇编符号$f0-$f31表示。可以配对成16个64位的浮点寄存器用来存放64位的双精度浮点数。</p>
-<p>还有两个乘商寄存器Hi和Lo。乘法时，Hi和Lo结合存放64位结果,除法是Hi存放余数,Lo存放商。</p>
-<p>使用PC指出下一条指令的地址</p>
-<p>存储器按字节编制</p>
-<p>大端</p>
-<h1 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h1><p>MIPS是典型的<font color="yellow">RISC</font>处理器,采用<font color="yellow">32位定长指令</font>,操作码字段也是固定长度,没有专门的寻址方式字段,<font color="yellow">由指令格式确定各操作数的寻址方式</font></p>
-<p>有三种格式：R型,I型,J型</p>
-<h2 id="R型"><a href="#R型" class="headerlink" title="R型"></a>R型</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="R型指令格式"></p>
-<ul>
-<li>参与运算的操作数和结果都在寄存器，R型指令的寻址方式只有<font color="yellow">寄存器寻址</font>一种；</li>
-<li>R型指令的op全为0，具体功能由func部分确定；</li>
-<li>rs：第1个源操作数；</li>
-<li>rt：第2个源操作数；</li>
-<li>rd：目的寄存器；</li>
-<li>shamt：对非移位指令为00000。移位指令为移位次数。</li>
-</ul>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E4%B8%BE%E4%BE%8B.png" alt="R型指令举例"></p>
-<h2 id="I型"><a href="#I型" class="headerlink" title="I型"></a>I型</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/I%E5%9E%8B%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="I型指令格式"></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/I%E5%9E%8B%E6%8C%87%E4%BB%A4%E4%B8%BE%E4%BE%8B.png" alt="I型指令举例"></p>
-<h2 id="J型指令"><a href="#J型指令" class="headerlink" title="J型指令"></a>J型指令</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/J%E5%9E%8B%E6%8C%87%E4%BB%A4.png" alt="J型指令"></p>
-<p>变通的直接寻址</p>
-<h1 id="MIPS汇编语言示例列表"><a href="#MIPS汇编语言示例列表" class="headerlink" title="MIPS汇编语言示例列表"></a>MIPS汇编语言示例列表</h1><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E8%A1%A81.png" alt="表1"></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E8%A1%A82.png" alt="表2"></p>
+            <p>处理器设计涉及数据通路的设计和控制逻辑的设计</p>
+<ol>
+<li>分析每条指令的功能</li>
+<li>根据指令的功能给出所需的元件,并考虑如何将它们互连</li>
+<li>确定每个元件所需控制信号的取值</li>
+<li>汇总所有指令所涉及到的控制信号，生成一张反映指令与控制信号之间关系的表。</li>
+<li>根据表得到每个控制信号的逻辑表达式，据此设计控制器电路。</li>
+</ol>
+<p>下面以add,sub,ori,lw,sw,beq,j 7条指令举例</p>
+<h1 id="数据通路的设计"><a href="#数据通路的设计" class="headerlink" title="数据通路的设计"></a>数据通路的设计</h1><h2 id="add-sub"><a href="#add-sub" class="headerlink" title="add,sub"></a>add,sub</h2><p>add    rd, rs, rt<br>功能：R[rd] ← R[rs] + R[rt]<br>从rs、rt 所指的寄存器中取数后相加。<br>若结果不溢出，则将结果送rd 所指的寄存器中；<br>若结果溢出，则不送结果，并转到“溢出处理程序”执行。 </p>
+<p>[rd] ← R[rs] op R[rt]的数据通路<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="R型指令的数据通路"></p>
+<p>此时add控制信号:ALUctr=add，RegWr=1</p>
+<h2 id="ori"><a href="#ori" class="headerlink" title="ori"></a>ori</h2><p>ori    rt, rs, imm16<br>功能：R[rt] ← R[rs] or ZeroExt(imm16)<br>立即数零扩展，并与rs内容做“或”运算</p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/ori%E6%8C%87%E4%BB%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="ori指令的数据通路"></p>
+<p>其中蓝色部分是从上图中新加入的<br>此时ori指令的控制信号：RegDst=1；RegWr=1；ALUctr=or；ALUSrc=1</p>
+<h2 id="lw"><a href="#lw" class="headerlink" title="lw"></a>lw</h2><p>lw    rt, rs, imm16<br>功能:<br>Addr ← R[rs] + SignExt(imm16) 计算存储单元地址 (立即数符号扩展！)<br>R[rt] ← M [Addr]  装入数据到寄存器rt中  </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/lw%E6%8C%87%E4%BB%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="lw指令的数据通路">  </p>
+<p>此时lw指令的控制信号:RegDst=1, RegWr=1, ALUctr=addu, ExtOp=1, ALUSrc=1,  MemtoReg=1<br>addu不影响溢出标志的加法</p>
+<h2 id="sw"><a href="#sw" class="headerlink" title="sw"></a>sw</h2><p>sw    rt, rs, imm16<br>功能:<br>Addr ← R[rs] + SignExt(imm16)   计算存储单元地址（符号扩展！）<br>Mem[Addr] ← R[rt]           寄存器rt中的内容存到内存单元中  </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/sw%E6%8C%87%E4%BB%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="sw指令的数据通路">  </p>
+<p>此时sw指令的控制信号:RegDst=x, RegWr=0, ALUctr=addu, ExtOp=1, ALUSrc=1,MemWr=1,MemtoReg=x<br>x是任意</p>
+<h2 id="beq"><a href="#beq" class="headerlink" title="beq"></a>beq</h2><p>beq    rs, rt, imm16<br>功能: Cond ← R[rs] - R[rt]    做减法比较rs和rt中的内容<br>if (Cond eq 0)        计算下地址（根据比较结果，修改PC）<br>　　PC ← PC + 4 + ( SignExt(imm16) x 4 )<br>else<br>　　PC ← PC + 4  </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/bep%E6%8C%87%E4%BB%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="bep指令的数据通路">  </p>
+<p>此时beq指令的控制信号:RegDst=x, RegWr=0, ALUctr=subu, ExtOp=x, ALUSrc=0,  MemWr=0, MemtoReg=x, Branch=1 </p>
+<h3 id="下址逻辑"><a href="#下址逻辑" class="headerlink" title="下址逻辑"></a>下址逻辑</h3><p>MIPS是按字节编址，每条指令为32位，占4个字节，故PC的值总是4的倍数，即后两位为00，去除这2位，PC只需要30位即可。</p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/%E4%B8%8B%E5%9D%80%E9%80%BB%E8%BE%91.png" alt="下址逻辑">  </p>
+<h2 id="j"><a href="#j" class="headerlink" title="j"></a>j</h2><p>j　　target<br>功能：<br>PC&lt;31:2&gt; ← PC&lt;31:28&gt; 串接  target&lt;25:0&gt;     计算目标地址</p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/j%E6%8C%87%E4%BB%A4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="j指令的数据通路"> </p>
+<p>此时j指令的控制信号:RegDst=x, ALUctr=x, ExtOp=x, ALUSrc=x, MemtoReg=x, RegWr=0,  MemWr=0, Branch=x, Jump=1</p>
+<h2 id="完整的数据通路"><a href="#完整的数据通路" class="headerlink" title="完整的数据通路"></a>完整的数据通路</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/%E5%AE%8C%E6%95%B4%E7%9A%84%E6%95%B0%E6%8D%AE%E9%80%9A%E8%B7%AF.png" alt="完整的数据通路"> </p>
+<p>其中Instruction Fetch Unit的具体实现在j部分</p>
+<h1 id="控制逻辑设计"><a href="#控制逻辑设计" class="headerlink" title="控制逻辑设计"></a>控制逻辑设计</h1><p>依据完整的数据通路写出各指令的控制信号取值<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7.png" alt="控制信号">   </p>
+<p>MIPS指令格式中指示操作性质的字段有两个：op 和 func<br>op和func分别用来产生两类不同的控制信号：主控制单元和ALU局部控制单元<br>(只有R型指令才用func 而且R型指令的控制信号一样,所以func只需要选择ALU的操作即可)<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83.png" alt="控制单元">  </p>
+<h2 id="对ALU操作编码"><a href="#对ALU操作编码" class="headerlink" title="对ALU操作编码"></a>对ALU操作编码</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/ALUop%E7%9A%84%E7%BC%96%E7%A0%811.png" alt="ALUop的编码1"> </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/ALUop%E7%9A%84%E7%BC%96%E7%A0%812.png" alt="ALUop的编码2"> </p>
+<h2 id="主控制单元"><a href="#主控制单元" class="headerlink" title="主控制单元"></a>主控制单元</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/%E4%B8%BB%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%E7%9C%9F%E5%80%BC%E8%A1%A8.png" alt="主控制单元真值表"> </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E5%8D%95%E5%91%A8%E6%9C%9F%E5%A4%84%E7%90%86%E5%99%A8%E8%AE%BE%E8%AE%A1/%E4%B8%BB%E6%8E%A7%E5%88%B6%E5%8D%95%E5%85%83%E5%AE%9E%E7%8E%B0.png" alt="主控制单元实现"> </p>
+<h2 id="ALU局部控制单元"><a href="#ALU局部控制单元" class="headerlink" title="ALU局部控制单元"></a>ALU局部控制单元</h2><p>这个例子的ALU局部控制单元很简单只需要将<br>ALUctr&lt;0&gt;  = 1<br>ALUctr&lt;1&gt;  =  0<br>ALUctr&lt;2&gt;  = func&lt;1&gt;<br>即可</p>
 
         </div>
 
@@ -238,7 +250,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/12/26/MIPS汇编/">http://yoursite.com/2019/12/26/MIPS汇编/</a></span>
+                        <span><a href="http://yoursite.com/2019/12/26/单周期处理器设计/">http://yoursite.com/2019/12/26/单周期处理器设计/</a></span>
                     </p>
                 
                 
@@ -275,10 +287,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/26/单周期处理器设计/">单周期处理器设计</a>
+                <a class="prev" rel="prev" href="/2019/12/26/指针的强制转换/">指针的强制转换</a>
             
             
-            <a class="next" rel="next" href="/2019/12/26/寻址方式/">寻址方式</a>
+            <a class="next" rel="next" href="/2019/12/26/MIPS汇编/">MIPS汇编</a>
             
         </section>
 
