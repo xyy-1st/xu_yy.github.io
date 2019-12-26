@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>MIPS汇编 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">MIPS汇编</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">十二月 26, 2019&nbsp;&nbsp;12:38:22</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/组成原理/">组成原理</a>
+                            
+                        </span>
+                        <span id="/2019/12/26/MIPS汇编/" class="leancloud-visitors view" data-flag-title="MIPS汇编">
+                            <em class="post-meta-item-text">Pageviews:</em>
+                            <i class="leancloud-visitors-count">loading</i>
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="MIPS指令中数据的表示"><a href="#MIPS指令中数据的表示" class="headerlink" title="MIPS指令中数据的表示"></a>MIPS指令中数据的表示</h1><p>MIPS提供了<font color="yellow">32个32位的通用寄存器,寄存器编号占5位</font></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="通用寄存器"></p>
+<p>在汇编语言中使用寄存器时可以用寄存器名，也可以用寄存器号，在寄存器号前加“$”,例如，$8即为$t0</p>
+<p>MIPS提供了32个32位的单精度浮点数寄存器,用汇编符号$f0-$f31表示。可以配对成16个64位的浮点寄存器用来存放64位的双精度浮点数。</p>
+<p>还有两个乘商寄存器Hi和Lo。乘法时，Hi和Lo结合存放64位结果,除法是Hi存放余数,Lo存放商。</p>
+<p>使用PC指出下一条指令的地址</p>
+<p>存储器按字节编制</p>
+<p>大端</p>
+<h1 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h1><p>MIPS是典型的<font color="yellow">RISC</font>处理器,采用<font color="yellow">32位定长指令</font>,操作码字段也是固定长度,没有专门的寻址方式字段,<font color="yellow">由指令格式确定各操作数的寻址方式</font></p>
+<p>有三种格式：R型,I型,J型</p>
+<h2 id="R型"><a href="#R型" class="headerlink" title="R型"></a>R型</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="R型指令格式"></p>
+<ul>
+<li>参与运算的操作数和结果都在寄存器，R型指令的寻址方式只有<font color="yellow">寄存器寻址</font>一种；</li>
+<li>R型指令的op全为0，具体功能由func部分确定；</li>
+<li>rs：第1个源操作数；</li>
+<li>rt：第2个源操作数；</li>
+<li>rd：目的寄存器；</li>
+<li>shamt：对非移位指令为00000。移位指令为移位次数。</li>
+</ul>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E4%B8%BE%E4%BE%8B.png" alt="R型指令举例"></p>
+<h2 id="I型"><a href="#I型" class="headerlink" title="I型"></a>I型</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/I%E5%9E%8B%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="I型指令格式"></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/I%E5%9E%8B%E6%8C%87%E4%BB%A4%E4%B8%BE%E4%BE%8B.png" alt="I型指令举例"></p>
+<h2 id="J型指令"><a href="#J型指令" class="headerlink" title="J型指令"></a>J型指令</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/J%E5%9E%8B%E6%8C%87%E4%BB%A4.png" alt="J型指令"></p>
+<p>变通的直接寻址</p>
+<h1 id="MIPS汇编语言示例列表"><a href="#MIPS汇编语言示例列表" class="headerlink" title="MIPS汇编语言示例列表"></a>MIPS汇编语言示例列表</h1><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E8%A1%A81.png" alt="表1"></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E8%A1%A82.png" alt="表2"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/12/26/MIPS汇编/">http://yoursite.com/2019/12/26/MIPS汇编/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/组成原理/"># 组成原理</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/12/26/寻址方式/">寻址方式</a>
+            
+        </section>
+
+        
+            <section id="comments" class="comments">
+              <style>
+                .comments{margin:30px;padding:10px;background:#fff}
+                @media screen and (max-width:800px){.comments{margin:auto;padding:10px;background:#fff}}
+              </style>
+              <div class="valine_comment"></div>
+<!--载入js，在</body>之前插入即可-->
+<!--Leancloud 操作库:-->
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<!--Valine 的核心代码库-->
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<script>
+  new Valine({
+      el: '.valine_comment',
+      app_id: 'qlFviaASBJ86P7fLbcEvdQ6P-gzGzoHsz',
+      app_key: 'WXvc0uR0rjYxsXoAl2Idzl0c',
+      placeholder: '这里留言。。建议填下邮箱，回复了会有提醒',
+      notify: 'true',
+      verify: 'false',
+      visitor: 'true'
+    });
+</script>
+
+
+            </section>
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
