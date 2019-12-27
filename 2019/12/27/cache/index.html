@@ -7,7 +7,7 @@
 
 
 
-<title>指针的强制转换 | Hexo</title>
+<title>cache | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">指针的强制转换</h1>
+            <h1 class="post-title">cache</h1>
             
                 <div class="post-meta">
                     
@@ -178,17 +178,17 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 26, 2019&nbsp;&nbsp;22:44:18</a>
+                        Date: <a href="#">十二月 27, 2019&nbsp;&nbsp;14:26:26</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C语言/">C语言</a>
+                                <a href="/categories/组成原理/">组成原理</a>
                             
                         </span>
-                        <span id="/2019/12/26/指针的强制转换/" class="leancloud-visitors view" data-flag-title="指针的强制转换">
+                        <span id="/2019/12/27/cache/" class="leancloud-visitors view" data-flag-title="cache">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -198,18 +198,75 @@
         </header>
 
         <div class="post-content">
-            <h1 id="短字节向长字节转换"><a href="#短字节向长字节转换" class="headerlink" title="短字节向长字节转换"></a>短字节向长字节转换</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	short a[10] = &#123; 0,1,2,3,4,5,6,7,8,9 &#125;;</span><br><span class="line">	short* p = a+3;</span><br><span class="line">	int* pp = (int*)p;</span><br><span class="line">	int i = 0;</span><br><span class="line"></span><br><span class="line">	printf(&quot;sizeof(short) = %d\n&quot;, sizeof(short));</span><br><span class="line">	printf(&quot;sizeof(int) = %d\n&quot;, sizeof(int));</span><br><span class="line"></span><br><span class="line">	printf(&quot;p的地址:  0x%x\n&quot;, p);</span><br><span class="line">	printf(&quot;pp的地址: 0x%x\n&quot;, pp);</span><br><span class="line">	printf(&quot;*(p) = 0x%x\n&quot;, *(p));</span><br><span class="line">	printf(&quot;*(pp) = 0x%x\n&quot;, *(pp));</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*结果</span><br><span class="line"></span><br><span class="line">sizeof(short) = 2</span><br><span class="line">sizeof(int) = 4</span><br><span class="line">p的地址:  0x4a3ef61e</span><br><span class="line">pp的地址: 0x4a3ef61e</span><br><span class="line">*(p) = 0x3</span><br><span class="line">*(pp) = 0x40003</span><br><span class="line"></span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
-<li>从结果看p和pp的地址相同<br>因为指针代表的是地址,而地址的长度应该是相同的,所以不涉及截取与扩充,所以地址相同</li>
-<li><em>(p)与 *(pp)的值不同<br>因为：<br>p是short型的指针　short占两个字节 所以</em>(p)只取出两个字节0x0003<br>pp是int型的指针　int占4个字节　所以*(pp)取出四个字节0x00040003</li>
+            <h1 id="cache的基本工作原理"><a href="#cache的基本工作原理" class="headerlink" title="cache的基本工作原理"></a>cache的基本工作原理</h1><p>cache是一种小容量的高速缓冲存储器,由快速的SRAM组成,直接制作在CPU芯片内,速度几乎与CPU一样快.它存储的是CPU经常要使用的指令和数据.</p>
+<p>主存空间分块,cache空间分行或槽.主存块的大小等于cache行的大小,用于信息交换。</p>
+<p>为什么可以引用cache？<br>因为程序访问的局部性:在较短时间间隔内,程序产生的地址往往集中在存储器的一个很小的范围.</p>
+<h2 id="cache的有效位"><a href="#cache的有效位" class="headerlink" title="cache的有效位"></a>cache的有效位</h2><p>在系统启动或复位时,cache中的数据都是无效的.只有装入了主存块数据后的行才有效.所以需要一位来表示数据是否.</p>
+<h2 id="CPU在cache中的访问过程"><a href="#CPU在cache中的访问过程" class="headerlink" title="CPU在cache中的访问过程"></a>CPU在cache中的访问过程</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E5%B8%A6cache%E7%9A%84%E8%AE%BF%E5%AD%98%E8%BF%87%E7%A8%8B.png" alt="带cache的访存过程"></p>
+<h2 id="平均访问时间"><a href="#平均访问时间" class="headerlink" title="平均访问时间"></a>平均访问时间</h2><p>命中率p = 命中的次数/总的访问次数<br>CPU在cache中直接存取信息的时间为T<sub>c</sub><br>CPU在主存中存取的时间为T<sub>m</sub><br>平均访问时间为T<sub>a</sub> = p x T<sub>c</sub> + (1 - p) x (T<sub>c</sub> + T<sub>m</sub>) = T<sub>c</sub> + (1-p) x T<sub>m</sub><br>由于p接近1,虽然T<sub>m</sub> &gt;&gt; T<sub>c</sub> 但最终的平均访问时间任接近T<sub>c</sub></p>
+<h1 id="cache行和主存块之间的映射"><a href="#cache行和主存块之间的映射" class="headerlink" title="cache行和主存块之间的映射"></a>cache行和主存块之间的映射</h1><ol>
+<li>直接映射：每个主存块映射到Cache的<font color="yellow">固定行</font></li>
+<li>全相联映射：每个主存块映射可以到Cache的<font color="yellow">任一行</font></li>
+<li>组相联映射：每个主存块映射到Cache<font color="yellow">固定组中任一行</font></li>
 </ol>
-<p>根据结果可以看出我的电脑是大端机,内存图：<br><img src="/images/C%E8%AF%AD%E8%A8%80/%E6%8C%87%E9%92%88%E7%9A%84%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2/%E7%9F%AD%E8%BD%AC%E9%95%BF.png" alt="短转长"></p>
-<p>如果是小端机的话我目测结果为：<br>*(p) = 0x0003<br>*(pp) = 0x00030004</p>
-<h1 id="长字节向短字节转换"><a href="#长字节向短字节转换" class="headerlink" title="长字节向短字节转换"></a>长字节向短字节转换</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int a[10] = &#123; 0,1,2,3,4,5,6,7,8,9 &#125;;</span><br><span class="line">	int* p = a+3;</span><br><span class="line">	short* pp = (short*)p;</span><br><span class="line">	int i = 0;</span><br><span class="line"></span><br><span class="line">	printf(&quot;sizeof(short) = %d\n&quot;, sizeof(short));</span><br><span class="line">	printf(&quot;sizeof(int) = %d\n&quot;, sizeof(int));</span><br><span class="line"></span><br><span class="line">	printf(&quot;p的地址:  0x%x\n&quot;, p);</span><br><span class="line">	printf(&quot;pp的地址: 0x%x\n&quot;, pp);</span><br><span class="line">	printf(&quot;*(p) = 0x%x\n&quot;, *(p));</span><br><span class="line">	printf(&quot;*(pp) = 0x%x\n&quot;, *(pp));</span><br><span class="line">	printf(&quot;*(pp + 1) = 0x%x\n&quot;, *(pp + 1));</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*结果</span><br><span class="line">sizeof(short) = 2</span><br><span class="line">sizeof(int) = 4</span><br><span class="line">p的地址:  0xaf15fcb4</span><br><span class="line">pp的地址: 0xaf15fcb4</span><br><span class="line">*(p) = 0x3</span><br><span class="line">*(pp) = 0x3</span><br><span class="line">*(pp + 1) = 0x0</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C%E8%AF%AD%E8%A8%80/%E6%8C%87%E9%92%88%E7%9A%84%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2/%E9%95%BF%E8%BD%AC%E7%9F%AD.png" alt="长转短"></p>
-<p>如果是小端机的话我目测结果为：<br>*(p) = 0x0003<br>*(pp) = 0x00<br>*(pp + 1) = 0x03</p>
+<h2 id="直接映射"><a href="#直接映射" class="headerlink" title="直接映射"></a>直接映射</h2><p>映射关系为：Cache行号=主存块号 mod Cache行数<br>例如，设Cache有16行，则主存第100号数据块100 mod 16=4应映射到Cache的第4行中。  </p>
+<ul>
+<li>块和行都从0开始编号</li>
+<li>将主存按Cache的数据容量大小划分为多个群，群的编号从0开始。</li>
+<li>每个群的各个数据块就映射到固定的Cache行。</li>
+<li>主存地址被分成三个字段:<ol>
+<li>标记　位数等于地址位数 - 行号位数 - 块内地址位数</li>
+<li>行号　位数取决于有多少行</li>
+<li>块内地址　位数取决于块的大小</li>
+</ol>
+</li>
+</ul>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E7%9B%B4%E6%8E%A5%E6%98%A0%E5%B0%84.png" alt="直接映射"></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E7%9B%B4%E6%8E%A5%E6%98%A0%E5%B0%84%E8%AE%BF%E5%AD%98%E8%BF%87%E7%A8%8B.png" alt="直接映射访存过程"></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E7%9B%B4%E6%8E%A5%E6%98%A0%E5%B0%84%E4%BE%8B%E9%A2%98.png" alt="直接映射例题"></p>
+<ul>
+<li>实现简单，命中检测时间短</li>
+<li>无需考虑淘汰（替换）问题</li>
+<li>但不够灵活，Cache存储空间得不到充分利用，命中率低<br>对于16行的Cache，不能将主存第0块与第16块同时复制到Cache中。</li>
+</ul>
+<h2 id="全相联映射"><a href="#全相联映射" class="headerlink" title="全相联映射"></a>全相联映射</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E5%85%A8%E7%9B%B8%E8%81%94%E6%98%A0%E5%B0%84.png" alt="全相联映射"></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E5%85%A8%E7%9B%B8%E8%81%94%E6%98%A0%E5%B0%84%E8%AE%BF%E5%AD%98%E8%BF%87%E7%A8%8B.png" alt="全相联映射访存过程"></p>
+<ul>
+<li>由于没有Cache索引，就不能定位到行，需同时比较所有Cache行的标志。一行需要一个比较器,贵</li>
+<li>没有冲突缺失，因为只要有空闲Cache行，都不会发生冲突。</li>
+</ul>
+<h2 id="组相联映射"><a href="#组相联映射" class="headerlink" title="组相联映射"></a>组相联映射</h2><ul>
+<li>组相联映射是直接映射和全相联映射两者的结合  </li>
+<li>将Cache所有行分组(2<sup>K</sup>)，每个主存块只能映射到Cache的一个固定组，但可选该组中的任一行。</li>
+<li>映射关系为： Cache组号=主存块号 mod Cache组数</li>
+</ul>
+<p>例如：假定Cache的划分为：8K字=8组x2行/组x512字/行<br>主存第100块: 100 mod 8=4<br>故 映射到Cache的第4组的任意行中。  </p>
+<p>每组的行数称为路， 该例的映射称为2路组相联映射。  </p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E7%BB%84%E7%9B%B8%E8%81%94%E6%98%A0%E5%B0%84.png" alt="组相联映射"></p>
+<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/cache/%E7%BB%84%E7%9B%B8%E8%81%94%E6%98%A0%E5%B0%84%E8%AE%BF%E5%AD%98%E8%BF%87%E7%A8%8B.png" alt="组相联映射访存过程"></p>
+<p>一组能有多少行,需要多少个比较器</p>
+<h1 id="替换算法"><a href="#替换算法" class="headerlink" title="替换算法"></a>替换算法</h1><ul>
+<li>直接映射:<br>映射唯一，别无选择，<font color="yellow">无需考虑替换算法</font></li>
+<li>组相联映射:<br>每个主存数据有N个Cache行可选择，<font color="yellow">需考虑替换算法</font></li>
+<li>全相联映射:<br>每个主存数据可存放到Cache任意行中，<font color="yellow">需考虑替换算法</font></li>
+</ul>
+<p>替换过程为：</p>
+<ol>
+<li>从主存取出一个新块</li>
+<li>选择一个满足映射关系的空Cache行</li>
+<li>若对应Cache行被占满时又需调入新主存块，则必须考虑从Cache行中替换出一个主存块</li>
+</ol>
+<p>常用替换算法:</p>
+<ul>
+<li>先进先出FIFO （first-in-first-out）</li>
+<li>最近最少用LRU （ least-recently used）</li>
+<li>最不经常用LFU （ least-frequently used）</li>
+<li>随机替换算法（Random）</li>
+</ul>
+<h1 id="写操作"><a href="#写操作" class="headerlink" title="写操作"></a>写操作</h1><ul>
+<li>对于写命中，有两种处理方式<br>　1. Write Through(全写，通过式写、写直达、直写)<br>　　同时写Cache和主存单元<br>　　这种方法会大大增加写操作的开销<br>　　为此，采用写缓冲法（ Write Buffer ），Cache与主存间加缓存。<br>　2. Write Back(回写、写回、一次性写)<br>　　只写Cache不写主存。每行设一个修改位(“dirty bit-脏位”)，当它被<br>　　替换时才写回主存。可大大降低主存带宽需求，但控制可能很复杂。</li>
+<li>对于写未命中，有两种处理方式<br>Write Allocate (写分配)<br>将主存块装入Cache，然后更新相应Cache和主存单元（主存和Cache都写）<br>Not Write Allocate (非写分配)<br>直接写主存单元，不把主存块装入到Cache  </li>
+</ul>
 
         </div>
 
@@ -224,7 +281,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/12/26/指针的强制转换/">http://yoursite.com/2019/12/26/指针的强制转换/</a></span>
+                        <span><a href="http://yoursite.com/2019/12/27/cache/">http://yoursite.com/2019/12/27/cache/</a></span>
                     </p>
                 
                 
@@ -248,7 +305,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C语言/"># C语言</a>
+                        <a href="/tags/组成原理/"># 组成原理</a>
                     
                         
                 </span>
@@ -261,10 +318,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/27/cache/">cache</a>
             
-            
-            <a class="next" rel="next" href="/2019/12/26/单周期处理器设计/">单周期处理器设计</a>
+            <a class="next" rel="next" href="/2019/12/26/指针的强制转换/">指针的强制转换</a>
             
         </section>
 
