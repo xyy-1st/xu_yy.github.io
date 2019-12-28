@@ -7,7 +7,7 @@
 
 
 
-<title>指针的强制转换 | Hexo</title>
+<title>浅谈指令流水线 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">指针的强制转换</h1>
+            <h1 class="post-title">浅谈指令流水线</h1>
             
                 <div class="post-meta">
                     
@@ -178,17 +178,17 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 26, 2019&nbsp;&nbsp;22:44:18</a>
+                        Date: <a href="#">十二月 28, 2019&nbsp;&nbsp;20:54:02</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C语言/">C语言</a>
+                                <a href="/categories/组成原理/">组成原理</a>
                             
                         </span>
-                        <span id="/2019/12/26/指针的强制转换/" class="leancloud-visitors view" data-flag-title="指针的强制转换">
+                        <span id="/2019/12/28/浅谈指令流水线/" class="leancloud-visitors view" data-flag-title="浅谈指令流水线">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -198,18 +198,35 @@
         </header>
 
         <div class="post-content">
-            <h1 id="短字节向长字节转换"><a href="#短字节向长字节转换" class="headerlink" title="短字节向长字节转换"></a>短字节向长字节转换</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	short a[10] = &#123; 0,1,2,3,4,5,6,7,8,9 &#125;;</span><br><span class="line">	short* p = a+3;</span><br><span class="line">	int* pp = (int*)p;</span><br><span class="line">	int i = 0;</span><br><span class="line"></span><br><span class="line">	printf(&quot;sizeof(short) = %d\n&quot;, sizeof(short));</span><br><span class="line">	printf(&quot;sizeof(int) = %d\n&quot;, sizeof(int));</span><br><span class="line"></span><br><span class="line">	printf(&quot;p的地址:  0x%x\n&quot;, p);</span><br><span class="line">	printf(&quot;pp的地址: 0x%x\n&quot;, pp);</span><br><span class="line">	printf(&quot;*(p) = 0x%x\n&quot;, *(p));</span><br><span class="line">	printf(&quot;*(pp) = 0x%x\n&quot;, *(pp));</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*结果</span><br><span class="line"></span><br><span class="line">sizeof(short) = 2</span><br><span class="line">sizeof(int) = 4</span><br><span class="line">p的地址:  0x4a3ef61e</span><br><span class="line">pp的地址: 0x4a3ef61e</span><br><span class="line">*(p) = 0x3</span><br><span class="line">*(pp) = 0x40003</span><br><span class="line"></span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><ol>
-<li>从结果看p和pp的地址相同<br>因为指针代表的是地址,而地址的长度应该是相同的,所以不涉及截取与扩展,所以地址相同</li>
-<li>　* (p)与 * (pp)的值不同<br>因为：<br>p是short型的指针　short占两个字节 所以<em>(p)只取出两个字节0x0003<br>pp是int型的指针　int占4个字节　所以</em>(pp)取出四个字节0x00040003</li>
+            <h1 id="指令流水线是什么"><a href="#指令流水线是什么" class="headerlink" title="指令流水线是什么"></a>指令流水线是什么</h1><p>指令流水线就是将指令分成几个阶段,同时执行多个指令.<br>例如: 有一对情侣,男生负责剥香蕉,女生负责吃。女生吃第一个香蕉的同时,男生在剥第二香蕉。然后女生吃第二个香蕉,男生剥第三个香蕉……</p>
+<p>一个5段指令流水线图<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B5%85%E8%B0%88%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF/5%E7%BA%A7%E6%B5%81%E6%B0%B4%E7%BA%BF.png" alt="5级流水线"></p>
+<p>原则：</p>
+<ul>
+<li>指令流水线的段数取每条指令段数的最大数</li>
+<li>每个段的时间取每条指令在这段运行的时间最大数</li>
+</ul>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p>有些指令的段数少,需要加入“空”功能段实现看齐,如J型指令  </p>
+<p>原则:</p>
+<ul>
+<li>每个功能部件每条指令只能用一次</li>
+<li>每个功能部件必须在相同的阶段被使用</li>
+</ul>
+<p>5段流水线数据通路基本框架<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B5%85%E8%B0%88%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF/%E5%9F%BA%E6%9C%AC%E6%A1%86%E6%9E%B6.png" alt="基本框架"></p>
+<p>控制信号在流水线中的传递<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B5%85%E8%B0%88%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF/%E6%8E%A7%E5%88%B6%E4%BF%A1%E5%8F%B7%E7%9A%84%E4%BC%A0%E9%80%92.png" alt="控制信号的传递"></p>
+<p>理解:就是在段与段之间加了寄存器,用来保存本次产生的结果并在下次开始时传递给下一段。其中的控制信号的产生和数据通路的具体实现类似<a href="/2019/12/26/单周期处理器设计" target="_blank">单周期处理器设计</a> </p>
+<h1 id="流水线的冒险"><a href="#流水线的冒险" class="headerlink" title="流水线的冒险"></a>流水线的冒险</h1><p>流水线冒险:遇到一些情况使得流水线无法正确执行后续指令而引起流水线阻塞或停顿(stall)   </p>
+<h2 id="结构冒险-硬件资源冲突"><a href="#结构冒险-硬件资源冲突" class="headerlink" title="结构冒险(硬件资源冲突)"></a>结构冒险(硬件资源冲突)</h2><p>原因:同一个部件同时被不同指令使用<br>解决策略:设置多个独立的部件</p>
+<h2 id="数据冒险-数据相关"><a href="#数据冒险-数据相关" class="headerlink" title="数据冒险(数据相关)"></a>数据冒险(数据相关)</h2><p>原因:后面的指令需要使用前面的指令产生的结果,而结果还没有产生<br>如：<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B5%85%E8%B0%88%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF/%E6%95%B0%E6%8D%AE%E5%86%92%E9%99%A9.png" alt="数据冒险"></p>
+<p>解决策略:  </p>
+<ol>
+<li>软件上:插入空操作指令nop</li>
+<li>硬件上:通过硬件阻塞(stall)方式组织后续指令执行，称为”插入气泡” </li>
+<li>采用转发技术</li>
 </ol>
-<p>根据结果可以看出我的电脑是大端机,内存图：<br><img src="/images/C%E8%AF%AD%E8%A8%80/%E6%8C%87%E9%92%88%E7%9A%84%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2/%E7%9F%AD%E8%BD%AC%E9%95%BF.png" alt="短转长"></p>
-<p>如果是小端机的话我目测结果为：<br>*(p) = 0x0003<br>*(pp) = 0x00030004</p>
-<h1 id="长字节向短字节转换"><a href="#长字节向短字节转换" class="headerlink" title="长字节向短字节转换"></a>长字节向短字节转换</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int a[10] = &#123; 0,1,2,3,4,5,6,7,8,9 &#125;;</span><br><span class="line">	int* p = a+3;</span><br><span class="line">	short* pp = (short*)p;</span><br><span class="line">	int i = 0;</span><br><span class="line"></span><br><span class="line">	printf(&quot;sizeof(short) = %d\n&quot;, sizeof(short));</span><br><span class="line">	printf(&quot;sizeof(int) = %d\n&quot;, sizeof(int));</span><br><span class="line"></span><br><span class="line">	printf(&quot;p的地址:  0x%x\n&quot;, p);</span><br><span class="line">	printf(&quot;pp的地址: 0x%x\n&quot;, pp);</span><br><span class="line">	printf(&quot;*(p) = 0x%x\n&quot;, *(p));</span><br><span class="line">	printf(&quot;*(pp) = 0x%x\n&quot;, *(pp));</span><br><span class="line">	printf(&quot;*(pp + 1) = 0x%x\n&quot;, *(pp + 1));</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*结果</span><br><span class="line">sizeof(short) = 2</span><br><span class="line">sizeof(int) = 4</span><br><span class="line">p的地址:  0xaf15fcb4</span><br><span class="line">pp的地址: 0xaf15fcb4</span><br><span class="line">*(p) = 0x3</span><br><span class="line">*(pp) = 0x3</span><br><span class="line">*(pp + 1) = 0x0</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/C%E8%AF%AD%E8%A8%80/%E6%8C%87%E9%92%88%E7%9A%84%E5%BC%BA%E5%88%B6%E8%BD%AC%E6%8D%A2/%E9%95%BF%E8%BD%AC%E7%9F%AD.png" alt="长转短"></p>
-<p>如果是小端机的话我目测结果为：<br>*(p) = 0x0003<br>*(pp) = 0x00<br>*(pp + 1) = 0x03</p>
+<p>转发技术:<br>将数据通路中生成的中间数据直接转发到ALU的输入端。就是在硬件上连跟线到多路选择器,然后通过控制信号选择。</p>
+<p>原执行部件的内部实现<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B5%85%E8%B0%88%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF/%E6%89%A7%E8%A1%8C%E9%83%A8%E4%BB%B6%E5%86%85%E9%83%A8%E5%AE%9E%E7%8E%B0.png" alt="执行部件内部实现"></p>
+<p>引入转发技术后的实现<br><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/%E6%B5%85%E8%B0%88%E6%8C%87%E4%BB%A4%E6%B5%81%E6%B0%B4%E7%BA%BF/%E5%BC%95%E5%85%A5%E8%BD%AC%E5%8F%91%E4%B9%8B%E5%90%8E.png" alt="引入转发之后"></p>
+<p>load-use数据冒险<br>lw指令只有在Mem段结束时才能得到DM中的结果,然后送Mem/Wr寄存器,在Wr段前半周期$1中才能存入新值,但随后的sub指令在Ex阶段就要取$1的值,因此得到的还是旧值。所以转发不能解决<br>对于这种冒险最简单的做法是由编译器在load指令之前插入nop指令来解决</p>
 
         </div>
 
@@ -224,7 +241,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/12/26/指针的强制转换/">http://yoursite.com/2019/12/26/指针的强制转换/</a></span>
+                        <span><a href="http://yoursite.com/2019/12/28/浅谈指令流水线/">http://yoursite.com/2019/12/28/浅谈指令流水线/</a></span>
                     </p>
                 
                 
@@ -248,7 +265,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C语言/"># C语言</a>
+                        <a href="/tags/组成原理/"># 组成原理</a>
                     
                         
                 </span>
@@ -261,10 +278,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/27/cache/">cache</a>
             
-            
-            <a class="next" rel="next" href="/2019/12/26/单周期处理器设计/">单周期处理器设计</a>
+            <a class="next" rel="next" href="/2019/12/27/cache/">cache</a>
             
         </section>
 
