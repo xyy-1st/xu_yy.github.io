@@ -209,7 +209,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMP    r0, r1       ;r0 - r1, 比较 r0 和 r1 并设置标志位</span><br><span class="line">ADDGT  r2, r2, #1   ;if &gt; r2=r2+1 标志位保持不变 </span><br><span class="line">ADDLE  r3, r3, #1   ;if &lt;= r3=r3+1 标志位保持不变</span><br></pre></td></tr></table></figure>
 
 <p>默认情况下,数据处理指令不会影响条件标志位，但是，可在指令后加“s”(或其它条件位)后缀，以实现标志位的置位。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">功能r2循环加r1次r3</span><br><span class="line">loop    </span><br><span class="line">    ADD    r2, r2, r3       ; r2=r2+r3 </span><br><span class="line">    SUBS   r1, r1, #0x01    ; r1 减1并设置标志位 </span><br><span class="line">    BNE    loop             ;如果 Z 标志清除则分支跳转</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">功能r2累加r3直到r1为0,r1每次-1</span><br><span class="line">loop    </span><br><span class="line">    ADD    r2, r2, r3       ; r2=r2+r3 </span><br><span class="line">    SUBS   r1, r1, #0x01    ; r1 减1并设置标志位 </span><br><span class="line">    BNE    loop             ;如果 Z 标志清除则分支跳转</span><br></pre></td></tr></table></figure>
 
 <p><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F%E5%BE%AE%E5%A4%84%E7%90%86%E5%99%A8/ARM%E6%8C%87%E4%BB%A4%E9%9B%86/%E6%9D%A1%E4%BB%B6%E6%89%A7%E8%A1%8C%E5%AF%B9%E6%AF%94.png" alt="条件执行对比">  </p>
 <p>非条件执行</p>
@@ -395,7 +395,7 @@
 <p>立即数的值是供调试工具使用的,将被处理器忽略.</p>
 <h2 id="高速缓存预加载指令"><a href="#高速缓存预加载指令" class="headerlink" title="高速缓存预加载指令"></a>高速缓存预加载指令</h2><p>它告诉存储系统对一个指定地址的数据访问即将到来<br>格式:PLD [Rn, &lt; offset&gt;]<br>偏移量offset可以为  </p>
 <ul>
-<li>无符号的12位立即数 (ie 0 - 4095 bytes).  </li>
+<li>无符号的12位立即数 ( 0 - 4095 ).  </li>
 <li>寄存器, 可选择移位操作  </li>
 </ul>
 <p>PLD 是一条提示指令<br>如果在实现时对该指令不支持，那么相当于做了一条空操作语句 NOP</p>

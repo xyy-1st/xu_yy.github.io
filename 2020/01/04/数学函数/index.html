@@ -7,7 +7,7 @@
 
 
 
-<title>MIPS汇编 | Hexo</title>
+<title>数学函数 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">MIPS汇编</h1>
+            <h1 class="post-title">数学函数</h1>
             
                 <div class="post-meta">
                     
@@ -178,17 +178,17 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十二月 26, 2019&nbsp;&nbsp;12:38:22</a>
+                        Date: <a href="#">一月 4, 2020&nbsp;&nbsp;20:18:09</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/组成原理/">组成原理</a>
+                                <a href="/categories/C语言/">C语言</a>
                             
                         </span>
-                        <span id="/2019/12/26/MIPS汇编/" class="leancloud-visitors view" data-flag-title="MIPS汇编">
+                        <span id="/2020/01/04/数学函数/" class="leancloud-visitors view" data-flag-title="数学函数">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -198,24 +198,34 @@
         </header>
 
         <div class="post-content">
-            <h1 id="MIPS指令中数据的表示"><a href="#MIPS指令中数据的表示" class="headerlink" title="MIPS指令中数据的表示"></a>MIPS指令中数据的表示</h1><p>MIPS提供了<font color="yellow">32个32位的通用寄存器,寄存器编号占5位</font></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E9%80%9A%E7%94%A8%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="通用寄存器"></p>
-<p>在汇编语言中使用寄存器时可以用寄存器名，也可以用寄存器号，在寄存器号前加“$”,例如，$8即为$t0</p>
-<p>MIPS提供了32个32位的单精度浮点数寄存器,用汇编符号$f0-$f31表示。可以配对成16个64位的浮点寄存器用来存放64位的双精度浮点数。</p>
-<p>还有两个乘商寄存器Hi和Lo。乘法时，Hi和Lo结合存放64位结果,除法是Hi存放余数,Lo存放商。</p>
-<p>使用PC指出下一条指令的地址</p>
-<p>存储器按字节编制</p>
-<p>大端</p>
-<h1 id="指令格式"><a href="#指令格式" class="headerlink" title="指令格式"></a>指令格式</h1><p>MIPS是典型的<font color="yellow">RISC</font>处理器,采用<font color="yellow">32位定长指令</font>,操作码字段也是固定长度,没有专门的寻址方式字段,<font color="yellow">由指令格式确定各操作数的寻址方式</font></p>
-<p>有三种格式：R型,I型,J型</p>
-<h2 id="R型"><a href="#R型" class="headerlink" title="R型"></a>R型</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="R型指令格式"></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/R%E5%9E%8B%E6%8C%87%E4%BB%A4%E4%B8%BE%E4%BE%8B.png" alt="R型指令举例"></p>
-<h2 id="I型"><a href="#I型" class="headerlink" title="I型"></a>I型</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/I%E5%9E%8B%E6%8C%87%E4%BB%A4%E6%A0%BC%E5%BC%8F.png" alt="I型指令格式"></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/I%E5%9E%8B%E6%8C%87%E4%BB%A4%E4%B8%BE%E4%BE%8B.png" alt="I型指令举例"></p>
-<h2 id="J型指令"><a href="#J型指令" class="headerlink" title="J型指令"></a>J型指令</h2><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/J%E5%9E%8B%E6%8C%87%E4%BB%A4.png" alt="J型指令"></p>
-<p>变通的直接寻址</p>
-<h1 id="MIPS汇编语言示例列表"><a href="#MIPS汇编语言示例列表" class="headerlink" title="MIPS汇编语言示例列表"></a>MIPS汇编语言示例列表</h1><p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E8%A1%A81.png" alt="表1"></p>
-<p><img src="/images/%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86/MIPS%E6%B1%87%E7%BC%96/%E8%A1%A82.png" alt="表2"></p>
+            <h1 id="头文件说明"><a href="#头文件说明" class="headerlink" title="头文件说明"></a>头文件说明</h1><p>&lt;math.h&gt; 是C语言中数学函数库<br><cmath> 是C++中对应相同作用的头文件<br>当然C++中两个头文件都可以使用</cmath></p>
+<h1 id="求绝对值函数"><a href="#求绝对值函数" class="headerlink" title="求绝对值函数"></a>求绝对值函数</h1><ol>
+<li><p>int abs(int x)<br> abs(-4) = 4<br> abs(-3.14) = 3</p>
+</li>
+<li><p>long labs(long x)<br>labs(-41576) = 41576</p>
+</li>
+<li><p>double fabs(double x)<br>fabs(3.14) = 3.14</p>
+</li>
+</ol>
+<p>int 与 long 的区别<br>早期int是2字节，现在已经发展到4字节<br>而long一直是4字节<br>所以现在int与long没区别<br>long long 是8字节</p>
+<h1 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h1><ol>
+<li>正弦函数 dobule sin(double x)<br>sin(3.1415926535/2) = 1</li>
+<li>余弦函数 dobule cos(double x)<br>cos(3.1415926535/2) = 0  </li>
+<li>正切函数 dobule tan(double x)<br>tan(3.1415926535/4) = 1</li>
+<li>反正弦函数 dobule asin(double x)<br> asin(0) = 0</li>
+<li>反余弦函数 dobule acos(double x)<br>acos(0) = 1.570796  </li>
+<li>反正切函数 dobule atan(double x)<br>atan(0) = 0</li>
+</ol>
+<p>其中sin,cos,tan与数学中的sin,cos,tan一一对应<br>asin,acos,atan与数学中的arcsin,arccos,arctan一一对应</p>
+<h1 id="计算ex"><a href="#计算ex" class="headerlink" title="计算ex"></a>计算e<sup>x</sup></h1><p>double exp(double x)<br>exp(1) = 2.71828</p>
+<h1 id="计算ln-x"><a href="#计算ln-x" class="headerlink" title="计算ln x"></a>计算ln x</h1><p>double log(double x)<br>log(2.17828) = 0.999999</p>
+<h1 id="计算-log10-x"><a href="#计算-log10-x" class="headerlink" title="计算 log10 x"></a>计算 log<sub>10</sub> x</h1><p>double log10(double x)<br>log10(10) = 1</p>
+<h1 id="计算xy"><a href="#计算xy" class="headerlink" title="计算xy"></a>计算x<sup>y</sup></h1><p>double pow(double x,double y)<br>pow(2.0,3.0) = 8</p>
+<h1 id="计算根号x"><a href="#计算根号x" class="headerlink" title="计算根号x"></a>计算根号x</h1><p>double sqrt(double x)<br>sqrt(4) = 2</p>
+<h1 id="取舍函数"><a href="#取舍函数" class="headerlink" title="取舍函数"></a>取舍函数</h1><h2 id="向下取整double-floor-doblue-x"><a href="#向下取整double-floor-doblue-x" class="headerlink" title="向下取整double floor(doblue x)"></a>向下取整double floor(doblue x)</h2><p>floor(2.8) = 2<br>floor(-2.8)  = -3<br>floot(2) = 2<br>floot(-2) = -2</p>
+<h2 id="向上取整double-ceil-double-x"><a href="#向上取整double-ceil-double-x" class="headerlink" title="向上取整double ceil(double x)"></a>向上取整double ceil(double x)</h2><p>ceil(2.8) = 3<br>ceil(-2.8)  = -2<br>ceil(2) = 2<br>ceil(-2) = -2</p>
+<p>注意：<font color="yellow">返回值都是double类型,而不是int类型</font><br>原因：double的范围是-1.7<em>10^308 ~ 1.7</em>10^308<br>　　　int的范围是-2147483648 ~ 2147483647<br>　　　double的范围比int的范围大.  </p>
+<h2 id="实现四舍五入"><a href="#实现四舍五入" class="headerlink" title="实现四舍五入"></a>实现四舍五入</h2><p>float a;<br>int b = (int)(a + 0.5);</p>
 
         </div>
 
@@ -230,7 +240,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/12/26/MIPS汇编/">http://yoursite.com/2019/12/26/MIPS汇编/</a></span>
+                        <span><a href="http://yoursite.com/2020/01/04/数学函数/">http://yoursite.com/2020/01/04/数学函数/</a></span>
                     </p>
                 
                 
@@ -254,7 +264,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/组成原理/"># 组成原理</a>
+                        <a href="/tags/C语言/"># C语言</a>
                     
                         
                 </span>
@@ -267,10 +277,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/12/26/单周期处理器设计/">单周期处理器设计</a>
+                <a class="prev" rel="prev" href="/2020/01/04/冒泡排序/">冒泡排序</a>
             
             
-            <a class="next" rel="next" href="/2019/12/26/寻址方式/">寻址方式</a>
+            <a class="next" rel="next" href="/2019/12/30/存储器的分类及特点/">存储器的分类及特点</a>
             
         </section>
 

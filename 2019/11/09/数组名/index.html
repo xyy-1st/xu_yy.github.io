@@ -205,14 +205,14 @@
 <p>标准 C 库函数 strcpy 的函数原形中能接纳的两个参数都为 char 型指针，而我们在调用中传给它的却是两个数组名！<br>数组名再一次显得像指针！</p>
 <h1 id="数组名大揭密"><a href="#数组名大揭密" class="headerlink" title="数组名大揭密"></a>数组名大揭密</h1><p>结论：</p>
 <ol>
-<li><font color="red">数组名的内涵在于其指代实体是一种数据结构，这种数据结构就是数组；  </font></li>
-<li><font color="red">数组名的外延在于其可以转换为指向其指代实体的指针，而且是一个指针常量；  </font></li>
-<li><font color="red">指向数组的指针则是另外一种变量类型，仅仅意味着数组的存放地址！   </font><h2 id="数组名指代一种数据结构：数组"><a href="#数组名指代一种数据结构：数组" class="headerlink" title="数组名指代一种数据结构：数组"></a>数组名指代一种数据结构：数组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char str[10];</span><br><span class="line">cout &lt;&lt; sizeof(str) &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
-
-</li>
+<li><font color="yellow">数组名的内涵在于其指代实体是一种数据结构，这种数据结构就是数组；  </font></li>
+<li><font color="yellow">数组名的外延在于其可以转换为指向其指代实体的指针，而且是一个指针常量；  </font></li>
+<li><font color="yellow">指向数组的指针则是另外一种变量类型，仅仅意味着数组的存放地址！   </font></li>
 </ol>
+<h2 id="数组名指代一种数据结构：数组"><a href="#数组名指代一种数据结构：数组" class="headerlink" title="数组名指代一种数据结构：数组"></a>数组名指代一种数据结构：数组</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">char str[10];</span><br><span class="line">cout &lt;&lt; sizeof(str) &lt;&lt; endl;</span><br></pre></td></tr></table></figure>
+
 <p>根据结论 1数组名 str 的内涵为一种数据结构，即一个长度为 10 的 char 型数组，所以 sizeof(str)的结果为这个数据结构占据的内存大小：10 字节。<br>可以这样理解 但不允许这样写 char[10] str;<br>str定义为 char[10]这种数据结构的一个实例</p>
-<h2 id="数组名可作为指针常量"><a href="#数组名可作为指针常量" class="headerlink" title="数组名可作为指针常量"></a>数组名可作为指针常量</h2><p>根据结论 2，数组名可以转换为指向其指代实体的指针。所以数组名直接赋值给指针，数组名作为指针形参都可成立。<br>虽然数组名可以转换为指向其指代实体的指针，但是它只能被看作一个<font color="red">指针常量</font>，不能被修改。</p>
+<h2 id="数组名可作为指针常量"><a href="#数组名可作为指针常量" class="headerlink" title="数组名可作为指针常量"></a>数组名可作为指针常量</h2><p>根据结论 2，数组名可以转换为指向其指代实体的指针。所以数组名直接赋值给指针，数组名作为指针形参都可成立。<br>虽然数组名可以转换为指向其指代实体的指针，但是它只能被看作一个<font color="yellow">指针常量</font>，不能被修改。</p>
 <h2 id="数据名可能失去其数据结构内涵"><a href="#数据名可能失去其数据结构内涵" class="headerlink" title="数据名可能失去其数据结构内涵"></a>数据名可能失去其数据结构内涵</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void arrayTest(char str[])</span><br><span class="line">&#123;</span><br><span class="line">	cout &lt;&lt; sizeof(str) &lt;&lt; endl;</span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">	char str1[10] = &quot;I Love U&quot;;</span><br><span class="line">	cout &lt;&lt; sizeof(str1) &lt;&lt; endl;</span><br><span class="line">	arrayTest(str1);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line">-----------结果----------------</span><br><span class="line"> 10</span><br><span class="line"> 8</span><br></pre></td></tr></table></figure>
 
 <p>结论 1 指出，数据名内涵为数组这种数据结构，在 arrayTest 函数体内，str 是数组名，那为什么 sizeof 的结果却是指针的长度？这是因为</p>
