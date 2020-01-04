@@ -7,7 +7,7 @@
 
 
 
-<title>const | Hexo</title>
+<title>struct成员对齐 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">const</h1>
+            <h1 class="post-title">struct成员对齐</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">十月 18, 2019&nbsp;&nbsp;16:10:35</a>
+                        Date: <a href="#">十月 9, 2019&nbsp;&nbsp;12:01:45</a>
                         </span>
                     
                     
@@ -188,7 +188,7 @@
                                 <a href="/categories/C语言/">C语言</a>
                             
                         </span>
-                        <span id="/2019/10/18/const/" class="leancloud-visitors view" data-flag-title="const">
+                        <span id="/2019/10/09/struct成员对齐/" class="leancloud-visitors view" data-flag-title="struct成员对齐">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -198,35 +198,23 @@
         </header>
 
         <div class="post-content">
-            <h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><p>const关键字可以限定一个变量的值 <font color="red">只读 不允许改变</font></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int a;</span><br><span class="line">int const a;</span><br></pre></td></tr></table></figure>
+            <p>Intel、微软等公司曾经出过一道类似的面试题（有点小改动）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">#pragma pack(8)</span><br><span class="line">struct example1</span><br><span class="line">&#123;</span><br><span class="line">	short a;</span><br><span class="line">	long b;</span><br><span class="line">&#125;;</span><br><span class="line">struct example2</span><br><span class="line">&#123;</span><br><span class="line">	char c;</span><br><span class="line">	example1 struct1;</span><br><span class="line">	short e;</span><br><span class="line">&#125;;</span><br><span class="line">#pragma pack()</span><br><span class="line">int main(int argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">	example2 struct2;</span><br><span class="line">	cout &lt;&lt; &quot;short:&quot; &lt;&lt; sizeof(short) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;char:&quot; &lt;&lt; sizeof(char) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;long:&quot; &lt;&lt; sizeof(long) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;example1:&quot; &lt;&lt; sizeof(example1) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;example2:&quot; &lt;&lt; sizeof(example2) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; &quot;&amp;struct2.struct1 - &amp;struct2:&quot; &lt;&lt; (unsigned int)(&amp;struct2.struct1) - (unsigned int)(&amp;struct2) &lt;&lt; endl;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>功能一样,都是声明一个只读的常量a。 且a必须初始化,之后值不能改变,但可以通过指针来改变。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const int a = 4;</span><br><span class="line">a = 5; //错误</span><br><span class="line">int *p = &amp;a;</span><br><span class="line">*p = 5; //正确 输出a的结果为5</span><br></pre></td></tr></table></figure>
+<p>程序结果：<br>short:2<br>char:1<br>long:4<br>example1:8<br>example2:16<br>&amp;struct2.struct1 - &amp;struct2:4<br><font color="red" size="5">原因：</font>对于结构体，编译器会自动进行成员变量的对齐，以提高运算效率。缺省情况下，编译器为结构体的每个成员按其自然对界（natural alignment）条件分配空间。各个成员按照它们被声明的顺序在内存中顺序存储，第一个成员的地址和整个结构的地址相同。 </p>
+<ul>
+<li>自然对界(natural alignment)即默认对齐方式，是指按结构体的成员中 size 最大的成员对齐。</li>
+<li>使用伪指令#pragma pack (n)，编译器将按照 n 个字节对齐；</li>
+<li>使用伪指令#pragma pack ()，取消自定义字节对齐方式。  </li>
+</ul>
+<p>注意： 如果#pragma pack (n)中指定的 n 大于结构体中最大成员的 size，则其不起作用，结构体仍然按照 size 最大的成员进行对界。<br><font color="red" size="5">字节对齐：</font><br>1) 结构体的首地址   能够被   其最宽基本类型成员的大小   所整除；<br>1) 结构体每个成员  相对于 结构体首地址的偏移量   都是 该成员大小的整数倍，如有需要，编译器会在成员之间加上<font color="red">填充字节</font> ；<br>2) 结构体的总大小 为结构体 最宽基本类型成员大小  的整数倍，如有需要，编译器会在最末一个成员之后加上<font color="red">填充字节。</font></p>
+<p><font color="red" size="5">解答：</font> 程序中#pragma pack (8)虽然指定了对界为 8，但是由于 struct example1 中的成员最大size 为 4（long 变量 size 为 4），故 struct example1 和struct example2 仍然按 4 字节对界.<br><img src="/images/C%E8%AF%AD%E8%A8%80/struct%E6%88%90%E5%91%98%E5%AF%B9%E9%BD%90/struct.png" alt="struct存储图"><br>我的理解内存分配情况如上图，其中先对struct example1的成员对齐，导致short a 后面空了两个字节，一共站了4字节，所以在对struct example2对齐时 char c后面要空3个字节。最后保证结构体的总大小为结构体最宽基本类型成员（long）大小的整数倍，所以后面空2个字节。  </p>
+<p><font color="red" size="5">思考：</font>如果指定的n小于最大成员size时输出的结果是什么？<br>（n = 2）<br>short:2<br>char:1<br>long:4<br>example1:6<br>example2:10<br>&amp;struct2.struct1 - &amp;struct2:2<br>一开始以为是把大于n字节的成员变成n字节，从结果上看不是这样的。成员的字节长度没有变，只是用来多段来存储（我将n字节理解为一段）</p>
+<h1 id="C-和-C-间-struct-的深层区别"><a href="#C-和-C-间-struct-的深层区别" class="headerlink" title="C 和 C++间 struct 的深层区别"></a>C 和 C++间 struct 的深层区别</h1><ul>
+<li>在 C++语言中 struct 具有了“类” 的功能，其与关键字 class 的区别在于 struct 中成员变量和函数的默认访问权限为 <font color="red">public</font>，而 class 的为 <font color="red">private</font>。</li>
+<li>struct 可以在定义的时候直接以{ }对其成员变量赋初值，而 class 则不能，<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct structA</span><br><span class="line">&#123;</span><br><span class="line">char a;</span><br><span class="line">char b;</span><br><span class="line">int c;</span><br><span class="line">&#125;;</span><br><span class="line">structA a = &#123;&apos;a&apos; , &apos;a&apos; ,1&#125;; // 定义时直接赋初值</span><br></pre></td></tr></table></figure></li>
+</ul>
 
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int* a;</span><br><span class="line">int const* a;</span><br></pre></td></tr></table></figure>
-
-<p>功能一样，与上面相同，const都是修饰 *a 的。<br>效果：a的值可以改变，*a的值不能改变 但可以通过”别名”来改变</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">int j = 0;</span><br><span class="line">const int* a = &amp;i;</span><br><span class="line">a = &amp;j   //正确</span><br><span class="line">*a = 4;   //错误</span><br><span class="line">j = 4；   //正确  输出*a的的结果为 4</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int* const d ;</span><br></pre></td></tr></table></figure>
-
-<p>这个const 是修饰d的,必须初始化<br>效果：d的值不能改变，*b的值可以改变</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">int i = 0;</span><br><span class="line">int j = 0;</span><br><span class="line">int* const d = &amp;a;//必须初始化</span><br><span class="line">d = &amp;j   //错误</span><br><span class="line">*d = 4;   //正确</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const int * const p;</span><br></pre></td></tr></table></figure>
-
-<p>是const int <em>p 与int * const p 的结合，必须初始化<br>效果：  p与\</em>p都不能改变</p>
-<h1 id="const-与宏定义的区别"><a href="#const-与宏定义的区别" class="headerlink" title="const 与宏定义的区别"></a>const 与宏定义的区别</h1><p>(1) 编译器处理方式不同</p>
-<p>　　define宏是在预处理阶段展开。</p>
-<p>　　const常量是编译运行阶段使用。</p>
-<p>(2) 类型和安全检查不同</p>
-<p>　　define宏没有类型，不做任何类型检查，仅仅是展开。</p>
-<p>　　const常量有具体的类型，在编译阶段会执行类型检查。<br>(3)const  可以节省空间，避免不必要的内存分配</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">        #define PI 3.14159  </span><br><span class="line">        const doulbe Pi=3.14159;</span><br><span class="line">        double i=Pi; //此时为Pi分配内存，以后不再分配！  </span><br><span class="line">        double I=PI; //编译期间进行宏替换，分配内存  </span><br><span class="line">        double j=Pi; //没有内存分配  </span><br><span class="line">        double J=PI; //再进行宏替换，又一次分配内存！</span><br></pre></td></tr></table></figure>
-
-<p>定义常量时最好使用const<br>但是定义矩阵的时候要使用宏定义，因为宏定义（预处理）比const（编译）先处理</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define SIZE = 100;</span><br><span class="line">const int size = 100;</span><br><span class="line">int a[SIZE];	  //正确</span><br><span class="line">int b[size];      //出错</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -240,7 +228,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/10/18/const/">http://yoursite.com/2019/10/18/const/</a></span>
+                        <span><a href="http://yoursite.com/2019/10/09/struct成员对齐/">http://yoursite.com/2019/10/09/struct成员对齐/</a></span>
                     </p>
                 
                 
@@ -277,10 +265,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/10/20/static/">static</a>
+                <a class="prev" rel="prev" href="/2019/10/18/const/">const</a>
             
             
-            <a class="next" rel="next" href="/2019/10/09/struct成员对齐/">struct成员对齐</a>
+            <a class="next" rel="next" href="/2019/10/01/ARM汇编/">ARM汇编</a>
             
         </section>
 
