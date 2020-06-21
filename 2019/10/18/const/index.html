@@ -185,7 +185,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C语言/">C语言</a>
+                                <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
                         <span id="/2019/10/18/const/" class="leancloud-visitors view" data-flag-title="const">
@@ -198,10 +198,10 @@
         </header>
 
         <div class="post-content">
-            <h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><p>const关键字可以限定一个变量的值 <font color="red">只读 不允许改变</font></p>
+            <h1 id="const-修饰变量"><a href="#const-修饰变量" class="headerlink" title="const 修饰变量"></a>const 修饰变量</h1><p>const关键字可以限定一个变量的值 <font color="red">只读 不允许改变</font></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int a;</span><br><span class="line">int const a;</span><br></pre></td></tr></table></figure>
 
-<p>功能一样,都是声明一个只读的常量a。 且a必须初始化,之后值不能改变,但可以通过指针来改变。</p>
+<p>功能一样,都是声明一个只读的常量a.且a必须初始化,之后值不能改变,但可以通过指针来改变。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">const int a = 4;</span><br><span class="line">a = 5; //错误</span><br><span class="line">int *p = &amp;a;</span><br><span class="line">*p = 5; //正确 输出a的结果为5</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const int* a;</span><br><span class="line">int const* a;</span><br></pre></td></tr></table></figure>
@@ -216,7 +216,7 @@
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const int * const p;</span><br></pre></td></tr></table></figure>
 
-<p>是const int <em>p 与int * const p 的结合，必须初始化<br>效果：  p与\</em>p都不能改变</p>
+<p>是const int *p 与int * const p 的结合，必须初始化<br>效果：  p与 *p 都不能改变</p>
 <h1 id="const-与宏定义的区别"><a href="#const-与宏定义的区别" class="headerlink" title="const 与宏定义的区别"></a>const 与宏定义的区别</h1><p>(1) 编译器处理方式不同</p>
 <p>　　define宏是在预处理阶段展开。</p>
 <p>　　const常量是编译运行阶段使用。</p>
@@ -227,6 +227,16 @@
 
 <p>定义常量时最好使用const<br>但是定义矩阵的时候要使用宏定义，因为宏定义（预处理）比const（编译）先处理</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#define SIZE = 100;</span><br><span class="line">const int size = 100;</span><br><span class="line">int a[SIZE];	  //正确</span><br><span class="line">int b[size];      //出错</span><br></pre></td></tr></table></figure>
+
+<h1 id="const修饰函数的功能"><a href="#const修饰函数的功能" class="headerlink" title="const修饰函数的功能"></a>const修饰函数的功能</h1><p>参考:<a href="https://www.cnblogs.com/Azhu/p/4352613.html" target="_blank" rel="noopener">https://www.cnblogs.com/Azhu/p/4352613.html</a></p>
+<h2 id="修饰类中的成员函数"><a href="#修饰类中的成员函数" class="headerlink" title="修饰类中的成员函数"></a>修饰类中的成员函数</h2><p>写法:void fun() const {}<br>功能:不能改变数据成员的值,可以访问.</p>
+<p>const类型的对象，不能调用自身的非const成员函数，但是可以调用自己的const成员函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">class A &#123;</span><br><span class="line">public:</span><br><span class="line">    A():num(2) &#123; &#125;</span><br><span class="line">    void setnum() &#123;  &#125;</span><br><span class="line">    void getnum() const&#123; &#125;</span><br><span class="line">private:</span><br><span class="line">    int num;</span><br><span class="line">&#125;;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    const A b;</span><br><span class="line">    b.getnum();</span><br><span class="line">    b.setnum();///////////////////////错误</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>const 成员函数的返回类型是引用时候，需要加const 约束</p>
+<h2 id="通过函数创建指向常量的指针"><a href="#通过函数创建指向常量的指针" class="headerlink" title="通过函数创建指向常量的指针"></a>通过函数创建指向常量的指针</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const char * const helpFun()</span><br><span class="line">&#123;</span><br><span class="line">    char * p =new char[3];</span><br><span class="line">    p[0]=&apos;a&apos;;</span><br><span class="line">    p[1]=&apos;b&apos;;</span><br><span class="line">    p[2]=&apos;\0&apos;;</span><br><span class="line">    return p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    const char * p = helpFun();</span><br><span class="line">	char * p1 = helpFun(); //错误</span><br><span class="line">    p++;</span><br><span class="line">    cout&lt;&lt;p&lt;&lt;endl;</span><br><span class="line">    delete p;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="重载运算符合逻辑"><a href="#重载运算符合逻辑" class="headerlink" title="重载运算符合逻辑"></a>重载运算符合逻辑</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class A</span><br><span class="line">&#123;</span><br><span class="line">public:</span><br><span class="line">    int a;</span><br><span class="line">    A(int b):a(b)&#123;&#125;</span><br><span class="line">    friend const A operator +(const A&amp; lft,const A&amp; rgt)</span><br><span class="line">    &#123;</span><br><span class="line">        return A(lft.a + rgt.a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    A a(1),b(3),c(7);</span><br><span class="line">    a+b = c; /////////错误</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -264,7 +274,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C语言/"># C语言</a>
+                        <a href="/tags/C-C/"># C/C++</a>
                     
                         
                 </span>
