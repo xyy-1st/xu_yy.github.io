@@ -185,7 +185,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C语言/">C语言</a>
+                                <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
                         <span id="/2019/11/07/可变参数/" class="leancloud-visitors view" data-flag-title="可变参数">
@@ -202,7 +202,7 @@
 <ol>
 <li>定义一个函数，最后一个参数为省略号，省略号前面可以设置自定义参数。<br>int func(int num, … ){}</li>
 <li>在函数定义中创建一个 va_list 类型变量，该类型是在 stdarg.h 头文件中定义的。<br>va_list vl;  </li>
-<li>使用…前一个形参 和 va_start 宏来初始化 va_list 变量为一个参数列表。<br>va_start(vl, num);   此时vl指向 …的第一个</li>
+<li>使用　…　前一个形参 和 va_start 宏来初始化 va_list 变量为一个参数列表。<br>va_start(vl, num);   此时vl指向 …的第一个</li>
 <li>使用 va_arg 宏和 va_list 变量来访问参数列表中的每个项。<br>int result = va_arg(vl, int)；<br>va_arg()返回vl当前指的值，并将vl指向下一个。  第二个参数写…的类型</li>
 <li>使用宏 va_end 来清理赋予 va_list 变量的内存。<br> va_end(vl);<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdarg.h&gt;</span><br><span class="line">int simple(int num , ...)</span><br><span class="line">&#123;</span><br><span class="line">	int i, result = 0;</span><br><span class="line">	va_list vl;    </span><br><span class="line">	va_start(vl, num);      </span><br><span class="line">	printf(&quot;num:%d, vl:%d\n&quot;, num, *vl);</span><br><span class="line">	for (i = 0; i &lt; (num-1)  ; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		result = va_arg(vl, int);</span><br><span class="line">		printf(&quot;in for  result:%d,  *vl:%d\n&quot;, result, *vl);</span><br><span class="line">	&#125;</span><br><span class="line">	va_end(vl);</span><br><span class="line">	return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">int main(int argc, char** argv)</span><br><span class="line">&#123;</span><br><span class="line">	simple(5,6,7,8,9,0);</span><br><span class="line">	return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">--------结果------------</span><br><span class="line">num:5, vl:6</span><br><span class="line">in for  result:6,  *vl:7</span><br><span class="line">in for  result:7,  *vl:8</span><br><span class="line">in for  result:8,  *vl:9</span><br><span class="line">in for  result:9,  *vl:0</span><br></pre></td></tr></table></figure>
 
@@ -253,7 +253,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C语言/"># C语言</a>
+                        <a href="/tags/C-C/"># C/C++</a>
                     
                         
                 </span>

@@ -185,7 +185,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C语言/">C语言</a>
+                                <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
                         <span id="/2019/11/04/指针函数与函数指针/" class="leancloud-visitors view" data-flag-title="指针函数与函数指针">
@@ -209,7 +209,7 @@
 
 <h2 id="函数指针作为形参"><a href="#函数指针作为形参" class="headerlink" title="函数指针作为形参"></a>函数指针作为形参</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">int add(int x, int y) &#123;</span><br><span class="line">	return x + y;</span><br><span class="line">&#125;</span><br><span class="line">int sub(int x, int y) &#123;</span><br><span class="line">	return x - y;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int fff( int (*FUN)(int ,int) , int a,int b)</span><br><span class="line">&#123;</span><br><span class="line">	return FUN(a, b);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int  main(int  argc, char* argv[])</span><br><span class="line">&#123;</span><br><span class="line">	</span><br><span class="line">	int a = fff(add, 2, 3);</span><br><span class="line">	int b = fff(sub, 2, 3);</span><br><span class="line">	printf(&quot;%d\n&quot;, a);      //输出5</span><br><span class="line">	printf(&quot;%d\n&quot;, b);		//输出-1</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="函数指针数组"><a href="#函数指针数组" class="headerlink" title="函数指针数组"></a>函数指针数组</h2><h3 id="定义方式1"><a href="#定义方式1" class="headerlink" title="定义方式1"></a>定义方式1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	int (*pFunc[2])(int a, int b); // 定义一个长度为2的函数指针数组</span><br><span class="line">	pFunc[0] = add;</span><br><span class="line">	pFunc[1] = sub;</span><br><span class="line">	//或</span><br><span class="line">	int (*pFunc[2])(int a, int b) = &#123; add,sub &#125;;</span><br><span class="line">```  </span><br><span class="line">### 定义方式2</span><br></pre></td></tr></table></figure>
+<h2 id="函数指针数组"><a href="#函数指针数组" class="headerlink" title="函数指针数组"></a>函数指针数组</h2><h3 id="定义方式1"><a href="#定义方式1" class="headerlink" title="定义方式1"></a>定义方式1</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">	int (*pFunc[2])(int a, int b); // 定义一个长度为2的函数指针数组</span><br><span class="line">	pFunc[0] = add;</span><br><span class="line">	pFunc[1] = sub;</span><br><span class="line">	//或</span><br><span class="line">	int (*pFunc[2])(int a, int b) = &#123; add,sub &#125;;</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">### 定义方式2</span><br></pre></td></tr></table></figure>
 
 <p>typedef int(*pFunc)(int a, int b);<br>pFunc p[2] = { add,sub };<br>```  </p>
 <h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>提前写好的库函数,调用用户写的工作函数.如创建线程函数.</p>
@@ -251,7 +251,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C语言/"># C语言</a>
+                        <a href="/tags/C-C/"># C/C++</a>
                     
                         
                 </span>

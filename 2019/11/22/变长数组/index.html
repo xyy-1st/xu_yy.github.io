@@ -185,7 +185,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C语言/">C语言</a>
+                                <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
                         <span id="/2019/11/22/变长数组/" class="leancloud-visitors view" data-flag-title="变长数组">
@@ -199,8 +199,10 @@
 
         <div class="post-content">
             <p>定义数组的时候必须指定数组长度:<br>如 int a[10];<br>但 很多时候数组的长度是不知道 怎么办呢</p>
-<h1 id="动态申请"><a href="#动态申请" class="headerlink" title="动态申请"></a>动态申请</h1><p>int len = 50;<br>int*  a = (int * )malloc(len , sizeof(int));<br>int*  b = (int * )calloc(len, sizeof(int));<br>malloc与calloc的区别在于calloc多做了一步初始化为0<br>malloc + memset 也可以达到calloc的效果 效率差不多<br>貌似比较多的人用malloc 因为一般都是自己初始化数据的 可以省去calloc自动初始化为0的时间<br>访问的时候可以用数组的写法 a[0] 代表第一个数据 也可以访问*(a+0)</p>
+<h1 id="C语言-动态申请-malloc"><a href="#C语言-动态申请-malloc" class="headerlink" title="C语言 动态申请 malloc"></a>C语言 动态申请 malloc</h1><p>int len = 50;<br>int*  a = (int * )malloc(len , sizeof(int));<br>int*  b = (int * )calloc(len, sizeof(int));<br>malloc与calloc的区别在于calloc多做了一步初始化为0<br>malloc + memset 也可以达到calloc的效果 效率差不多<br>貌似比较多的人用malloc 因为一般都是自己初始化数据的 可以省去calloc自动初始化为0的时间<br>访问的时候可以用数组的写法 a[0] 代表第一个数据 也可以访问*(a+0)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int i;</span><br><span class="line">int len = 50;</span><br><span class="line">int* a = (int*)malloc(len * sizeof(int));</span><br><span class="line">for (i = 0; i &lt; 50; ++i)</span><br><span class="line">	*(a+i) = i;</span><br><span class="line">	//a[i] = i;</span><br><span class="line">for (i = 0; i &lt; 50; ++i)</span><br><span class="line">	printf(&quot;%d &quot;, *(a + i));</span><br><span class="line">	//printf(&quot;%d &quot;, a[i]);</span><br><span class="line">free(a);</span><br></pre></td></tr></table></figure>
+
+<h1 id="C-动态申请-new"><a href="#C-动态申请-new" class="headerlink" title="C++ 动态申请 new"></a>C++ 动态申请 new</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int i;</span><br><span class="line">int len = 50;</span><br><span class="line">int* a = new int[len];</span><br><span class="line">for (i = 0; i &lt; 50; ++i)</span><br><span class="line">	//*(a + i) = i;</span><br><span class="line">	a[i] = i;</span><br><span class="line">for (i = 0; i &lt; 50; ++i)</span><br><span class="line">	//printf(&quot;%d &quot;, *(a + i));</span><br><span class="line">	printf(&quot;%d &quot;, a[i]);</span><br><span class="line">delete []a;</span><br><span class="line">return 0;</span><br></pre></td></tr></table></figure>
 
 <h1 id="C99中的变长数组"><a href="#C99中的变长数组" class="headerlink" title="C99中的变长数组"></a>C99中的变长数组</h1><p><font color="red">不过微软不支持 导致C99普及困难，为了代码的通用性 不建议这样写 这里只是提一下</font><br>int n = 100;<br>int a[n];</p>
 
@@ -241,7 +243,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C语言/"># C语言</a>
+                        <a href="/tags/C-C/"># C/C++</a>
                     
                         
                 </span>
