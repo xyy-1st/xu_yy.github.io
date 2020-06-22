@@ -7,7 +7,7 @@
 
 
 
-<title>malloc与new的区别 | Hexo</title>
+<title>类型自动转换 | Hexo</title>
 
 
 
@@ -103,11 +103,73 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">malloc与new的区别</h1>
+            <h1 class="post-title">类型自动转换</h1>
             
                 <div class="post-meta">
                     
@@ -116,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;0:50:23</a>
+                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;10:03:56</a>
                         </span>
                     
                     
@@ -126,7 +188,7 @@
                                 <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
-                        <span id="/2020/06/22/malloc与new的区别/" class="leancloud-visitors view" data-flag-title="malloc与new的区别">
+                        <span id="/2020/06/22/类型自动转换/" class="leancloud-visitors view" data-flag-title="类型自动转换">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -136,13 +198,20 @@
         </header>
 
         <div class="post-content">
-            <ol>
-<li>malloc和free时标志库函数，而new和delete是C++的操作符</li>
-<li>malloc和free只是分配和释放空间，而new和delete可以调用构造函数和析构函数</li>
-<li>malloc需要指定大小，返回void* 在强制转换，而new不需要指定大小，返回对应类型</li>
-<li>malloc与free不可以重载，而new与delete可以重载</li>
-<li>malloc分配失败返回NULL，而new抛出bac_alloc异常</li>
+            <h1 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h1><p>C在以下四种情况下会进行隐式转换:</p>
+<ol>
+<li>算术运算式中，低类型能够转换为高类型。</li>
+<li>赋值表达式中，右边表达式的值自动隐式转换为左边变量的类型，并赋值给他。</li>
+<li>函数调用中参数传递时，系统隐式地将实参转换为形参的类型后，赋给形参。</li>
+<li>函数有返回值时，系统将隐式地将返回表达式类型转换为返回值类型，赋值给调用函数。</li>
 </ol>
+<h1 id="算术运算的隐式转换"><a href="#算术运算的隐式转换" class="headerlink" title="算术运算的隐式转换"></a>算术运算的隐式转换</h1><p>算数运算中，首先有如下类型转换规则：</p>
+<ol>
+<li>字符必须先转换为整数(C语言规定字符类型数据和整型数据之间可以通用) 。</li>
+<li>short型转换为int型(同属于整型) 。</li>
+<li>float型数据在运算时一律转换为双精度(double)型，以提高运算精度(同属于实型) 。<br>其次，有下面的规则。<br><img src="/images/C%E8%AF%AD%E8%A8%80/%E7%B1%BB%E5%9E%8B%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2/%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99.png" alt="转换规则"></li>
+</ol>
+<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>printf中的%d代表的是十进制有符号数,%u代表是的十进制无符号数</p>
 
         </div>
 
@@ -157,7 +226,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/22/malloc与new的区别/">http://yoursite.com/2020/06/22/malloc与new的区别/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/22/类型自动转换/">http://yoursite.com/2020/06/22/类型自动转换/</a></span>
                     </p>
                 
                 
@@ -194,10 +263,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/22/sizeof与shrlen的区别/">sizeof与strlen的区别</a>
+                <a class="prev" rel="prev" href="/2020/06/22/queue/">C++容器queue</a>
             
             
-            <a class="next" rel="next" href="/2020/01/05/递归-汉诺塔/">递归-汉诺塔</a>
+            <a class="next" rel="next" href="/2020/06/22/sizeof与shrlen的区别/">sizeof与strlen的区别</a>
             
         </section>
 

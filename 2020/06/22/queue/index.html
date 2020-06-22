@@ -7,7 +7,7 @@
 
 
 
-<title>malloc与new的区别 | Hexo</title>
+<title>C++容器queue | Hexo</title>
 
 
 
@@ -103,11 +103,73 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">malloc与new的区别</h1>
+            <h1 class="post-title">C++容器queue</h1>
             
                 <div class="post-meta">
                     
@@ -116,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;0:50:23</a>
+                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;11:27:51</a>
                         </span>
                     
                     
@@ -126,7 +188,7 @@
                                 <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
-                        <span id="/2020/06/22/malloc与new的区别/" class="leancloud-visitors view" data-flag-title="malloc与new的区别">
+                        <span id="/2020/06/22/queue/" class="leancloud-visitors view" data-flag-title="C++容器queue">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -136,14 +198,12 @@
         </header>
 
         <div class="post-content">
-            <ol>
-<li>malloc和free时标志库函数，而new和delete是C++的操作符</li>
-<li>malloc和free只是分配和释放空间，而new和delete可以调用构造函数和析构函数</li>
-<li>malloc需要指定大小，返回void* 在强制转换，而new不需要指定大小，返回对应类型</li>
-<li>malloc与free不可以重载，而new与delete可以重载</li>
-<li>malloc分配失败返回NULL，而new抛出bac_alloc异常</li>
-</ol>
+            <p>queue是队列</p>
+<h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;queue&gt;</span><br></pre></td></tr></table></figure>
 
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">queue &lt;int&gt; q;</span><br></pre></td></tr></table></figure>
+
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">q.push()在末尾加入一个元素</span><br><span class="line"></span><br><span class="line">q.front()返回第一个元素</span><br><span class="line"></span><br><span class="line">q.back()返回最后一个元素</span><br><span class="line"></span><br><span class="line">q.pop()删除第一个元素</span><br><span class="line"></span><br><span class="line">q.empty()如果队列空则返回真</span><br><span class="line"></span><br><span class="line">q.size()返回队列中元素的个数</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -157,7 +217,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/22/malloc与new的区别/">http://yoursite.com/2020/06/22/malloc与new的区别/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/22/queue/">http://yoursite.com/2020/06/22/queue/</a></span>
                     </p>
                 
                 
@@ -181,7 +241,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C-C/"># C/C++</a>
+                        <a href="/tags/C-容器/"># C++容器</a>
                     
                         
                 </span>
@@ -194,10 +254,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/22/sizeof与shrlen的区别/">sizeof与strlen的区别</a>
+                <a class="prev" rel="prev" href="/2020/06/22/stack/">C++容器stack</a>
             
             
-            <a class="next" rel="next" href="/2020/01/05/递归-汉诺塔/">递归-汉诺塔</a>
+            <a class="next" rel="next" href="/2020/06/22/类型自动转换/">类型自动转换</a>
             
         </section>
 

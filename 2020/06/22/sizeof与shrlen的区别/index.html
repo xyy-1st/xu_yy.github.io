@@ -7,7 +7,7 @@
 
 
 
-<title>malloc与new的区别 | Hexo</title>
+<title>sizeof与strlen的区别 | Hexo</title>
 
 
 
@@ -103,11 +103,73 @@
             <div class="container">
     
     
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">malloc与new的区别</h1>
+            <h1 class="post-title">sizeof与strlen的区别</h1>
             
                 <div class="post-meta">
                     
@@ -116,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;0:50:23</a>
+                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;9:44:50</a>
                         </span>
                     
                     
@@ -126,7 +188,7 @@
                                 <a href="/categories/C-C/">C/C++</a>
                             
                         </span>
-                        <span id="/2020/06/22/malloc与new的区别/" class="leancloud-visitors view" data-flag-title="malloc与new的区别">
+                        <span id="/2020/06/22/sizeof与shrlen的区别/" class="leancloud-visitors view" data-flag-title="sizeof与strlen的区别">
                             <em class="post-meta-item-text">Pageviews:</em>
                             <i class="leancloud-visitors-count">loading</i>
                         </span>
@@ -136,13 +198,8 @@
         </header>
 
         <div class="post-content">
-            <ol>
-<li>malloc和free时标志库函数，而new和delete是C++的操作符</li>
-<li>malloc和free只是分配和释放空间，而new和delete可以调用构造函数和析构函数</li>
-<li>malloc需要指定大小，返回void* 在强制转换，而new不需要指定大小，返回对应类型</li>
-<li>malloc与free不可以重载，而new与delete可以重载</li>
-<li>malloc分配失败返回NULL，而new抛出bac_alloc异常</li>
-</ol>
+            <h1 id="sizeof"><a href="#sizeof" class="headerlink" title="sizeof"></a>sizeof</h1><p>关键字用于判断变量或数据类型的字节大小.</p>
+<h1 id="strlen"><a href="#strlen" class="headerlink" title="strlen"></a>strlen</h1><p>C 库函数 size_t strlen(const char *str) 计算字符串 str 的长度，直到空结束字符，但不包括空结束字符。</p>
 
         </div>
 
@@ -157,7 +214,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/22/malloc与new的区别/">http://yoursite.com/2020/06/22/malloc与new的区别/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/22/sizeof与shrlen的区别/">http://yoursite.com/2020/06/22/sizeof与shrlen的区别/</a></span>
                     </p>
                 
                 
@@ -194,10 +251,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/22/sizeof与shrlen的区别/">sizeof与strlen的区别</a>
+                <a class="prev" rel="prev" href="/2020/06/22/类型自动转换/">类型自动转换</a>
             
             
-            <a class="next" rel="next" href="/2020/01/05/递归-汉诺塔/">递归-汉诺塔</a>
+            <a class="next" rel="next" href="/2020/06/22/malloc与new的区别/">malloc与new的区别</a>
             
         </section>
 
