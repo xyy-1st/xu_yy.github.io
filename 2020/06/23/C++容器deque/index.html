@@ -7,7 +7,7 @@
 
 
 
-<title>类型自动转换 | Hexo</title>
+<title>C++容器deque | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">类型自动转换</h1>
+            <h1 class="post-title">C++容器deque</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;10:03:56</a>
+                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;12:03:19</a>
                         </span>
                     
                     
@@ -195,21 +195,15 @@
         </header>
 
         <div class="post-content">
-            <h1 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h1><p>C在以下四种情况下会进行隐式转换:</p>
-<ol>
-<li>算术运算式中，低类型能够转换为高类型。</li>
-<li>赋值表达式中，右边表达式的值自动隐式转换为左边变量的类型，并赋值给他。</li>
-<li>函数调用中参数传递时，系统隐式地将实参转换为形参的类型后，赋给形参。</li>
-<li>函数有返回值时，系统将隐式地将返回表达式类型转换为返回值类型，赋值给调用函数。</li>
-</ol>
-<h1 id="算术运算的隐式转换"><a href="#算术运算的隐式转换" class="headerlink" title="算术运算的隐式转换"></a>算术运算的隐式转换</h1><p>算数运算中，首先有如下类型转换规则：</p>
-<ol>
-<li>字符必须先转换为整数(C语言规定字符类型数据和整型数据之间可以通用) 。</li>
-<li>short型转换为int型(同属于整型) 。</li>
-<li>float型数据在运算时一律转换为双精度(double)型，以提高运算精度(同属于实型) 。<br>其次，有下面的规则。<br><img src="/images/C%E8%AF%AD%E8%A8%80/%E7%B1%BB%E5%9E%8B%E8%87%AA%E5%8A%A8%E8%BD%AC%E6%8D%A2/%E8%BD%AC%E6%8D%A2%E8%A7%84%E5%88%99.png" alt="转换规则"></li>
-</ol>
-<h1 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h1><p>printf中的%d代表的是十进制有符号数,%u代表是的十进制无符号数</p>
+            <p>deque是双端队列</p>
+<h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;deque&gt;</span><br></pre></td></tr></table></figure>
 
+<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deque &lt;int&gt; dq;</span><br></pre></td></tr></table></figure>
+
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">dq.push_front(5) 在队头插入元素5</span><br><span class="line">dq.pop_front()    删除对头一个元素</span><br><span class="line"></span><br><span class="line">dq.push_back(5) 在队尾插入元素5</span><br><span class="line">dq.pop_back()    删除对尾一个元素</span><br><span class="line"></span><br><span class="line">dq.size()      返回队列中元素的个数</span><br><span class="line"></span><br><span class="line">dq.empty()     判断是否为空,是返回true</span><br><span class="line"></span><br><span class="line">dq.clear()     删除所有元素</span><br><span class="line"></span><br><span class="line">dq.begin()    引用容器中第一个元素</span><br><span class="line">dq.end()        引用容器中最后一个元素后面的一个位置</span><br></pre></td></tr></table></figure>
+
+<h1 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h1><p>支持随机访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">deque&lt;int&gt;::iterator iter;</span><br><span class="line">   //随机访问</span><br><span class="line">   iter = dq.begin();</span><br><span class="line">cout &lt;&lt; *(iter + 3);  </span><br><span class="line"></span><br><span class="line">for (iter = dq.begin(); iter != dq.end(); iter++)</span><br><span class="line">	cout &lt;&lt; *iter &lt;&lt; &quot; &quot;;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -223,7 +217,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/22/类型自动转换/">http://yoursite.com/2020/06/22/类型自动转换/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/23/C++容器deque/">http://yoursite.com/2020/06/23/C++容器deque/</a></span>
                     </p>
                 
                 
@@ -247,7 +241,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C-C/"># C/C++</a>
+                        <a href="/tags/C-容器/"># C++容器</a>
                     
                         
                 </span>
@@ -260,10 +254,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/22/C++容器queue/">C++容器queue</a>
+                <a class="prev" rel="prev" href="/2020/06/23/C++容器list/">C++容器list</a>
             
             
-            <a class="next" rel="next" href="/2020/06/22/sizeof与shrlen的区别/">sizeof与strlen的区别</a>
+            <a class="next" rel="next" href="/2020/06/23/基数排序/">基数排序</a>
             
         </section>
 

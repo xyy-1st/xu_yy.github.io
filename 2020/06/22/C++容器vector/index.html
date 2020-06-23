@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>c++容器vector | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">c++容器vector</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;11:28:23</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/C-C/">C/C++</a>
+                            
+                        </span>
+
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>参考:<a href="https://blog.csdn.net/weixin_41743247/article/details/90635931" target="_blank" rel="noopener">https://blog.csdn.net/weixin_41743247/article/details/90635931</a><br>vector是向量(动态数组)</p>
+<h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;vector&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="定义及初始化"><a href="#定义及初始化" class="headerlink" title="定义及初始化"></a>定义及初始化</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">//方式1</span><br><span class="line">//定义具有10个整型元素的向量,初始化值不确定</span><br><span class="line">vector&lt;int&gt;a(10);</span><br><span class="line">//方式2</span><br><span class="line">//定义具有10个整型元素的向量，且初始化值为1</span><br><span class="line">vector&lt;int&gt;a(10,1);</span><br><span class="line">//方式3</span><br><span class="line">//用向量b给向量a赋值，a的值完全等价于b的值</span><br><span class="line">vector&lt;int&gt;a(b);</span><br><span class="line">//方式4</span><br><span class="line">//将向量b中从0-2（共三个）的元素赋值给a，a的类型为int型</span><br><span class="line">vector&lt;int&gt;a(b.begin(),b.begin+3);</span><br><span class="line">//方式5</span><br><span class="line">//从数组中获得初值</span><br><span class="line">int b[7]=&#123;1,2,3,4,5,6,7&#125;;</span><br><span class="line">vector&lt;int&gt; a(b,b+7）;</span><br></pre></td></tr></table></figure>
+
+<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;vector&gt;</span><br><span class="line">vector&lt;int&gt; a,b;</span><br><span class="line"></span><br><span class="line">//b为向量，将b的0-2个元素赋值给向量a</span><br><span class="line">a.assign(b.begin(),b.begin()+3);</span><br><span class="line"></span><br><span class="line">//a含有4个值为2的元素</span><br><span class="line">a.assign(4,2);</span><br><span class="line"></span><br><span class="line">//返回a的最后一个元素</span><br><span class="line">a.back();</span><br><span class="line">//返回a的第一个元素</span><br><span class="line">a.front();</span><br><span class="line"></span><br><span class="line">//返回a的第i元素,当且仅当a存在</span><br><span class="line">a[i];</span><br><span class="line"></span><br><span class="line">//清空a中的元素</span><br><span class="line">a.clear();</span><br><span class="line"></span><br><span class="line">//判断a是否为空，空则返回true，非空则返回false</span><br><span class="line">a.empty();</span><br><span class="line"></span><br><span class="line">//删除a向量的最后一个元素</span><br><span class="line">a.pop_back();</span><br><span class="line"></span><br><span class="line">//删除a中第一个（从第0个算起）到第二个元素，也就是说删除的元素从a.begin()+1算起（包括它）一直到a.begin()+3（不包括它）结束</span><br><span class="line">a.erase(a.begin()+1,a.begin()+3);</span><br><span class="line"></span><br><span class="line">//在a的最后一个向量后插入一个元素，其值为5</span><br><span class="line">a.push_back(5);</span><br><span class="line"></span><br><span class="line">//在a的第一个元素（从第0个算起）位置插入数值5,</span><br><span class="line">a.insert(a.begin()+1,5);</span><br><span class="line">//在a的第一个元素（从第0个算起）位置插入3个数，其值都为5</span><br><span class="line">a.insert(a.begin()+1,3,5);</span><br><span class="line">//b为数组，在a的第一个元素（从第0个元素算起）的位置插入b的第三个元素到第5个元素（不包括b+6）</span><br><span class="line">a.insert(a.begin()+1,b+3,b+6);</span><br><span class="line"></span><br><span class="line">//返回a中元素的个数</span><br><span class="line">a.size();</span><br><span class="line"></span><br><span class="line">//返回a在内存中总共可以容纳的元素个数</span><br><span class="line">a.capacity();</span><br><span class="line"></span><br><span class="line">//将a的现有元素个数调整至10个，多则删，少则补，其值随机</span><br><span class="line">a.resize(10);</span><br><span class="line">//将a的现有元素个数调整至10个，多则删，少则补，其值为2</span><br><span class="line">a.resize(10,2);</span><br><span class="line"></span><br><span class="line">//将a的容量扩充至100，</span><br><span class="line">a.reserve(100);</span><br><span class="line"></span><br><span class="line">//b为向量，将a中的元素和b中的元素整体交换</span><br><span class="line">a.swap(b);</span><br></pre></td></tr></table></figure>
+
+<h1 id="几个常用算法"><a href="#几个常用算法" class="headerlink" title="几个常用算法"></a>几个常用算法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//对a中的从a.begin()（包括它）到a.end()（不包括它）的元素进行从小到大排列</span><br><span class="line">sort(a.begin(),a.end());</span><br><span class="line">//对a中的从a.begin()（包括它）到a.end()（不包括它）的元素倒置，但不排列，如a中元素为1,3,2,4,倒置后为4,2,3,1</span><br><span class="line">reverse(a.begin(),a.end());</span><br><span class="line"> //把a中的从a.begin()（包括它）到a.end()（不包括它）的元素复制到b中，从b.begin()+1的位置（包括它）开始复制，覆盖掉原有元素</span><br><span class="line">copy(a.begin(),a.end(),b.begin()+1);</span><br><span class="line">//在a中的从a.begin()（包括它）到a.end()（不包括它）的元素中查找10，若存在返回其在向量中的位置</span><br><span class="line"> find(a.begin(),a.end(),10);</span><br></pre></td></tr></table></figure>
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/06/22/C++容器vector/">http://yoursite.com/2020/06/22/C++容器vector/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/C-容器/"># C++容器</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/06/22/快速排序/">快速排序</a>
+            
+            
+            <a class="next" rel="next" href="/2020/06/22/C++容器stack/">C++容器stack</a>
+            
+        </section>
+
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
