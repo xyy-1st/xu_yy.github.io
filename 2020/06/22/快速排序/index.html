@@ -182,6 +182,14 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/简单算法/">简单算法</a>
+                            
+                        </span>
+
+                    
                 </div>
             
         </header>
@@ -191,7 +199,7 @@
 <li>取第一个数作为基准,小于基准的数放在它的前面,大于基准的数放在它的后面,此时基准归位.</li>
 <li>分别对前面部分和后面部分执行步骤1,直到每部分内只有一个元素或空为止</li>
 </ol>
-<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/C%E8%AF%AD%E8%A8%80/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.png" alt="快速排序图示"></p>
+<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F.png" alt="快速排序图示"></p>
 <h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">//基准归位,并返回它的位置</span><br><span class="line">int partition(int a[], int s, int t)</span><br><span class="line">&#123;</span><br><span class="line">	int i = s, j = t;</span><br><span class="line">	//基准</span><br><span class="line">	int temp = a[i];</span><br><span class="line">	while (i &lt; j) &#123;</span><br><span class="line">		//从后往前找小于基准的数,赋值给a[i]</span><br><span class="line">		while (i &lt; j &amp;&amp; a[j] &gt;= temp)</span><br><span class="line">			j--;</span><br><span class="line">		a[i] = a[j];</span><br><span class="line">		//从前往后找大于基准的数,赋值给a[j]</span><br><span class="line">		while (i &lt; j &amp;&amp; a[i] &lt;= temp)</span><br><span class="line">			i++;</span><br><span class="line">		a[j] = a[i];</span><br><span class="line">	&#125;</span><br><span class="line">	//循环结束时 i是等于j的</span><br><span class="line">	a[i] = temp;</span><br><span class="line">	return i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void QuickSort(int a[], int s,int t)</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">	if (s &gt;= t)</span><br><span class="line">		return;</span><br><span class="line">	int mid = partition(a, s, t);</span><br><span class="line">	QuickSort(a, s, mid - 1); //排序小于基准的</span><br><span class="line">	QuickSort(a, mid + 1, t);//排序大于基准的</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 

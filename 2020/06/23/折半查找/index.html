@@ -7,7 +7,7 @@
 
 
 
-<title>C++容器stack | Hexo</title>
+<title>折半查找 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">C++容器stack</h1>
+            <h1 class="post-title">折半查找</h1>
             
                 <div class="post-meta">
                     
@@ -178,14 +178,14 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 22, 2020&nbsp;&nbsp;11:28:16</a>
+                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;17:17:13</a>
                         </span>
                     
                     
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/C-C/">C/C++</a>
+                                <a href="/categories/简单算法/">简单算法</a>
                             
                         </span>
 
@@ -195,12 +195,14 @@
         </header>
 
         <div class="post-content">
-            <p>stack是栈</p>
-<h1 id="头文件"><a href="#头文件" class="headerlink" title="头文件"></a>头文件</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;stack&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stack&lt;int&gt; a;</span><br></pre></td></tr></table></figure>
-
-<h1 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">a.push() 在栈顶增加元素</span><br><span class="line"></span><br><span class="line">a.top() 返回栈顶元素</span><br><span class="line"></span><br><span class="line">a.pop() 移除栈顶元素</span><br><span class="line"></span><br><span class="line">a.size() 返回栈中元素数目</span><br><span class="line"></span><br><span class="line">a.empty() 堆栈为空则返回真</span><br></pre></td></tr></table></figure>
+            <h1 id="要求"><a href="#要求" class="headerlink" title="要求"></a>要求</h1><p>查找的线性表是有序的</p>
+<h1 id="思想"><a href="#思想" class="headerlink" title="思想"></a>思想</h1><ol>
+<li>找出中间点位置mid=(low+high)/2,然后于查找值k进行比较</li>
+<li>如果 等于k 就找到了</li>
+<li>如果 小于k 就在中间点的左边或右边找(根据线性表的排列方式决定)</li>
+<li>如果 大于k 久再中间点的右边或左边找(根据线性表的排列方式决定)</li>
+</ol>
+<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">*  a[] 查找的范围</span><br><span class="line">*  n 查找的范围的大小</span><br><span class="line">*  k 待查找的值</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">int BinSearch(int a[], int n, int k)</span><br><span class="line">&#123;</span><br><span class="line">	int low = 0, high = n - 1, mid;</span><br><span class="line">	while (low &lt;= high) &#123;</span><br><span class="line">		mid = (low + high) / 2;</span><br><span class="line">		if (k == a[mid])   //等于中间值,返回其下表</span><br><span class="line">			return mid;</span><br><span class="line">		if (k &lt; a[mid])   //小于中间值,在中间点的左边继续找</span><br><span class="line">			high = mid - 1;</span><br><span class="line">		else             //大于中间值,在中间点的右边继续找</span><br><span class="line">			low = mid + 1;</span><br><span class="line">	&#125;</span><br><span class="line">	return -1;			//未找到返回 -1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -214,7 +216,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/22/stack/">http://yoursite.com/2020/06/22/stack/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/23/折半查找/">http://yoursite.com/2020/06/23/折半查找/</a></span>
                     </p>
                 
                 
@@ -238,7 +240,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/C-容器/"># C++容器</a>
+                        <a href="/tags/查找算法/"># 查找算法</a>
                     
                         
                 </span>
@@ -251,10 +253,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/22/vector/">c++容器vector</a>
+                <a class="prev" rel="prev" href="/2020/06/23/分块查找/">分块查找</a>
             
             
-            <a class="next" rel="next" href="/2020/06/22/queue/">C++容器queue</a>
+            <a class="next" rel="next" href="/2020/06/23/C++容器list/">C++容器list</a>
             
         </section>
 

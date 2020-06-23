@@ -182,13 +182,21 @@
                         </span>
                     
                     
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/简单算法/">简单算法</a>
+                            
+                        </span>
+
+                    
                 </div>
             
         </header>
 
         <div class="post-content">
             <h1 id="算法思想"><a href="#算法思想" class="headerlink" title="算法思想"></a>算法思想</h1><p>每次比较相邻的两个数,选择是否交换他们的位置.<br>最多循环n-1次,因为最后一个自动归位.<br>优化:如果没有发生相邻的两个数交换,则可以提前结束循环.</p>
-<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/C%E8%AF%AD%E8%A8%80/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.png" alt="冒泡排序图示"></p>
+<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F.png" alt="冒泡排序图示"></p>
 <h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><p>从大到小排序</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">void BubbleSort(int a[], int n)</span><br><span class="line">&#123;</span><br><span class="line">	int i, j;</span><br><span class="line">	bool flag;</span><br><span class="line">	for (i = 0; i &lt; n - 1; ++i)&#123;</span><br><span class="line">		flag = false;</span><br><span class="line">		for (j = n - 1; j &gt; i; --j) &#123;</span><br><span class="line">			if (a[j] &lt; a[j - 1]) &#123;</span><br><span class="line">				flag = true;</span><br><span class="line">				swap(a[j], a[j - 1]);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
