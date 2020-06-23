@@ -7,7 +7,7 @@
 
 
 
-<title>分块查找 | Hexo</title>
+<title>哈希表 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">分块查找</h1>
+            <h1 class="post-title">哈希表</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;17:39:48</a>
+                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;22:09:21</a>
                         </span>
                     
                     
@@ -195,14 +195,16 @@
         </header>
 
         <div class="post-content">
-            <h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><ol>
-<li>将线性表均分为b块,前b-1快中元素个数为s=n/b向上取整,第b快放剩余部分 &lt;= s</li>
-<li>建立一个索引表,大小为b,包含每个块内最大的值和每块开始的索引</li>
-<li>先用折半查找索引表得到块的索引,再在块中用顺序查找</li>
-</ol>
-<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE.png" alt="分块查找"></p>
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//索引表元素类型</span><br><span class="line">typedef struct </span><br><span class="line">&#123;</span><br><span class="line">	int key;</span><br><span class="line">	int link;</span><br><span class="line">&#125;IdxType;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">*	I  索引表</span><br><span class="line">*	b	索引表大小</span><br><span class="line">*	a	数据表</span><br><span class="line">*	n	数据表大小</span><br><span class="line">*	k	待查数字</span><br><span class="line">*/</span><br><span class="line">int IdxSearch(IdxType I[], int b, int a[], int n, int k)</span><br><span class="line">&#123;</span><br><span class="line">	int s = (n + b - 1) / b;//块内元素的个数  向上取整</span><br><span class="line">	int low = 0, high = b - 1, mid;</span><br><span class="line">	//折半查找索引表，  找到的位置为 high+1</span><br><span class="line">	while (low &lt;= high) &#123;</span><br><span class="line">		mid = (low + high) / 2;</span><br><span class="line">		if (I[mid].key &gt;= k)</span><br><span class="line">			high = mid - 1;</span><br><span class="line">		else</span><br><span class="line">			low = mid + 1;</span><br><span class="line">	&#125;</span><br><span class="line">	//顺序查找块</span><br><span class="line">	int i;</span><br><span class="line">	for (i = I[high + 1].link; i &lt;= I[high + 1].link + s - 1; ++i)</span><br><span class="line">		if (a[i] == k)</span><br><span class="line">			break;</span><br><span class="line">	if (i &lt;= I[high + 1].link + s - 1)</span><br><span class="line">		return i;//查找成功，返回下表</span><br><span class="line">	else</span><br><span class="line">		return -1;//查找失败，返回-1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+            <h1 id="基本思路"><a href="#基本思路" class="headerlink" title="基本思路"></a>基本思路</h1><p>设要存储的源数个数为n,设置一个长为m(m&gt;=n)的连续内存单元,以每个元素的关键字k<sub>i</sub>为自变量,通过哈希函数把k<sub>i</sub>映射为内存单元的地址(或下标)h(k<sub>i</sub>),并把该元素存储在这个内存单元中.<br>哈希冲突:两个关键字的哈希地址(h(k))相同.<br>同义词:具有相同哈希地址的元素  </p>
+<h1 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h1><h2 id="直接定址法"><a href="#直接定址法" class="headerlink" title="直接定址法"></a>直接定址法</h2><p>h(k) = k + c</p>
+<h2 id="除留余数法"><a href="#除留余数法" class="headerlink" title="除留余数法"></a>除留余数法</h2><p>h(k) = k mod p (p取不大于m的素数时效果最好)</p>
+<h2 id="数字分析法"><a href="#数字分析法" class="headerlink" title="数字分析法"></a>数字分析法</h2><p>具体分析关键字</p>
+<h1 id="解决哈希冲突"><a href="#解决哈希冲突" class="headerlink" title="解决哈希冲突"></a>解决哈希冲突</h1><h2 id="线性探测放"><a href="#线性探测放" class="headerlink" title="线性探测放"></a>线性探测放</h2><p>如果冲突了就放在下一个位置(最后一个的下一个是第一个)</p>
+<p>缺点:容易产生堆积问题</p>
+<h2 id="平方探测法"><a href="#平方探测法" class="headerlink" title="平方探测法"></a>平方探测法</h2><p>如果冲突了就放在h(k)+1<sup>2</sup>,h(k)-1<sup>2</sup>,h(k)+2<sup>2</sup>,h(k)-2<sup>2</sup> ……</p>
+<p>缺点:不一定能探测到哈希表上所有的单元</p>
+<h2 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h2><p>把所有的同义词用单链表连接起来</p>
+<p>缺点:指针需要额外的空间</p>
 
         </div>
 
@@ -217,7 +219,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/23/分块查找/">http://yoursite.com/2020/06/23/分块查找/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/23/哈希表/">http://yoursite.com/2020/06/23/哈希表/</a></span>
                     </p>
                 
                 
@@ -241,7 +243,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/查找算法/"># 查找算法</a>
+                        <a href="/tags/排序算法/"># 排序算法</a>
                     
                         
                 </span>
@@ -254,10 +256,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/23/二叉排序树与平衡二叉树/">二叉排序树与平衡二叉树</a>
+                <a class="prev" rel="prev" href="/2020/06/23/树的遍历/">树的遍历</a>
             
             
-            <a class="next" rel="next" href="/2020/06/23/折半查找/">折半查找</a>
+            <a class="next" rel="next" href="/2020/06/23/二叉排序树与平衡二叉树/">二叉排序树与平衡二叉树</a>
             
         </section>
 

@@ -7,7 +7,7 @@
 
 
 
-<title>分块查找 | Hexo</title>
+<title>树的遍历 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">分块查找</h1>
+            <h1 class="post-title">树的遍历</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;17:39:48</a>
+                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;23:03:18</a>
                         </span>
                     
                     
@@ -195,15 +195,34 @@
         </header>
 
         <div class="post-content">
-            <h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><ol>
-<li>将线性表均分为b块,前b-1快中元素个数为s=n/b向上取整,第b快放剩余部分 &lt;= s</li>
-<li>建立一个索引表,大小为b,包含每个块内最大的值和每块开始的索引</li>
-<li>先用折半查找索引表得到块的索引,再在块中用顺序查找</li>
+            <h1 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h1><ol>
+<li>访问根结点</li>
+<li>先序遍历左子树</li>
+<li>先序遍历右子树</li>
 </ol>
-<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE.png" alt="分块查找"></p>
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//索引表元素类型</span><br><span class="line">typedef struct </span><br><span class="line">&#123;</span><br><span class="line">	int key;</span><br><span class="line">	int link;</span><br><span class="line">&#125;IdxType;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">*	I  索引表</span><br><span class="line">*	b	索引表大小</span><br><span class="line">*	a	数据表</span><br><span class="line">*	n	数据表大小</span><br><span class="line">*	k	待查数字</span><br><span class="line">*/</span><br><span class="line">int IdxSearch(IdxType I[], int b, int a[], int n, int k)</span><br><span class="line">&#123;</span><br><span class="line">	int s = (n + b - 1) / b;//块内元素的个数  向上取整</span><br><span class="line">	int low = 0, high = b - 1, mid;</span><br><span class="line">	//折半查找索引表，  找到的位置为 high+1</span><br><span class="line">	while (low &lt;= high) &#123;</span><br><span class="line">		mid = (low + high) / 2;</span><br><span class="line">		if (I[mid].key &gt;= k)</span><br><span class="line">			high = mid - 1;</span><br><span class="line">		else</span><br><span class="line">			low = mid + 1;</span><br><span class="line">	&#125;</span><br><span class="line">	//顺序查找块</span><br><span class="line">	int i;</span><br><span class="line">	for (i = I[high + 1].link; i &lt;= I[high + 1].link + s - 1; ++i)</span><br><span class="line">		if (a[i] == k)</span><br><span class="line">			break;</span><br><span class="line">	if (i &lt;= I[high + 1].link + s - 1)</span><br><span class="line">		return i;//查找成功，返回下表</span><br><span class="line">	else</span><br><span class="line">		return -1;//查找失败，返回-1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void PreOrder(TreeNode * root)</span><br><span class="line">&#123;</span><br><span class="line">    if(root != NULL)&#123;</span><br><span class="line">        printf(&quot;%d &quot;,root-&gt;val);</span><br><span class="line">        preOrder(root-&gt;left);</span><br><span class="line">        preOrder(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h1 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h1><ol>
+<li>中序遍历左子树</li>
+<li>访问根结点</li>
+<li>中序遍历右子树</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void PreOrder(TreeNode * root)</span><br><span class="line">&#123;</span><br><span class="line">    if(root != NULL)&#123;</span><br><span class="line">        preOrder(root-&gt;left);</span><br><span class="line">        printf(&quot;%d &quot;,root-&gt;val);</span><br><span class="line">        preOrder(root-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h1 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h1><ol>
+<li>后序遍历左子树</li>
+<li>后序遍历右子树</li>
+<li>访问根结点</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void PreOrder(TreeNode * root)</span><br><span class="line">&#123;</span><br><span class="line">    if(root != NULL)&#123;</span><br><span class="line">        preOrder(root-&gt;left);</span><br><span class="line">        preOrder(root-&gt;right);</span><br><span class="line">        printf(&quot;%d &quot;,root-&gt;val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="层次遍历"><a href="#层次遍历" class="headerlink" title="层次遍历"></a>层次遍历</h1><ol>
+<li>访问根结点(第一层)</li>
+<li>从左到右访问第2层的所有结点</li>
+<li>从左到右访问第3层的所有结点</li>
+<li>…….</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">void LevelOrder(TreeNode * root)</span><br><span class="line">&#123;</span><br><span class="line">    if(root == NULL)</span><br><span class="line">        return ;</span><br><span class="line">    TreeNode * temp;</span><br><span class="line">    queue&lt;TreeNode *&gt; q;</span><br><span class="line">    q.push(root);</span><br><span class="line">    while(!q.empty())&#123;</span><br><span class="line">        temp = q.front();</span><br><span class="line">        q.pop();</span><br><span class="line">        printf(&quot;%d &quot;,temp-&gt;val);</span><br><span class="line">        if(temp-&gt;left) </span><br><span class="line">            q.push(temp-&gt;left);</span><br><span class="line">        if(temp-&gt;right) </span><br><span class="line">            q.push(temp-&gt;right);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -217,7 +236,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/23/分块查找/">http://yoursite.com/2020/06/23/分块查找/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/23/树的遍历/">http://yoursite.com/2020/06/23/树的遍历/</a></span>
                     </p>
                 
                 
@@ -240,10 +259,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/查找算法/"># 查找算法</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -254,10 +269,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/23/二叉排序树与平衡二叉树/">二叉排序树与平衡二叉树</a>
+                <a class="prev" rel="prev" href="/2020/06/23/深度优先/">深度优先</a>
             
             
-            <a class="next" rel="next" href="/2020/06/23/折半查找/">折半查找</a>
+            <a class="next" rel="next" href="/2020/06/23/哈希表/">哈希表</a>
             
         </section>
 

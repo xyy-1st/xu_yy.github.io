@@ -7,7 +7,7 @@
 
 
 
-<title>分块查找 | Hexo</title>
+<title>深度优先 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">分块查找</h1>
+            <h1 class="post-title">深度优先</h1>
             
                 <div class="post-meta">
                     
@@ -178,7 +178,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;17:39:48</a>
+                        Date: <a href="#">六月 23, 2020&nbsp;&nbsp;23:36:51</a>
                         </span>
                     
                     
@@ -195,15 +195,9 @@
         </header>
 
         <div class="post-content">
-            <h1 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h1><ol>
-<li>将线性表均分为b块,前b-1快中元素个数为s=n/b向上取整,第b快放剩余部分 &lt;= s</li>
-<li>建立一个索引表,大小为b,包含每个块内最大的值和每块开始的索引</li>
-<li>先用折半查找索引表得到块的索引,再在块中用顺序查找</li>
-</ol>
-<h1 id="图示"><a href="#图示" class="headerlink" title="图示"></a>图示</h1><p><img src="/images/%E7%AE%80%E5%8D%95%E7%AE%97%E6%B3%95/%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95/%E5%88%86%E5%9D%97%E6%9F%A5%E6%89%BE.png" alt="分块查找"></p>
-<h1 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//索引表元素类型</span><br><span class="line">typedef struct </span><br><span class="line">&#123;</span><br><span class="line">	int key;</span><br><span class="line">	int link;</span><br><span class="line">&#125;IdxType;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line">*	I  索引表</span><br><span class="line">*	b	索引表大小</span><br><span class="line">*	a	数据表</span><br><span class="line">*	n	数据表大小</span><br><span class="line">*	k	待查数字</span><br><span class="line">*/</span><br><span class="line">int IdxSearch(IdxType I[], int b, int a[], int n, int k)</span><br><span class="line">&#123;</span><br><span class="line">	int s = (n + b - 1) / b;//块内元素的个数  向上取整</span><br><span class="line">	int low = 0, high = b - 1, mid;</span><br><span class="line">	//折半查找索引表，  找到的位置为 high+1</span><br><span class="line">	while (low &lt;= high) &#123;</span><br><span class="line">		mid = (low + high) / 2;</span><br><span class="line">		if (I[mid].key &gt;= k)</span><br><span class="line">			high = mid - 1;</span><br><span class="line">		else</span><br><span class="line">			low = mid + 1;</span><br><span class="line">	&#125;</span><br><span class="line">	//顺序查找块</span><br><span class="line">	int i;</span><br><span class="line">	for (i = I[high + 1].link; i &lt;= I[high + 1].link + s - 1; ++i)</span><br><span class="line">		if (a[i] == k)</span><br><span class="line">			break;</span><br><span class="line">	if (i &lt;= I[high + 1].link + s - 1)</span><br><span class="line">		return i;//查找成功，返回下表</span><br><span class="line">	else</span><br><span class="line">		return -1;//查找失败，返回-1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
+            <h1 id="深度优先"><a href="#深度优先" class="headerlink" title="深度优先"></a>深度优先</h1><p>一直往前走,没路再退回来,再一直往前走</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><p>走迷宫:<br>先输入n,m 代表迷宫行列<br>然后输入 n行 每行 m 个数字 数字0表示障碍物,数字1表示正常<br>再输入起始坐标和终点坐标<br>能到达输出最少走多少步,否则输出-1  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line"></span><br><span class="line">using namespace std;</span><br><span class="line"></span><br><span class="line">void dfs(int x, int y, int step);</span><br><span class="line"></span><br><span class="line">int n, m, p, q, min;</span><br><span class="line">int a[51][51], book[51][51];</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int  i, j, startx, starty;</span><br><span class="line">	//输入行 n，列 m</span><br><span class="line">	cin &gt;&gt; n &gt;&gt; m;</span><br><span class="line">	//输入迷宫</span><br><span class="line">	for (i = 1; i &lt;= n; i++)</span><br><span class="line">		for (j = 1; j &lt;= m; j++)</span><br><span class="line">			cin &gt;&gt; a[i][j];</span><br><span class="line">	//输入起始坐标和终点坐标</span><br><span class="line">	cin &gt;&gt; startx &gt;&gt; starty &gt;&gt; p &gt;&gt; q;</span><br><span class="line">	min = n * m;</span><br><span class="line">	book[startx][starty] = 1;</span><br><span class="line">	dfs(startx, starty, 0);</span><br><span class="line">	if (min == n * m)</span><br><span class="line">		cout &lt;&lt; -1 &lt;&lt; endl;</span><br><span class="line">	else</span><br><span class="line">		cout &lt;&lt; min &lt;&lt; endl;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line">void dfs(int x, int y, int step)</span><br><span class="line">&#123;</span><br><span class="line">	int next[4][2] = &#123; &#123;0,1&#125;,//向右走</span><br><span class="line">					   &#123;1,0&#125;,//向下走</span><br><span class="line">					   &#123;0,-1&#125;,//向左走</span><br><span class="line">					   &#123;-1,0&#125; &#125;;//向上走</span><br><span class="line">	int tx, ty, k;</span><br><span class="line">	//判断是否到达终点坐标</span><br><span class="line">	if (x == p &amp;&amp; y == q)</span><br><span class="line">	&#123;</span><br><span class="line">		if (step &lt; min)</span><br><span class="line">			min = step;</span><br><span class="line">		return;</span><br><span class="line">	&#125;</span><br><span class="line">	//枚举4种走法</span><br><span class="line">	for (k = 0; k &lt;= 3; k++)</span><br><span class="line">	&#123;</span><br><span class="line">		//计算下一个坐标点</span><br><span class="line">		tx = x + next[k][0];</span><br><span class="line">		ty = y + next[k][1];</span><br><span class="line">		//判断是否越界</span><br><span class="line">		if (tx&lt;1 || tx&gt;n || ty &gt; m || ty &lt; 1)</span><br><span class="line">			continue;</span><br><span class="line">		//判断该店是否为障碍物或已经在路经中</span><br><span class="line">		if (a[tx][ty] == 0 &amp;&amp; book[tx][ty] == 0)</span><br><span class="line">		&#123;</span><br><span class="line">			book[tx][ty] = 1;//标记这个点已经在路经中</span><br><span class="line">			dfs(tx, ty, step + 1);//开始尝试下一个点</span><br><span class="line">			book[tx][ty] = 0;//尝试结束，取消这个标记点</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
         </div>
 
         
@@ -217,7 +211,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2020/06/23/分块查找/">http://yoursite.com/2020/06/23/分块查找/</a></span>
+                        <span><a href="http://yoursite.com/2020/06/23/深度优先/">http://yoursite.com/2020/06/23/深度优先/</a></span>
                     </p>
                 
                 
@@ -240,10 +234,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/查找算法/"># 查找算法</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -254,10 +244,10 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2020/06/23/二叉排序树与平衡二叉树/">二叉排序树与平衡二叉树</a>
+                <a class="prev" rel="prev" href="/2020/06/23/广度优先/">广度优先</a>
             
             
-            <a class="next" rel="next" href="/2020/06/23/折半查找/">折半查找</a>
+            <a class="next" rel="next" href="/2020/06/23/树的遍历/">树的遍历</a>
             
         </section>
 
