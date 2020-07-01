@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Makefile | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Makefile</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 1, 2020&nbsp;&nbsp;9:03:27</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Linux/">Linux</a>
+                            
+                        </span>
+
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="Makefile的作用"><a href="#Makefile的作用" class="headerlink" title="Makefile的作用"></a>Makefile的作用</h1><p>“自动化编译”,一旦写好,只需要一个make命令,整个工程完全自动编译,极大的提高了软件开发的效率。</p>
+<h1 id="Makefile的基本语法"><a href="#Makefile的基本语法" class="headerlink" title="Makefile的基本语法"></a>Makefile的基本语法</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">目标(target)……：依赖(prerequiries)……</span><br><span class="line">&lt;tab&gt;命令1(command)</span><br><span class="line">&lt;tab&gt;命令2(command)</span><br></pre></td></tr></table></figure>
+
+<p>当依赖文件发生改变时,执行命令生成目标文件.</p>
+<h1 id="Makefile常用4的四个函数"><a href="#Makefile常用4的四个函数" class="headerlink" title="Makefile常用4的四个函数"></a>Makefile常用4的四个函数</h1><h2 id="forech-var-list-text"><a href="#forech-var-list-text" class="headerlink" title="$( forech var , list ,  text)"></a>$( forech var , list ,  text)</h2><p>对list中的每一个元素，取出来赋给var，然后把var改为text所描述的形式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">例： obj := main.o sub.o</span><br><span class="line">        dep_files := $( forech f , $(objs) ,  .$(f).d )</span><br><span class="line">	等价于：dep_files := .main.o.d .sub.o.d</span><br></pre></td></tr></table></figure>
+
+<h2 id="wildcard-pattern"><a href="#wildcard-pattern" class="headerlink" title="$(wildcard pattern)"></a>$(wildcard pattern)</h2><p>pattern所列出的文件是否存在，把存在的文件都列出来<br>例：src_files := $(wildcard ,  *.c) 最终src_filse中列出了当前目录下的所有.c文件</p>
+<h2 id="模式替换"><a href="#模式替换" class="headerlink" title="模式替换"></a>模式替换</h2><p>echo “$(patsubst %.c,%.o,x.c bar.c)”<br>结果 x.o bar.o</p>
+<h2 id="取文件名"><a href="#取文件名" class="headerlink" title="取文件名"></a>取文件名</h2><p>echo “$(notdir  src/foo.c hacks)”<br>结果 foo.c hacks</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$@ 目标文件     </span><br><span class="line">$^ 所以依赖文件   </span><br><span class="line">$&lt; 第一个依赖文件   </span><br><span class="line">% 匹配任意多个非空字符</span><br><span class="line">VPATH 特殊变量,如果定义了这个变量，那么，make就会在当当前目录找不到的情况下，到所指定的目录中去找寻文件了。</span><br><span class="line"></span><br><span class="line">ifeq(val1,val2)</span><br><span class="line">….</span><br><span class="line">else</span><br><span class="line">….</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">ifneq同理 作用相反</span><br></pre></td></tr></table></figure>
+
+<h1 id="Makefile-示例"><a href="#Makefile-示例" class="headerlink" title="Makefile 示例"></a>Makefile 示例</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">CC=gcc</span><br><span class="line"></span><br><span class="line">TARGET=mp3</span><br><span class="line">BUILD_DIR=build</span><br><span class="line">SRC_DIR=module1 module2</span><br><span class="line">INC_DIR=include</span><br><span class="line"></span><br><span class="line">CFLAGS=$(patsubst %,-I %,$(INC_DIR))</span><br><span class="line">INCLUDES=$(foreach dir,$(INC_DIR),$(wildcard $(dir)/*.h))</span><br><span class="line"></span><br><span class="line">SOURCES=$(foreach dir,$(SRC_DIR),$(wildcard $(dir)/*.c))</span><br><span class="line">OBJS=$(patsubst %.c,$(BUILD_DIR)/%.o,$(notdir $(SOURCES)))</span><br><span class="line">VPATH=$(SRC_DIR)</span><br><span class="line"></span><br><span class="line">$(BUILD_DIR)/$(TARGET):$(OBJS)</span><br><span class="line">        $(cc) $^ -o $@</span><br><span class="line"></span><br><span class="line">$(BUILD_DIR)/%.o:%.c $(INCLUDES) | creat_build</span><br><span class="line">        $(cc) -c $&lt; -o $@ $(CFLAGS)</span><br><span class="line"></span><br><span class="line">clean:</span><br><span class="line">        rm -r $(BUILD_DIR)</span><br><span class="line">creat_build:</span><br><span class="line">        mkdir -p $(BUILD_DIR)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/Linux/Makefile/make%E7%BB%93%E6%9E%9C.png" alt="make结果"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/07/01/Makefile/">http://yoursite.com/2020/07/01/Makefile/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2020/07/01/shell/">shell</a>
+            
+            
+            <a class="next" rel="next" href="/2020/06/23/广度优先/">广度优先</a>
+            
+        </section>
+
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
