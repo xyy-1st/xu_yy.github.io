@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>虚拟地址映射 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">xyy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">xyy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">虚拟地址映射</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">xyy</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">七月 1, 2020&nbsp;&nbsp;22:06:25</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Linux/">Linux</a>
+                            
+                        </span>
+
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="实验内容"><a href="#实验内容" class="headerlink" title="实验内容"></a>实验内容</h1><p>有一个死循环的程序如下,我们通过操作j的真实地址使程序正常结束.<br>环境:Bochs-2.5.1模拟的linux-0.11</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int j = 0xffff;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	printf(&quot;The address of j is 0x%x\n&quot;, &amp;j);</span><br><span class="line">	while(j!=0);</span><br><span class="line">	printf(&quot;This program has exited normally\n&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="计算LDT首地址"><a href="#计算LDT首地址" class="headerlink" title="计算LDT首地址"></a>计算LDT首地址</h2><p>根据分页机制，查看段寄存器值：<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E6%AE%B5%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="段寄存器"><br>LDTR的基址为0x0068，根据其结构如下得知:使用GDT 且选择子为0x0D，即其在GDT的偏移量为0x0D(13).<br>GDTR的基址为0x5cb8，然后计算LDT首地址，为0x5cb8+0x0D*8=0x5d20<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/LDTR.png" alt="LDTR"><br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/GDTR.png" alt="GDTR">  </p>
+<h2 id="计算LDT的真实地址"><a href="#计算LDT的真实地址" class="headerlink" title="计算LDT的真实地址"></a>计算LDT的真实地址</h2><p>执行 xp /2w 0x5cb8+13*8,结果为<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/0x5d20.png" alt="0x5d20"><br>因为是大端机,根据数据结构如下，计算LDT的真实地址为0x00fd92d0<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E6%AE%B5%E6%8F%8F%E8%BF%B0%E7%AC%A6.png" alt="段描述符">  </p>
+<h2 id="获取线性地址"><a href="#获取线性地址" class="headerlink" title="获取线性地址"></a>获取线性地址</h2><p>因为我们程序中的j是全局变量，是属于数据段部分，又因为DS=0x0017，根据其结构(同LDTR)得知:使用LDT 且选择子为0x02，即表示其在LDT的偏移量为2。<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E7%BA%BF%E6%80%A7%E5%9C%B0%E5%9D%80.png" alt="线性地址"><br>根据段描述符的数据结构，获取线性地址为0x1000 0000。</p>
+<p>使用creg查看寄存器信息如下：<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E5%AF%84%E5%AD%98%E5%99%A8.png" alt="寄存器"><br>CR0=0x8000001b，第一位为1，即开启分页机制。<br>因为CR3=0，即页表的起始地址为0。<br>j的线性地址为0x10000000 + 0x3004 = 0x10003004  </p>
+<h2 id="获得真实地址"><a href="#获得真实地址" class="headerlink" title="获得真实地址"></a>获得真实地址</h2><p><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E9%A1%B5%E8%A1%A8%E8%A1%A8%E9%A1%B9.png" alt="页表表项"><br>将j的线性地址0x10003004用0补满32位，然后按照10-10-12比特的方式划分，为0x40-0x03-0x04。即外页偏移为0x40,内页偏移为0x03，页内偏移为0x04。<br>执行xp /2w 0x40*4：<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/0x40.png" alt="0x40">  </p>
+<p>根据页表项结果得到基址为0x00fa3，将其左移12位，再加上内页偏移。<br>执行 xp /2w 0xfa3000+3*4：<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/0x03.png" alt="0x03">  </p>
+<p>根据页表项结果得到基址为0x00fa2，左移12位，加上页内偏移，即为j的物理地址。<br>执行 xp /w 0xfa2000+4：<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/0x04.png" alt="0x04"><br>可以方向此时0xfa2000+4里面的数据与我们程序中设的j值相同</p>
+<h2 id="将此地址上的值清零"><a href="#将此地址上的值清零" class="headerlink" title="将此地址上的值清零"></a>将此地址上的值清零</h2><p><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E6%B8%850.png" alt="清0"> </p>
+<h2 id="结果"><a href="#结果" class="headerlink" title="结果"></a>结果</h2><p>程序正常结束<br><img src="/images/Linux/%E8%99%9A%E6%8B%9F%E5%9C%B0%E5%9D%80%E6%98%A0%E5%B0%84/%E7%BB%93%E6%9E%9C.png" alt="结果"> </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>xyy</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/07/01/虚拟地址映射/">http://yoursite.com/2020/07/01/虚拟地址映射/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Linux/"># Linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/07/01/shell/">shell</a>
+            
+        </section>
+
+        
+
+    </article>
+
+</div>
+
+
+
+
+
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© xyy | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+
+
+</footer>
+
+
+    </div>
+</body>
+</html>
