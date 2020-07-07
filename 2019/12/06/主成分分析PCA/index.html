@@ -205,21 +205,21 @@
 <li>将特征向量按对应特征值大小从上到下按行排列成矩阵，取前k行组成矩阵P</li>
 <li>Y=PX即为降维到k维后的数据</li>
 </ol>
-<h1 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h1><p><img src="/images/PCA%E4%B8%BE%E4%BE%8B.png" alt="PCA举例"></p>
+<h1 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h1><p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E4%B8%BE%E4%BE%8B.png" alt="PCA举例"></p>
 <p>以这个为例，我们用PCA的方法将这组二维数据降到一维<br>因为这个矩阵的每行已经是零均值，所以我们可以直接求协方差矩阵：</p>
-<p><img src="/images/PCA%E5%8D%8F%E6%96%B9%E5%B7%AE%E6%B1%82%E8%A7%A3.png" alt="PCA协方差求解"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E5%8D%8F%E6%96%B9%E5%B7%AE%E6%B1%82%E8%A7%A3.png" alt="PCA协方差求解"></p>
 <p>然后求其特征值和特征向量</p>
-<p><img src="/images/PCA%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E6%B1%82%E8%A7%A3.png" alt="PCA特征向量求解"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E6%B1%82%E8%A7%A3.png" alt="PCA特征向量求解"></p>
 <p>求解后的特征值为：λ1=2,λ2=2/5<br>其对应的特征向量分别是：</p>
-<p><img src="/images/PCA%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F.png" alt="PCA特征向量"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F.png" alt="PCA特征向量"></p>
 <p>由于对应的特征向量分别是一个通解，c1和c2可取任意实数。那么标准化后的特征向量为：  </p>
-<p><img src="/images/PCA%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E6%A0%87%E5%87%86%E5%8C%96.png" alt="PCA特征向量标准化"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E7%89%B9%E5%BE%81%E5%90%91%E9%87%8F%E6%A0%87%E5%87%86%E5%8C%96.png" alt="PCA特征向量标准化"></p>
 <p>因此我们的矩阵P是：  </p>
-<p><img src="/images/PCA-P%E7%9F%A9%E9%98%B5.png" alt="P矩阵"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA-P%E7%9F%A9%E9%98%B5.png" alt="P矩阵"></p>
 <p>最后我们用P的第一行诚意数据矩阵，就得到了降维后的数据表示：</p>
-<p><img src="/images/PCA%E7%BB%93%E6%9E%9C.png" alt="结果"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E7%BB%93%E6%9E%9C.png" alt="结果"></p>
 <p>降维后的投影结果如下图： </p>
-<p><img src="/images/PCA%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="PCA效果图"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/PCA%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="PCA效果图"></p>
 
         </div>
 

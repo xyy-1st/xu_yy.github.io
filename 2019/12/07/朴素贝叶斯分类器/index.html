@@ -195,18 +195,18 @@
         </header>
 
         <div class="post-content">
-            <h1 id="朴素贝叶斯分类器的表达式"><a href="#朴素贝叶斯分类器的表达式" class="headerlink" title="朴素贝叶斯分类器的表达式"></a>朴素贝叶斯分类器的表达式</h1><p><img src="/images/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" alt="朴素贝叶斯表达式"></p>
-<p><img src="/images/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%86%E6%9E%90.png" alt="朴素贝叶斯表达式分析"></p>
+            <h1 id="朴素贝叶斯分类器的表达式"><a href="#朴素贝叶斯分类器的表达式" class="headerlink" title="朴素贝叶斯分类器的表达式"></a>朴素贝叶斯分类器的表达式</h1><p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%A1%A8%E8%BE%BE%E5%BC%8F.png" alt="朴素贝叶斯表达式"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%88%86%E6%9E%90.png" alt="朴素贝叶斯表达式分析"></p>
 <h1 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h1><p>训练集:</p>
-<p><img src="/images/%E8%A5%BF%E7%93%9C3.0.png" alt="西瓜3.0"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%A5%BF%E7%93%9C3.0.png" alt="西瓜3.0"></p>
 <p>测试例：</p>
-<p><img src="/images/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%B5%8B%E8%AF%95%E4%BE%8B.png" alt="朴素贝叶斯测试例"></p>
-<p><img src="/images/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%88%E9%AA%8C%E6%A6%82%E7%8E%87.png" alt="朴素贝叶斯先验概率"></p>
-<p><img src="/images/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87.png" alt="朴素贝叶斯条件概率"></p>
-<p><img src="/images/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%93%E6%9E%9C.png" alt="朴素贝叶斯结果"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%B5%8B%E8%AF%95%E4%BE%8B.png" alt="朴素贝叶斯测试例"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%85%88%E9%AA%8C%E6%A6%82%E7%8E%87.png" alt="朴素贝叶斯先验概率"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%9D%A1%E4%BB%B6%E6%A6%82%E7%8E%87.png" alt="朴素贝叶斯条件概率"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E7%BB%93%E6%9E%9C.png" alt="朴素贝叶斯结果"></p>
 <h1 id="拉普拉斯修正"><a href="#拉普拉斯修正" class="headerlink" title="拉普拉斯修正"></a>拉普拉斯修正</h1><p>如果每个属性值没有出现,例如( 响声 = 清脆 )，计算处理的结果为 0 明显这是不合理的  </p>
 <p>为了避免这种情况，常用拉普拉斯修正：<br>令N表示 训练集D中可能的类别数，N<sub>i</sub>表示第i个属性可能的取值数</p>
-<p><img src="/images/%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E4%BF%AE%E6%AD%A3.png" alt="拉普拉斯修正"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%8B%89%E6%99%AE%E6%8B%89%E6%96%AF%E4%BF%AE%E6%AD%A3.png" alt="拉普拉斯修正"></p>
 <p>如上例中：  </p>
 <p>P(好瓜 = 是) 修正为 (8+1)/(17+2)   </p>
 <p>p 青绿|是  修正为   (3+1)/(8+3) </p>

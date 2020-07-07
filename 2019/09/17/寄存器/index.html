@@ -7,7 +7,7 @@
 
 
 
-<title>寄存器 | Hexo</title>
+<title>寄存器映射 | Hexo</title>
 
 
 
@@ -169,7 +169,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">寄存器</h1>
+            <h1 class="post-title">寄存器映射</h1>
             
                 <div class="post-meta">
                     
@@ -185,7 +185,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/STM32F429/">STM32F429</a>
+                                <a href="/categories/嵌入式/">嵌入式</a>
                             
                         </span>
 
@@ -197,15 +197,14 @@
         <div class="post-content">
             <h1 id="什么是存储器映射？"><a href="#什么是存储器映射？" class="headerlink" title="什么是存储器映射？"></a>什么是存储器映射？</h1><p>存储器本身不具有地址信息，它的地址是由芯片厂商或用户分配，给存储器分配地址的过程就称为存储器映射。</p>
 <h1 id="什么是寄存器映射？"><a href="#什么是寄存器映射？" class="headerlink" title="什么是寄存器映射？"></a>什么是寄存器映射？</h1><p>给有特定功能的内存单元取一个<strong>别名</strong>，这个别名就是我们经常说的寄存器，这个给已经分配好地址的有特定功能的内存单元取别名的过程就叫寄存器映射。</p>
-<h1 id="寄存器映射"><a href="#寄存器映射" class="headerlink" title="寄存器映射"></a>寄存器映射</h1><h2 id="地址-基地址-偏移量"><a href="#地址-基地址-偏移量" class="headerlink" title="地址 =基地址+偏移量"></a>地址 =基地址+偏移量</h2><p>先查数据手册 找到对应的地址 下面是截取部分<br><img src="/images/GPIOx_ODR.png" alt="GPIOx_ODR"><br><img src="/images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%801.png" alt="寄存器边界地址1"><br><img src="/images/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%802.png" alt="寄存器边界地址2"></p>
+<h1 id="寄存器映射"><a href="#寄存器映射" class="headerlink" title="寄存器映射"></a>寄存器映射</h1><h2 id="地址-基地址-偏移量"><a href="#地址-基地址-偏移量" class="headerlink" title="地址 =基地址+偏移量"></a>地址 =基地址+偏移量</h2><p>先查数据手册 找到对应的地址 下面是截取部分<br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%AF%84%E5%AD%98%E5%99%A8%E6%98%A0%E5%B0%84/GPIOx_ODR.png" alt="GPIOx_ODR"><br><img src="/images/%E5%B5%8C%E5%85%A5%E5%BC%8F/%E5%AF%84%E5%AD%98%E5%99%A8%E6%98%A0%E5%B0%84/stm32%E5%AF%84%E5%AD%98%E5%99%A8%E8%BE%B9%E7%95%8C%E5%9C%B0%E5%9D%80.png" alt="寄存器边界地址"></p>
 <p>代码如下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#define PERIPH_BASE      ((unsigned int)0x40000000)</span><br><span class="line">#define AHB1PERIPH_BASE  (PERIPH_BASE + 0x00020000)</span><br><span class="line">#define GPIOH_BASE       (AHB1PERIPH_BASE + 0x1C00)</span><br><span class="line">#define GPIOH_ODR        *(unsignedint*)(GPIOH_BASE+0x14)</span><br><span class="line">// PH10输出输出低电平</span><br><span class="line">GPIOH_ODR &amp;= ~(1&lt;&lt;10);</span><br><span class="line">// PH10输出输出高电平</span><br><span class="line">GPIOH_ODR |= (1&lt;&lt;10);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#define AHB1PERIPH_BASE  ((unsigned int)0x40020000)</span><br><span class="line">#define GPIOH_BASE       (AHB1PERIPH_BASE + 0x1C00)</span><br><span class="line">#define GPIOH_ODR        (*(unsignedint*)(GPIOH_BASE+0x14))</span><br><span class="line">// PH10输出输出低电平</span><br><span class="line">GPIOH_ODR &amp;= ~(1&lt;&lt;10);</span><br><span class="line">// PH10输出输出高电平</span><br><span class="line">GPIOH_ODR |= (1&lt;&lt;10);</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li>GPIOH_ODR在GPIOH上偏移0x14      GPIOH_ODR的地址 = GPIOH_BASE+0x14</li>
-<li>GPIOH在AHB1总线上偏移0x1C00     GPIOH_BASE = AHB1PERIPH_BASE + 0x1C00</li>
-<li>AHB1在总线上偏移0x00020000      AHB1PERIPH_BASE = PERIPH_BASE + 0x00020000</li>
-<li>总线的基地址是0x40000000         PERIPH_BASE = 0x40000000</li>
+<li>GPIOH在AHB1总线上偏移0x1C00      GPIOH_BASE = AHB1PERIPH_BASE + 0x1C00</li>
+<li>AHB1总线的基地址是0x40020000     AHB1PERIPH_BASE = 0x40020000</li>
 </ol>
 
         </div>
@@ -245,7 +244,7 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/STM32F429/"># STM32F429</a>
+                        <a href="/tags/嵌入式/"># 嵌入式</a>
                     
                         
                 </span>
@@ -258,7 +257,7 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/09/18/GPIO/">GPIO</a>
+                <a class="prev" rel="prev" href="/2019/09/22/启动文件/">启动文件</a>
             
             
         </section>

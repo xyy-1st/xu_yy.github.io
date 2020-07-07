@@ -196,26 +196,26 @@
 
         <div class="post-content">
             <h1 id="信息增益的决策树构建"><a href="#信息增益的决策树构建" class="headerlink" title="信息增益的决策树构建"></a>信息增益的决策树构建</h1><p>信息熵：</p>
-<p><img src="/images/%E4%BF%A1%E6%81%AF%E7%86%B5.png" alt="信息熵"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E4%BF%A1%E6%81%AF%E7%86%B5.png" alt="信息熵"></p>
 <p>信息增益：</p>
-<p><img src="/images/%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="信息增益"></p>
-<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p><img src="/images/%E5%86%B3%E7%AD%96%E6%A0%91%E5%AE%9E%E4%BE%8B.png" alt="决策树实例"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="信息增益"></p>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%86%B3%E7%AD%96%E6%A0%91%E5%AE%9E%E4%BE%8B.png" alt="决策树实例"></p>
 <p>先求根结点的信息熵：</p>
-<p><img src="/images/%E6%A0%B9%E7%BB%93%E7%82%B9%E4%BF%A1%E6%81%AF%E7%86%B5.png" alt="根结点信息熵"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%A0%B9%E7%BB%93%E7%82%B9%E4%BF%A1%E6%81%AF%E7%86%B5.png" alt="根结点信息熵"></p>
 <p>信息增益求解：</p>
-<p><img src="/images/%E8%89%B2%E6%B3%BD%E7%9A%84%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="色泽的信息增益"></p>
-<p><img src="/images/%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="其他信息增益"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E8%89%B2%E6%B3%BD%E7%9A%84%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="色泽的信息增益"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%85%B6%E4%BB%96%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A.png" alt="其他信息增益"></p>
 <p>选信息增益最大的划分属性：</p>
-<p><img src="/images/%E5%88%92%E5%88%86%E5%B1%9E%E6%80%A7.png" alt="划分属性"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%88%92%E5%88%86%E5%B1%9E%E6%80%A7.png" alt="划分属性"></p>
 <p>重复上述步骤完成决策树的构建：</p>
-<p><img src="/images/%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="信息增益的决策树"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E4%BF%A1%E6%81%AF%E5%A2%9E%E7%9B%8A%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="信息增益的决策树"></p>
 <h1 id="预剪枝"><a href="#预剪枝" class="headerlink" title="预剪枝"></a>预剪枝</h1><p>检查当前结点划分前和划分后的验证集精度 选择是否继续划分</p>
 <p>数据集：</p>
-<p><img src="/images/%E6%95%B0%E6%8D%AE%E9%9B%86.png" alt="数据集"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%95%B0%E6%8D%AE%E9%9B%86.png" alt="数据集"></p>
 <p>通过训练集基于信息增益构建的决策树</p>
-<p><img src="/images/%E6%9C%AA%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="未剪枝的决策树"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E6%9C%AA%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="未剪枝的决策树"></p>
 <p>结点1如果不划分，被标记为好瓜(因为训练集中好瓜多)，验证集的精度为 3/7 （{4，5，8}分类正确）<br>如果划分则验证集的精度为 5/7 （{4，5，8，11，12}分类正确）<br>因为划分后的验证集精度高，所以结点1需要划分<br>对结点2，3，4判断同理，得最终结果：</p>
-<p><img src="/images/%E9%A2%84%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="预剪枝的决策树"></p>
+<p><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E9%A2%84%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="预剪枝的决策树"></p>
 <p>优点：</p>
 <ul>
 <li>降低过拟合风险</li>
@@ -228,7 +228,7 @@
 <h1 id="后剪枝"><a href="#后剪枝" class="headerlink" title="后剪枝"></a>后剪枝</h1><p>先构建完整的决策树后，从下面往上计算验证集精度来决定这个结点能不能剪去  </p>
 <p>数据集与预剪枝相同  </p>
 <p>结点6：剪枝前，验证集{4,11,12}分类正确 验证集精度为 3/7<br>剪枝后，验证集{4，11，12，8，9}分类正确 验证集精度提升到 5/7<br>验证集精度提高 所以剪。</p>
-<p>同理分析结点5，2，3，1得最终结果：<br><img src="/images/%E5%90%8E%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="后剪枝的决策树"></p>
+<p>同理分析结点5，2，3，1得最终结果：<br><img src="/images/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/%E5%90%8E%E5%89%AA%E6%9E%9D%E7%9A%84%E5%86%B3%E7%AD%96%E6%A0%91.png" alt="后剪枝的决策树"></p>
 <p>优点：后剪枝比预剪枝保留了更多分支，欠拟合风险小，泛化能力往往优于预剪枝<br>缺点：训练时间开销大</p>
 
         </div>
