@@ -214,6 +214,14 @@
 <h2 id="指针常量与常量指针"><a href="#指针常量与常量指针" class="headerlink" title="指针常量与常量指针"></a>指针常量与常量指针</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const int * const p;</span><br></pre></td></tr></table></figure>
 
 <p>是const int *p 与int * const p 的结合，必须初始化<br>效果：  p与 *p 都不能改变</p>
+<h2 id="修饰普通常量-是与-define-的区别"><a href="#修饰普通常量-是与-define-的区别" class="headerlink" title="修饰普通常量 是与 define 的区别"></a>修饰普通常量 是与 define 的区别</h2><p>1) 编译器处理方式不同</p>
+<p>　　define宏是在预处理阶段展开。</p>
+<p>　　const常量是编译运行阶段使用。</p>
+<p>(2) 类型和安全检查不同</p>
+<p>　　define宏没有类型，不做任何类型检查，仅仅是展开。</p>
+<p>　　const常量有具体的类型，在编译阶段会执行类型检查。<br>(3)const  可以节省空间，避免不必要的内存分配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">        #define PI 3.14159  </span><br><span class="line">        const doulbe Pi=3.14159;</span><br><span class="line">        double i=Pi; //此时为Pi分配内存，以后不再分配！  </span><br><span class="line">        double I=PI; //编译期间进行宏替换，分配内存  </span><br><span class="line">        double j=Pi; //没有内存分配  </span><br><span class="line">        double J=PI; //再进行宏替换，又一次分配内存！</span><br></pre></td></tr></table></figure>
+
 <h1 id="const修饰函数的功能"><a href="#const修饰函数的功能" class="headerlink" title="const修饰函数的功能"></a>const修饰函数的功能</h1><p>参考:<a href="https://www.cnblogs.com/Azhu/p/4352613.html" target="_blank" rel="noopener">https://www.cnblogs.com/Azhu/p/4352613.html</a></p>
 <h2 id="修饰类中的成员函数"><a href="#修饰类中的成员函数" class="headerlink" title="修饰类中的成员函数"></a>修饰类中的成员函数</h2><p>写法:void fun() const {}<br>功能:不能改变数据成员的值,可以访问.</p>
 <p>const类型的对象，不能调用自身的非const成员函数，但是可以调用自己的const成员函数。</p>
